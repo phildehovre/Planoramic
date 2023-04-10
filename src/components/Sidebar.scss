@@ -1,0 +1,23 @@
+$sidebar-content-width: 200px;
+// $sidebar-content-offset: 200px;
+
+
+.sidebar {
+    position: relative;
+    // border: 1px solid red;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+
+    >.sidebar-content {
+        position: absolute;
+        right: calc($sidebar-content-width * -1.020);
+        top: 0;
+        width: $sidebar-content-width;
+        height: 100vh;
+        overflow-y: hidden;
+        background-color: #888888;
+        border-right: 1px solid #4b4b4b;
+    }
+}
