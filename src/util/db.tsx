@@ -29,16 +29,16 @@ const fetchTemplate = async (id: string) => {
 
 // 
 
-export function useTemplate(id: string) {
+export function useTemplate(id: string | undefined, enabled: boolean) {
     return useQuery(
         ['template', { id }], () => fetchTemplate(id),
         {
-            enabled: !!id
+            enabled: enabled
         }
     )
 };
 
-export function useCampaign(id: string | undefined) {
+export function useCampaign(id: string | undefined, enabled: boolean) {
     const fetchCampaignMemoized = useMemo(
         () => async () => {
             try {
@@ -57,7 +57,7 @@ export function useCampaign(id: string | undefined) {
     );
 
     return useQuery(['campaign', { id }], fetchCampaignMemoized, {
-        enabled: !!id,
+        enabled: enabled,
     });
 }
 
@@ -195,8 +195,6 @@ async function fetchCampaigns() {
 };
 
 export function useCampaigns() {
-    console.log('useCampaigns')
-
     return useQuery(
         ['campaigns',],
         () => fetchCampaigns(),

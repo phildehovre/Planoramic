@@ -3,8 +3,11 @@ import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBoltLightning, faBullhorn, faClone, } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router'
+import { PostgrestSingleResponse } from '@supabase/supabase-js'
 
-function Sidebar() {
+function Sidebar(props: { ressource: PostgrestSingleResponse<{ [x: string]: any; }[]> | undefined }) {
+
+    const { ressource } = props
 
     const navigate = useNavigate()
     const [showSidebar, setShowSidebar] = React.useState(false)
@@ -22,7 +25,21 @@ function Sidebar() {
         navigate(`/dashboard/${type.toLowerCase()}`)
     }
 
-    console.log(showSidebar, sidebarContent)
+
+    const renderData = () => {
+        let type = sidebarContent.slice(0, -1).toLowerCase()
+        console.log(type)
+        return ressource?.data?.map((item: any) => {
+            return (
+                <div className='sidebar-content__item' key={item.id}>
+                    <div
+                        className='sidebar-content__item__title'
+                        onClick={() => navigate(`/dashboard/${sidebarContent.toLowerCase()}/${item[type + '_id']}`)}
+                    >{item.name}</div>
+                </div>
+            )
+        })
+    }
 
     return (
         <div className='sidebar'>
@@ -44,6 +61,7 @@ function Sidebar() {
                 showSidebar && (
                     <div className={`sidebar-content ${showSidebar ? 'showing' : ''}`}>
                         <h4>{sidebarContent}</h4>
+                        {renderData()}
                     </div>
                 )
             }

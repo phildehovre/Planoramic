@@ -8,6 +8,8 @@ function Spinner(props: {
     sizeProp?: SizeProp | undefined
 }) {
 
+    console.log('spinning')
+
     const { sizeProp } = props
 
     return (
