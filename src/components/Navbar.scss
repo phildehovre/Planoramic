@@ -1,0 +1,18 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo {
+    width: 10vh;
+    height: 10vh;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    margin: 0 0 0 20px;
+    justify-content: center;
+    align-items: center;
+    color: black
+}
