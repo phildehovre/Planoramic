@@ -8,7 +8,11 @@ function App() {
 
   return (
     <div className="App">
+<<<<<<< HEAD
       Development has started!
+=======
+      First feature test
+>>>>>>> da64d22ff2b4295581ce6a07f12fa547d40feddb
     </div>
   )
 }
