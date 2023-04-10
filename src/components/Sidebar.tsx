@@ -2,8 +2,11 @@ import React from 'react'
 import './Sidebar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBoltLightning, faBullhorn, faClone, } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router'
 
 function Sidebar() {
+
+    const navigate = useNavigate()
     const [showSidebar, setShowSidebar] = React.useState(false)
     const [sidebarContent, setSidebarContent] = React.useState('')
 
@@ -16,22 +19,27 @@ function Sidebar() {
             setShowSidebar(true)
             setSidebarContent(type)
         }
+        navigate(`/dashboard/${type.toLowerCase()}`)
     }
 
+    console.log(showSidebar, sidebarContent)
 
     return (
         <div className='sidebar'>
-            <button onClick={() => handleButtonClick('Templates')}>
-                <FontAwesomeIcon icon={faClone} />
-            </button>
-            <button onClick={() => handleButtonClick('Campaigns')}>
-                <FontAwesomeIcon icon={faBullhorn} />
+            <div className='sidebar_btn-ctn'>
 
-            </button>
-            <button onClick={() => handleButtonClick('Tasks')}>
-                <FontAwesomeIcon icon={faBoltLightning} />
+                <button onClick={() => handleButtonClick('Templates')}>
+                    <FontAwesomeIcon icon={faClone} />
+                </button>
+                <button onClick={() => handleButtonClick('Campaigns')}>
+                    <FontAwesomeIcon icon={faBullhorn} />
 
-            </button>
+                </button>
+                <button onClick={() => handleButtonClick('Tasks')}>
+                    <FontAwesomeIcon icon={faBoltLightning} />
+
+                </button>
+            </div>
             {
                 showSidebar && (
                     <div className={`sidebar-content ${showSidebar ? 'showing' : ''}`}>
