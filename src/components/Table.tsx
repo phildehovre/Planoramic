@@ -11,13 +11,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
 
-    const templateObject = {
-        description: 'Description',
-        position: 'Position',
-        category: 'Category',
-        entity_responsible: 'Entity Responsible',
-        type: 'Type'
-    }
 
     const keys = ressourceType === 'templates' ? templateKeys : campaignKeys;
 
