@@ -5,7 +5,7 @@ import Spinner from './Spinner'
 
 
 
-function SupabaseLogin(props: { redirect?: string }) {
+function SupabaseLogin(props: { redirect: string }) {
 
     const { redirect } = props
 
@@ -32,7 +32,6 @@ function SupabaseLogin(props: { redirect?: string }) {
         }
         finally {
             setIsLoading(false)
-            navigate(redirect || '/')
         }
     }
 
@@ -40,7 +39,7 @@ function SupabaseLogin(props: { redirect?: string }) {
     return (
         <>
             <button
-                onClick={() => { googleSignIn() }}>
+                onClick={() => { googleSignIn().then(() => navigate(redirect)) }}>
                 Log in
             </button>
         </>

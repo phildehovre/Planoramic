@@ -24,6 +24,7 @@ function TableHeader(props: { ressource: any, ressourceType: string | undefined 
                     ? templateObject
                     : { ...templateObject, completed: 'completed' }}
                 keys={keys}
+
             />
         </div>
     )

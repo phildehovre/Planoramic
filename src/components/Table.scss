@@ -30,6 +30,25 @@
     border: 1px solid rgb(63, 63, 63);
     width: 100%;
     padding: .5em .2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &.isEditing {
+        background-color: rgb(95, 95, 95);
+        ;
+    }
+
+    >input {
+        background-color: transparent;
+        outline: none;
+        border: none;
+        font-size: .9em;
+        padding: 0;
+        margin: 0;
+        width: 100% !important;
+        height: 100% !important;
+    }
 
     &.position {
         width: 25%;
@@ -46,4 +65,6 @@
     &.type {
         width: 40%;
     }
+
+
 }

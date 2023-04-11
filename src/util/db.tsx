@@ -104,6 +104,7 @@ async function fetchTemplateEvents(templateId: string) {
 
 
 export function useTemplateEvents(id: string | undefined) {
+    // console.log(id)
     return useQuery(
         ['template_events', id],
         () => fetchTemplateEvents(id),

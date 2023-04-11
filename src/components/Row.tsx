@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import Cell from './Cell'
 
-function Row(props: { row: any, keys: string[] }) {
+function Row(props: { row: any, keys: string[], onSubmit?: any, setEventId?: any }) {
 
-    const { row, keys } = props;
+    const { row, keys, onSubmit, setEventId } = props;
 
     const renderCells = () => {
-
         return keys.map((key: string) => {
             return (
-                <Cell key={key} value={row[key]} label={key} />
+                <Cell
+                    key={key}
+                    value={row[key]}
+                    label={key}
+                    onSubmit={onSubmit}
+                    setEventId={setEventId}
+                    eventId={row.id}
+                />
             )
         }
         )
