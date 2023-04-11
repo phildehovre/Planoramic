@@ -9,7 +9,7 @@ function RessourceHeader(props: any) {
     const renderHeader = () => {
         return (
             <div className="ressource-header">
-                <h3>{ressource.data.name}</h3>
+                <h2>{ressource.data.name}</h2>
                 <p>{ressource.data.description}</p>
 
             </div>

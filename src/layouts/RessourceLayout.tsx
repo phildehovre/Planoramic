@@ -3,6 +3,10 @@ import './RessourceLayout.scss'
 
 function RessourceLayout(props: { header: React.ReactNode, outlet: React.ReactNode }) {
     const { header: Header, outlet: Outlet } = props
+
+    // console.log(Header?.props?.ressource?.data)
+
+
     return (
 
         <div className='ressource-layout'>

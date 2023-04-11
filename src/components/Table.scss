@@ -1,0 +1,45 @@
+.table-ctn {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .table-header {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        font-weight: 700;
+        font-size: larger;
+
+        >.row-ctn {
+            border-bottom: 1px solid grey;
+            margin-bottom: .2em;
+        }
+    }
+}
+
+.row-ctn {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+
+
+.cell-ctn {
+    border: 1px solid rgb(63, 63, 63);
+    width: 100%;
+    padding: .5em .2em;
+
+    &.position {
+        width: 20%;
+    }
+
+    &.entity_responsible {
+        width: 30%;
+    }
+
+    &.type {
+        width: 30%;
+    }
+}
