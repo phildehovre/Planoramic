@@ -3,12 +3,13 @@ import Cell from './Cell'
 
 function Row(props: {
     row: any,
-    keys: string[],
+    keys?: string[],
     onSubmit?: any,
     setEventId?: any,
     isHeader?: boolean
     selectedRows?: any,
     setSelectedRows?: any
+    isNew?: boolean
 }) {
 
     const {
@@ -18,10 +19,12 @@ function Row(props: {
         setEventId,
         isHeader,
         selectedRows,
-        setSelectedRows
+        setSelectedRows,
+        isNew
     } = props;
 
     const eventId = row.event_id || row.id
+
 
     const handleRowSelection = () => {
         if (selectedRows.includes(eventId)) {
@@ -32,7 +35,7 @@ function Row(props: {
     }
 
     const renderCells = () => {
-        return keys.map((key: string) => {
+        return keys?.map((key: string) => {
             return (
                 <Cell
                     key={key}
@@ -49,7 +52,7 @@ function Row(props: {
 
     return (
         <div className='row-ctn'>
-            {!isHeader && <input type='checkbox' checked={selectedRows.includes(eventId)}
+            {!isHeader && !isNew && <input type='checkbox' checked={selectedRows.includes(eventId)}
                 onChange={handleRowSelection} />}
             {renderCells()}
         </div>

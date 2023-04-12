@@ -5,11 +5,16 @@ import Dashboard from './components/Dashboard'
 import './Global.scss'
 import RessourcePage from './components/RessourcePage'
 import Ressource from './components/Ressource'
+import { useSession } from '@supabase/auth-helpers-react'
 
 export const supabase = createClient(import.meta.env.VITE_REACT_APP_SUPABASE_PROJECT_URL, import.meta.env.VITE_REACT_APP_SUPABASE_API_KEY)
 
 
 function App() {
+
+  const session = useSession()
+
+  console.log(session)
 
   return (
     <div className="App">

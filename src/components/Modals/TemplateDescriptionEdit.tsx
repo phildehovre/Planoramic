@@ -13,7 +13,7 @@ function TemplateDescriptionEdit(props: {
 
     const [initialValue, setInitialValue] = React.useState(description || placeholder)
 
-    console.log(description)
+    useEffect(() => { })
 
     return (
         <div className='template_description_edit-ctn'>

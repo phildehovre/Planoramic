@@ -3,11 +3,12 @@ import Row from './Row'
 import './Table.scss'
 import Spinner from './Spinner';
 import TableHeader from './TableHeader';
-import * as yup from 'yup'
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup'
 import { supabase } from '../App';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import NewRow from './NewRow';
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -18,7 +19,7 @@ const schema = yup.object().shape({
     type: yup.string().required('Select a type of task'),
 })
 
-function Table(props: { ressource: any, ressourceType: string | undefined }) {
+function Table(props: { ressource: any, ressourceType: string }) {
     const { ressource, ressourceType } = props;
     const queryClient = useQueryClient()
 
@@ -57,6 +58,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any, callback: any) => {
+        console.log(formData)
         let keys = Object.keys(formData)
         let key = keys[0]
         let value = formData[key]
@@ -95,6 +97,13 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 ? <Spinner />
                 : renderRows()
             }
+            <NewRow
+                keys={keys}
+                onSubmit={onSubmit}
+                ressource={ressource}
+                ressourceType={ressourceType}
+                register={register}
+            />
         </div>
     )
 }
