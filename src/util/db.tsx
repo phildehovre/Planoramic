@@ -261,8 +261,6 @@ async function formatAndPostEvent(eventObj: {
         event_id
     } = eventObj
 
-    console.log(event_id)
-
     const start = dayjs(targetDate).subtract(position, 'days')
     const end = dayjs(targetDate).subtract(position, 'days').add(1, 'hour')
 

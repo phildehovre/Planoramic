@@ -28,7 +28,8 @@ function RessourcePage(props: any) {
     } = useCampaign(id, ressourceType === 'campaigns' && id ? true : false)
 
     const headerProps = {
-        ressource: ressourceType === 'templates' ? templateData : campaignData
+        ressource: ressourceType === 'templates' ? templateData : campaignData,
+        ressourceType: ressourceType
     }
 
     return (

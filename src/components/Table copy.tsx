@@ -23,7 +23,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const queryClient = useQueryClient()
 
     const [eventid, setEventId] = React.useState(null)
-    const [selectedRows, setSelectedRows] = React.useState([])
 
     const { register,
         handleSubmit,
@@ -32,6 +31,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         setValue,
         watch,
     } = useForm({ resolver: yupResolver(schema) })
+
 
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
@@ -57,6 +57,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any, callback: any) => {
+        console.log('submitting', formData)
         let keys = Object.keys(formData)
         let key = keys[0]
         let value = formData[key]
@@ -75,22 +76,12 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 keys={keys}
                 onSubmit={onSubmit}
                 setEventId={setEventId}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
             />
         });
     }
     return (
         <div className='table-ctn'>
-            {!ressource.isLoading && ressource?.data?.data.length > 0 &&
-                <TableHeader
-                    setSelectedRows={setSelectedRows}
-                    selectedRows={selectedRows}
-                    ressource={ressource}
-                    ressourceType={ressourceType}
-                    events={ressource?.data?.data}
-                />
-            }
+            <TableHeader ressource={ressource} ressourceType={ressourceType} />
             {ressource.isLoading
                 ? <Spinner />
                 : renderRows()

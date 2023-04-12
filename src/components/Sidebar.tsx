@@ -28,7 +28,6 @@ function Sidebar(props: { ressource: PostgrestSingleResponse<{ [x: string]: any;
 
     const renderData = () => {
         let type = sidebarContent.slice(0, -1).toLowerCase()
-        console.log(type)
         return ressource?.data?.map((item: any) => {
             return (
                 <div className='sidebar-content__item' key={item.id}>
