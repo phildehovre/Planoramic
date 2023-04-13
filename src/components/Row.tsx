@@ -12,6 +12,7 @@ function Row(props: {
     isNew?: boolean
 }) {
 
+
     const {
         row,
         keys,
@@ -24,6 +25,7 @@ function Row(props: {
     } = props;
 
     const eventId = row.event_id || row.id
+    console.log(keys)
 
 
     const handleRowSelection = () => {

@@ -19,16 +19,16 @@ function RessourcePage(props: any) {
         data: templateData,
         isLoading: isTemplateLoading,
         error: templateError
-    } = useTemplate(id, ressourceType === 'templates' && id ? true : false)
+    } = useTemplate(id, ressourceType === 'template' && id ? true : false)
 
     const {
         data: campaignData,
         isLoading: isCampaignLoading,
         error: campaignError
-    } = useCampaign(id, ressourceType === 'campaigns' && id ? true : false)
+    } = useCampaign(id, ressourceType === 'campaign' && id ? true : false)
 
     const headerProps = {
-        ressource: ressourceType === 'templates' ? templateData : campaignData,
+        ressource: ressourceType === 'template' ? templateData : campaignData,
         ressourceType: ressourceType
     }
 

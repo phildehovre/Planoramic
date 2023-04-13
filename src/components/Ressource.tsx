@@ -13,10 +13,10 @@ function Ressource() {
     const [campaignId, setCampaignId] = React.useState<string | undefined>(undefined)
 
     useEffect(() => {
-        if (ressourceType === 'templates') {
+        if (ressourceType === 'template') {
             setTemplateId(ressourceId)
         }
-        if (ressourceType === 'campaigns') {
+        if (ressourceType === 'campaign') {
             setCampaignId(ressourceId)
         }
     }, [ressourceType, ressourceId, session])
@@ -24,10 +24,12 @@ function Ressource() {
     const templateEvents = useTemplateEvents(templateId)
     const campaignEvents = useCampaignEvents(campaignId)
 
+
     return (
         <div>
+
             <Table
-                ressource={ressourceType === 'templates' ? templateEvents : campaignEvents}
+                ressource={ressourceType === 'template' ? templateEvents : campaignEvents}
                 ressourceType={ressourceType}
             />
         </div>

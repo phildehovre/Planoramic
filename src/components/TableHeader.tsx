@@ -26,12 +26,12 @@ function TableHeader(props: {
         entity_responsible: 'Entity Responsible',
         type: 'Type'
     }
-    const keys = props.ressourceType === 'templates' ? templateKeys : campaignKeys;
+    const keys = props.ressourceType === 'template' ? templateKeys : campaignKeys;
 
     const handleSelectAll = () => {
         if (selectedRows.length !== events.length) {
             setSelectedRows(events?.map((event: any) => {
-                return ressourceType === 'templates' ? event.id : event.event_id
+                return ressourceType === 'template' ? event.id : event.event_id
             }))
         } else {
             setSelectedRows([])
@@ -44,7 +44,7 @@ function TableHeader(props: {
                 checked={selectedRows.length === events.length}
                 onChange={handleSelectAll} />
             <Row
-                row={ressourceType === 'templates'
+                row={ressourceType === 'template'
                     ? templateObject
                     : { ...templateObject, completed: 'completed' }}
                 keys={keys}

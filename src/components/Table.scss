@@ -23,6 +23,18 @@
     display: flex;
     flex-direction: row;
     width: 80%;
+
+    &.new-row {
+        margin: 0 2.5em;
+        width: 79%;
+
+        transform: translateX(10px);
+
+        >input {
+            background-color: transparent;
+            padding: 1.5em
+        }
+    }
 }
 
 .new_row-wrapper {

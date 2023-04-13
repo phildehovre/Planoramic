@@ -23,7 +23,7 @@ function Dashboard() {
     return (
         <DashboardLayout
             sidebar={<Sidebar
-                ressource={ressourceType === 'templates' ? templatesData : campaignsData}
+                ressource={ressourceType === 'template' ? templatesData : campaignsData}
             />}
             outlet={< Outlet />} />
     )

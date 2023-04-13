@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Row from './Row'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
@@ -9,6 +9,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { v4 as uuidv4 } from 'uuid'
 import { useSession } from '@supabase/auth-helpers-react'
 import { formatRessourceObjectForSubmission } from '../utils/ressourceObjectFormatter'
+import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
+import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
+import { selectedDataTableContext } from '../contexts/SelectedDataTableContext'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -21,7 +24,7 @@ const schema = yup.object().shape({
 
 function NewRow(props: {
     ressource: any
-    ressourceType: string
+    ressourceType: string | undefined
     keys: string[]
     onSubmit: any
     register: any
@@ -44,26 +47,39 @@ function NewRow(props: {
     const typeOfEvent = ressourceType === 'templates' ? 'template_events' : 'campaign_events'
     const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
 
-    const addTemplate = useMutation({
+    const addRessource = useMutation({
         mutationFn: async (event: any) => await supabase
             .from(typeOfEvent)
             .insert(event)
             .select(),
     });
 
+    const { selectedTemplateId } = useContext(selectedTemplateContext)
+
+
     const onSubmit = (formData: any) => {
         const data = formatRessourceObjectForSubmission(keys, formData)
-        const event = {
+        let event = {
             ...data,
             author_id: session?.user.id,
             created_at: dayjs().format(),
             position_units: formData.position_units,
+            [typeOfEvent.split('_')[0] + '_id']: ressourceId,
         };
-        console.log(event)
-        addTemplate.mutateAsync(event).then((res) => {
-            queryClient.invalidateQueries([ressourceType, { id: session?.user.id }])
+
+        if (typeOfEvent === 'campaign_events') {
+            event = {
+                ...data,
+                completed: false,
+                template_id: selectedTemplateId
+            }
+        }
+        addRessource.mutateAsync(event).then((res) => {
+            queryClient.invalidateQueries([ressourceType, ressourceId])
+            console.log(typeOfEvent, ressourceId)
         }).catch(err => alert(err))
     };
+
 
     const renderFormInputs = () => {
         return keys.map((key: string) => {
@@ -72,14 +88,14 @@ function NewRow(props: {
                     type='text'
                     {...register(key)}
                     key={key}
-                    className={`cell-ctn ${key}`}
+                    className={`cell-ctn ${key}`} placeholder={key}
                 />
             )
         })
     }
 
     return (
-        <form className='row-ctn' onSubmit={handleSubmit(onSubmit)}>
+        <form className='row-ctn new-row' onSubmit={handleSubmit(onSubmit)}>
             {renderFormInputs()}
             <button type='submit'>Submit</button>
         </form>

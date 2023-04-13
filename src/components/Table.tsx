@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Row from './Row'
 import './Table.scss'
 import Spinner from './Spinner';
@@ -19,12 +19,14 @@ const schema = yup.object().shape({
     type: yup.string().required('Select a type of task'),
 })
 
-function Table(props: { ressource: any, ressourceType: string }) {
+function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const { ressource, ressourceType } = props;
     const queryClient = useQueryClient()
 
     const [eventid, setEventId] = React.useState(null)
     const [selectedRows, setSelectedRows] = React.useState([])
+    const [typeOfEvent, setTypeOfEvent] = React.useState('')
+    const [ressourceId, setRessourceId] = React.useState<string | undefined>(undefined)
 
     const { register,
         handleSubmit,
@@ -36,11 +38,14 @@ function Table(props: { ressource: any, ressourceType: string }) {
 
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
-    const keys = ressourceType === 'templates' ? templateKeys : campaignKeys;
-    const typeOfEvent = ressourceType === 'templates' ? 'template_events' : 'campaign_events'
-    const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
+    const keys = ressourceType === 'template' ? templateKeys : campaignKeys
 
-
+    useEffect(() => {
+        if (ressource?.data?.data?.length > 0) {
+            setTypeOfEvent(ressourceType === 'template' ? 'template_events' : 'campaign_events')
+            setRessourceId(ressource?.data?.data[0][ressourceType + '_id'])
+        }
+    }, [])
 
     const updateCellFn = async ({ id, key, val }: any) => {
         return await supabase
@@ -93,7 +98,7 @@ function Table(props: { ressource: any, ressourceType: string }) {
                     events={ressource?.data?.data}
                 />
             }
-            {ressource.isLoading
+            {ressource?.data?.data.length === 0
                 ? <Spinner />
                 : renderRows()
             }
@@ -109,3 +114,4 @@ function Table(props: { ressource: any, ressourceType: string }) {
 }
 
 export default Table
+

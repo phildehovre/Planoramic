@@ -16,8 +16,8 @@ function RessourceHeader(props: any) {
 
     const queryClient = useQueryClient()
 
-    const ressourceId = ressourceType === 'templates' ? ressource?.data?.template_id : ressource?.data?.campaign_id
-    const ressourceKey = ressourceType === 'templates' ? 'template' : 'campaign'
+    const ressourceId = ressourceType === 'template' ? ressource?.data?.template_id : ressource?.data?.campaign_id
+    const ressourceKey = ressourceType === 'template' ? 'template' : 'campaign'
 
 
     const updateCellFn = async ({ id, key, val }: any) => {
