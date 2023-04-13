@@ -13,8 +13,8 @@ const NavBar = () => {
     const session = useSession();
     const navigate = useNavigate();
 
-    supabase.auth.signOut();
     const handleSignOut = () => {
+        supabase.auth.signOut();
     }
 
     return (
