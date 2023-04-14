@@ -52,8 +52,9 @@ function TableHeader(props: {
 
     const handleDelete = async () => {
         for (let i = 0; i < selectedRows.length; i++) {
+            let typeOfEvent = ressourceType === 'template' ? 'template_events' : 'campaign_events'
             deleteEvent(selectedRows[i],
-                queryClient.invalidateQueries(['campaign_events']))
+                queryClient.invalidateQueries([typeOfEvent]), typeOfEvent)
         }
     }
 

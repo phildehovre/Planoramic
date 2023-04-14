@@ -200,19 +200,39 @@ export function useCampaignsByAuthor(id: string | undefined) {
 };
 
 
+// export function useDeleteEvent() {
+//     const deleteEventMutation = useMutation(
+//         (eventId: string) => {
+//             console.log(eventId)
+//             return supabase
+//                 .from('campaign_events')
+//                 .delete()
+//                 .eq('id', eventId);
+//         }
+//     );
+
+//     const deleteEvent = async (eventId: string, callback) => {
+//         await deleteEventMutation.mutateAsync(eventId)
+//             .then(() => { callback })
+//             ;
+//     }
+
+//     return { deleteEvent, deleteEventMutation };
+// }
 export function useDeleteEvent() {
     const deleteEventMutation = useMutation(
-        (eventId: string) => {
-            console.log(eventId)
+        ({ eventId, type }) => {
+            console.log(eventId, type)
             return supabase
-                .from('campaign_events')
+                .from(type)
                 .delete()
                 .eq('id', eventId);
         }
     );
 
-    const deleteEvent = async (eventId: string, callback) => {
-        await deleteEventMutation.mutateAsync(eventId)
+    const deleteEvent = async (eventId: string, callback, type) => {
+        // console.log(eventId, callback, type)
+        await deleteEventMutation.mutateAsync({ eventId, type })
             .then(() => { callback })
             ;
     }

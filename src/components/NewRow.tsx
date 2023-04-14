@@ -46,7 +46,7 @@ function NewRow(props: {
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
-    const typeOfEvent = ressourceType === 'templates' ? 'template_events' : 'campaign_events'
+    const typeOfEvent = ressourceType === 'template' ? 'template_events' : 'campaign_events'
     const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
 
     const addRessource = useMutation({
@@ -66,7 +66,10 @@ function NewRow(props: {
             author_id: session?.user.id,
             created_at: dayjs().format(),
             position_units: formData.position_units,
+            template_id: selectedTemplateId,
         };
+
+        console.log(event)
         if (typeOfEvent === 'campaign_events') {
             event = {
                 ...data,
@@ -76,7 +79,7 @@ function NewRow(props: {
             }
         }
         addRessource.mutateAsync(event).then(() => {
-            queryClient.invalidateQueries(['campaign_events'])
+            queryClient.invalidateQueries([typeOfEvent])
         })
     }
 
