@@ -1,5 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Row from './Row';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useDeleteEvent } from '../util/db';
+import Spinner from './Spinner';
+import { selectedCampaignContext } from '../contexts/SelectedCampaignContext';
 
 function TableHeader(props: {
     ressource: any,
@@ -16,6 +22,9 @@ function TableHeader(props: {
         events
     } = props;
 
+
+    const { selectedCampaignId } = useContext(selectedCampaignContext)
+
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
 
@@ -26,7 +35,7 @@ function TableHeader(props: {
         entity_responsible: 'Entity Responsible',
         type: 'Type'
     }
-    const keys = props.ressourceType === 'template' ? templateKeys : campaignKeys;
+    const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
 
     const handleSelectAll = () => {
         if (selectedRows.length !== events.length) {
@@ -38,11 +47,33 @@ function TableHeader(props: {
         }
     }
 
+    const { deleteEvent, deleteEventMutation } = useDeleteEvent()
+    const queryClient = useQueryClient()
+
+    const handleDelete = async () => {
+        for (let i = 0; i < selectedRows.length; i++) {
+            deleteEvent(selectedRows[i],
+                queryClient.invalidateQueries(['campaign_events', selectedCampaignId]))
+        }
+    }
+
     return (
         <div className='table-header'>
-            <input type='checkbox'
-                checked={selectedRows.length === events.length}
-                onChange={handleSelectAll} />
+            <div>
+                <label>
+                    <input type='checkbox'
+                        checked={selectedRows.length === events.length}
+                        onChange={handleSelectAll} />Select all
+                </label>
+                <button
+                    onClick={handleDelete}
+                    disabled={selectedRows.length === 0}>
+                    {deleteEventMutation.isLoading
+                        ? <Spinner />
+                        : <FontAwesomeIcon icon={faTrash} />
+                    }
+                </button>
+            </div>
             <Row
                 row={ressourceType === 'template'
                     ? templateObject
@@ -55,3 +86,7 @@ function TableHeader(props: {
 }
 
 export default TableHeader
+
+function deleteEvent(id: any): Promise<unknown> {
+    throw new Error('Function not implemented.');
+}

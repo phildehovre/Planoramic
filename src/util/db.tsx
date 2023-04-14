@@ -146,27 +146,6 @@ export function useCell(table, id, column) {
     return useQuery([table, id, column], fetchCellMemoized);
 }
 
-// async function fetchCampaignEvents(id: string) {
-//     console.log(id)
-//     let res = await supabase
-//         .from('campaign_events')
-//         .select('*')
-//         .eq('campaign_id', id)
-//     return res
-// };
-
-// export function useCampaignEvents(id: any) {
-//     return useQuery(
-//         ['campaign_events', id],
-//         () => fetchCampaignEvents(id),
-//         {
-//             enabled: !!id,
-//             refetchOnWindowFocus: false
-//         }
-//     )
-// };
-
-
 
 async function fetchCampaignEvents(id: string) {
     let res = await supabase
@@ -183,7 +162,7 @@ export function useCampaignEvents(id: any) {
         () => memoizedFetchCampaignEvents(id),
         {
             enabled: !!id,
-            refetchOnWindowFocus: false,
+            isFetchingOptimisticUpdate: true,
         }
     );
 }
@@ -220,10 +199,27 @@ export function useCampaignsByAuthor(id: string | undefined) {
     );
 };
 
-export const deleteEvents = async (campaign_id: string) => await supabase
-    .from('campaign_events')
-    .delete()
-    .eq('campaign_id', campaign_id);
+
+export function useDeleteEvent() {
+    const deleteEventMutation = useMutation(
+        (eventId: string) => {
+            console.log(eventId)
+            return supabase
+                .from('campaign_events')
+                .delete()
+                .eq('id', eventId);
+        }
+    );
+
+    const deleteEvent = async (eventId: string, callback) => {
+        await deleteEventMutation.mutateAsync(eventId)
+            .then(() => { callback })
+            ;
+    }
+
+    return { deleteEvent, deleteEventMutation };
+}
+
 
 export const deleteCampaign = async (campaign_id: string) => await supabase
     .from('campaigns')

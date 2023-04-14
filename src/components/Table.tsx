@@ -57,9 +57,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     const updateCell = useMutation({
         mutationFn: ({ id, key, val }: any) => updateCellFn({ id, key, val })
-            .then(() => {
-                queryClient.invalidateQueries({ queryKey: [typeOfEvent, id] })
-            }),
     });
 
     const onSubmit = (formData: any, callback: any) => {

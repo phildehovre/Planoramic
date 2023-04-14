@@ -12,6 +12,7 @@ import { formatRessourceObjectForSubmission } from '../utils/ressourceObjectForm
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 import { selectedDataTableContext } from '../contexts/SelectedDataTableContext'
+import { useParams } from 'react-router'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -40,10 +41,11 @@ function NewRow(props: {
     const { handleSubmit, formState: { errors }, register } = useForm()
     const queryClient = useQueryClient()
     const session = useSession()
+    const params = useParams()
 
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
-    const keys = ressourceType === 'templates' ? templateKeys : campaignKeys;
+    const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
     const typeOfEvent = ressourceType === 'templates' ? 'template_events' : 'campaign_events'
     const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
 
@@ -55,7 +57,7 @@ function NewRow(props: {
     });
 
     const { selectedTemplateId } = useContext(selectedTemplateContext)
-
+    const { selectedCampaignId } = useContext(selectedCampaignContext)
 
     const onSubmit = (formData: any) => {
         const data = formatRessourceObjectForSubmission(keys, formData)
@@ -64,21 +66,17 @@ function NewRow(props: {
             author_id: session?.user.id,
             created_at: dayjs().format(),
             position_units: formData.position_units,
-            [typeOfEvent.split('_')[0] + '_id']: ressourceId,
         };
-
         if (typeOfEvent === 'campaign_events') {
             event = {
                 ...data,
                 completed: false,
-                template_id: selectedTemplateId
+                template_id: ressource?.data?.data[0].template_id,
+                campaign_id: selectedCampaignId || params.id
             }
         }
-        addRessource.mutateAsync(event).then((res) => {
-            queryClient.invalidateQueries([ressourceType, ressourceId])
-            console.log(typeOfEvent, ressourceId)
-        }).catch(err => alert(err))
-    };
+        addRessource.mutate(event)
+    }
 
 
     const renderFormInputs = () => {

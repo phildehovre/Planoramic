@@ -16,7 +16,6 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
         eventId
     } = props;
 
-    console.log(value)
     const cellRef: React.MutableRefObject<any> = useRef()
 
     useEffect(() => {
