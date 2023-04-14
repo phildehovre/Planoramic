@@ -75,7 +75,9 @@ function NewRow(props: {
                 campaign_id: selectedCampaignId || params.id
             }
         }
-        addRessource.mutate(event)
+        addRessource.mutateAsync(event).then(() => {
+            queryClient.invalidateQueries(['campaign_events'])
+        })
     }
 
 

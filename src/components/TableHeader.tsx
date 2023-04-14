@@ -53,7 +53,7 @@ function TableHeader(props: {
     const handleDelete = async () => {
         for (let i = 0; i < selectedRows.length; i++) {
             deleteEvent(selectedRows[i],
-                queryClient.invalidateQueries(['campaign_events', selectedCampaignId]))
+                queryClient.invalidateQueries(['campaign_events']))
         }
     }
 
