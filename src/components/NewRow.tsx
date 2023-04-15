@@ -69,7 +69,6 @@ function NewRow(props: {
             template_id: selectedTemplateId,
         };
 
-        console.log(event)
         if (typeOfEvent === 'campaign_events') {
             event = {
                 ...data,

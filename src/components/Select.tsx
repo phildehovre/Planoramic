@@ -33,7 +33,7 @@ function CustomSelect({
                 ref={register}
             />
             {isOpen && (
-                <OptionList>
+                <div>
                     {options.map((option: any) => (
                         <OptionItem
                             key={option.value}
@@ -43,7 +43,7 @@ function CustomSelect({
                             {option.label}
                         </OptionItem>
                     ))}
-                </OptionList>
+                </div>
             )}
         </SelectWrapper>
     );

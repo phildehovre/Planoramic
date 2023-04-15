@@ -1,6 +1,6 @@
 import React from 'react'
 import './RessourceHeader.scss'
-import TestForm from './TestForm'
+import TestForm from './SelectWrapper'
 import { Spinner } from 'react-bootstrap'
 import Modal from './Modal'
 import TemplateDescriptionEdit from './Modals/TemplateDescriptionEdit'

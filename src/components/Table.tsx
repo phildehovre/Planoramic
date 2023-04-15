@@ -59,7 +59,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         mutationFn: ({ id, key, val }: any) => updateCellFn({ id, key, val })
     });
 
-    const onSubmit = (formData: any, callback: any) => {
+    const onSubmit = (formData: any) => {
         console.log(formData)
         let keys = Object.keys(formData)
         let key = keys[0]

@@ -222,7 +222,6 @@ export function useCampaignsByAuthor(id: string | undefined) {
 export function useDeleteEvent() {
     const deleteEventMutation = useMutation(
         ({ eventId, type }) => {
-            console.log(eventId, type)
             return supabase
                 .from(type)
                 .delete()
@@ -231,7 +230,6 @@ export function useDeleteEvent() {
     );
 
     const deleteEvent = async (eventId: string, callback, type) => {
-        // console.log(eventId, callback, type)
         await deleteEventMutation.mutateAsync({ eventId, type })
             .then(() => { callback })
             ;

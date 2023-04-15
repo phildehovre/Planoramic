@@ -23,8 +23,6 @@ function TableHeader(props: {
     } = props;
 
 
-    const { selectedCampaignId } = useContext(selectedCampaignContext)
-
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
 
@@ -87,7 +85,3 @@ function TableHeader(props: {
 }
 
 export default TableHeader
-
-function deleteEvent(id: any): Promise<unknown> {
-    throw new Error('Function not implemented.');
-}

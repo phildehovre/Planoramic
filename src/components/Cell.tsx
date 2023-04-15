@@ -1,12 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form';
+import Select from './Select';
+import { SelectOptions } from '../assets/selectOptions';
 
 function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: any, eventId?: any }) {
 
     const [isEditing, setIsEditing] = React.useState(false);
     const [data, setData] = React.useState<any>();
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, setValue } = useForm()
+
 
     const {
         value,
@@ -37,6 +40,12 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
         setIsEditing(true)
     }
 
+    const onOptionClick = (value: string) => {
+        setEventId(eventId)
+        setValue(label, value);
+        handleSubmit(onSubmit)();
+    };
+
 
     async function handleFormSubmit(data: any) {
         await handleSubmit(onSubmit)(data);
@@ -50,7 +59,7 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
             onSubmit={handleFormSubmit}
             ref={cellRef}
         >
-            {isEditing
+            {isEditing && label !== 'entity_responsible' && label !== 'type'
                 ? <input
                     autoFocus
                     autoComplete='off'
@@ -60,6 +69,15 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
                     placeholder={value || label}
                     {...register(label)}
                     name={label}
+                />
+                : value
+            }
+            {isEditing && label === 'entity_responsible' || label === 'type'
+                ? <Select
+                    name={label === 'entity_responsible' ? 'entity_responsible' : 'type'}
+                    onOptionClick={onOptionClick}
+                    options={SelectOptions[label]}
+                    label={label} s
                 />
                 : value
             }
