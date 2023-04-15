@@ -35,6 +35,30 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
         })
     }, [])
 
+    const renderCell = () => {
+        if (isEditing) {
+            if (label === 'entity_responsible' || label === 'type') {
+                return (<Select
+                    name={label === 'entity_responsible' ? 'entity_responsible' : 'type'}
+                    onOptionClick={onOptionClick}
+                    options={SelectOptions[label]} />)
+            }
+            return (
+                <input
+                    autoFocus
+                    autoComplete='off'
+                    className={`cell-ctn ${label}`}
+                    type={typeof value === 'number' ? 'number' : 'text'}
+                    defaultValue={value}
+                    placeholder={value || label}
+                    {...register(label)}
+                    name={label}
+                />
+            )
+        }
+        return value
+    }
+
     const handleCellClick = () => {
         setEventId(eventId)
         setIsEditing(true)
@@ -59,28 +83,7 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
             onSubmit={handleFormSubmit}
             ref={cellRef}
         >
-            {isEditing && label !== 'entity_responsible' && label !== 'type'
-                ? <input
-                    autoFocus
-                    autoComplete='off'
-                    className={`cell-ctn ${label}`}
-                    type={typeof value === 'number' ? 'number' : 'text'}
-                    defaultValue={value}
-                    placeholder={value || label}
-                    {...register(label)}
-                    name={label}
-                />
-                : value
-            }
-            {isEditing && label === 'entity_responsible' || label === 'type'
-                ? <Select
-                    name={label === 'entity_responsible' ? 'entity_responsible' : 'type'}
-                    onOptionClick={onOptionClick}
-                    options={SelectOptions[label]}
-                    label={label} s
-                />
-                : value
-            }
+            {renderCell()}
         </form>
     )
 }

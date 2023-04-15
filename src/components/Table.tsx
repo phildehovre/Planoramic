@@ -23,7 +23,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const { ressource, ressourceType } = props;
     const queryClient = useQueryClient()
 
-    const [eventid, setEventId] = React.useState(null)
+    const [eventId, setEventId] = React.useState(null)
     const [selectedRows, setSelectedRows] = React.useState([])
     const [typeOfEvent, setTypeOfEvent] = React.useState('')
     const [ressourceId, setRessourceId] = React.useState<string | undefined>(undefined)
@@ -60,11 +60,11 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any) => {
-        console.log(formData)
+        console.log(formData, eventId)
         let keys = Object.keys(formData)
         let key = keys[0]
         let value = formData[key]
-        updateCell.mutateAsync({ id: eventid, key: key, val: value }).then((res: any) => {
+        updateCell.mutateAsync({ id: eventId, key: key, val: value }).then((res: any) => {
             queryClient.invalidateQueries({ queryKey: [typeOfEvent, ressourceId] })
         }
         )
