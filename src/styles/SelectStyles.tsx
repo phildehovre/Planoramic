@@ -19,22 +19,23 @@ export const SelectContainer = styled.div`
 
 export const SelectInput = styled.input`
   width: 100%;
-  padding: 1rem;
+  padding: 0em;
   font-size: 1.2rem;
   border-radius: 0.5rem;
-  border: 2px solid #ccc;
-  background-color: #fff;
+  border: none;
+  background-color: transparent;
   appearance: none;
   cursor: pointer;
   &::-ms-expand {
     display: none;
   }
+  position: relative;
 `;
 
 export const Dropdown = styled.div`
   position: absolute;
   width: 100%;
-  max-height: 200px;
+  max-height: 2000px;
   overflow-y: auto;
   margin-top: 0.5rem;
   border-radius: 0.5rem;
@@ -51,6 +52,8 @@ export const Option = styled.div<{ isSelected?: boolean }>`
   &:hover {
     background-color: #ccc;
   }
+  list-style: none;
+  z-index: 100;
 `;
 
 export const Button = styled.button`
@@ -75,7 +78,8 @@ export const SelectWrapper = styled.div`
 
 export const OptionList = styled.ul`
   position: absolute;
-  top: 100%;
+  // height: 1000px;
+  top: 0;
   left: 0;
   width: 100%;
   margin: 0;
@@ -85,12 +89,13 @@ export const OptionList = styled.ul`
   border-top: none;
   border-radius: 0 0 0.5rem 0.5rem;
   background-color: #fff;
-  z-index: 1;
-`;
+  z-index: 100;
+  `;
 
 export const OptionItem = styled.li<{ isSelected?: boolean }>`
   padding: 0.5rem 1rem;
   cursor: pointer;
+  list-style: none;
   color: black;
   background-color: ${({ isSelected }) => isSelected ? '#ccc' : 'transparent'};
   &:hover {

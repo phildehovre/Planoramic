@@ -91,6 +91,7 @@ function NewRow(props: {
                     {...register(key)}
                     key={key}
                     className={`cell-ctn ${key}`} placeholder={key}
+                    autoComplete='off'
                 />
             )
         })
@@ -98,8 +99,12 @@ function NewRow(props: {
 
     return (
         <form className='row-ctn new-row' onSubmit={handleSubmit(onSubmit)}>
-            {renderFormInputs()}
-            <button type='submit'>Submit</button>
+            <div className='row-inputs'>
+                {renderFormInputs()}
+            </div>
+            <div className='row-inputs btn'>
+                <button type='submit'>Submit</button>
+            </div>
         </form>
     )
 }

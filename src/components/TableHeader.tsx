@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
 import Row from './Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faMailForward } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useDeleteEvent } from '../util/db';
+import { postEvents, useDeleteEvent } from '../util/db';
 import Spinner from './Spinner';
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext';
+import { postEventsToGoogle } from '../apis/googleCalendar';
+import { useSession } from '@supabase/auth-helpers-react'
 
 function TableHeader(props: {
     ressource: any,
@@ -22,6 +24,20 @@ function TableHeader(props: {
         events
     } = props;
 
+    const mapSelectedEvents = () => {
+        let selectedEvents
+        if (selectedRows.length === 0) {
+            selectedEvents = ressource?.data?.data
+        } else {
+
+            selectedEvents = ressource?.data?.data.filter((event: any) => {
+                return selectedRows.includes(ressource?.data?.data.id)
+            })
+        }
+        return selectedEvents
+    }
+
+
 
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
@@ -35,10 +51,12 @@ function TableHeader(props: {
     }
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
 
+    const session = useSession()
+
     const handleSelectAll = () => {
         if (selectedRows.length !== events.length) {
             setSelectedRows(events?.map((event: any) => {
-                return ressourceType === 'template' ? event.id : event.event_id
+                return ressourceType === 'template' ? event.id : event.id
             }))
         } else {
             setSelectedRows([])
@@ -64,6 +82,16 @@ function TableHeader(props: {
                         checked={selectedRows.length === events.length}
                         onChange={handleSelectAll} />Select all
                 </label>
+                {ressourceType === 'campaign' && <button
+                    onClick={() =>
+                        postEventsToGoogle(mapSelectedEvents(), ressource?.data?.data[0].targetDate, session)
+                    }
+                >
+                    {deleteEventMutation.isLoading
+                        ? <Spinner />
+                        : <FontAwesomeIcon icon={faMailForward} />
+                    }
+                </button>}
                 <button
                     onClick={handleDelete}
                     disabled={selectedRows.length === 0}>
@@ -80,7 +108,7 @@ function TableHeader(props: {
                 keys={keys}
                 isHeader={true}
             />
-        </div>
+        </div >
     )
 }
 

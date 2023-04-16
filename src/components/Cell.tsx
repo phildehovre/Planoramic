@@ -10,7 +10,6 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
     const [data, setData] = React.useState<any>();
     const { register, handleSubmit, setValue } = useForm()
 
-
     const {
         value,
         label,
@@ -41,7 +40,10 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
                 return (<Select
                     name={label === 'entity_responsible' ? 'entity_responsible' : 'type'}
                     onOptionClick={onOptionClick}
-                    options={SelectOptions[label]} />)
+                    options={SelectOptions[label]}
+                    isOpen={isEditing}
+                    setIsEditing={setIsEditing}
+                />)
             }
             return (
                 <input

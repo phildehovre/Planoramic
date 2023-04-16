@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import NewRow from './NewRow';
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useParams } from 'react-router-dom'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -25,31 +26,20 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     const [eventId, setEventId] = React.useState(null)
     const [selectedRows, setSelectedRows] = React.useState([])
-    const [typeOfEvent, setTypeOfEvent] = React.useState('')
-    const [ressourceId, setRessourceId] = React.useState<string | undefined>(undefined)
 
     const { register,
-        handleSubmit,
         formState: { errors },
-        control,
-        setValue,
-        watch,
     } = useForm({ resolver: yupResolver(schema) })
+
+    const params = useParams()
 
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys
 
-    useEffect(() => {
-        if (ressource?.data?.data?.length > 0) {
-            setTypeOfEvent(ressourceType === 'template' ? 'template_events' : 'campaign_events')
-            setRessourceId(ressource?.data?.data[0][ressourceType + '_id'])
-        }
-    }, [])
-
     const updateCellFn = async ({ id, key, val }: any) => {
         return await supabase
-            .from(typeOfEvent)
+            .from(`${ressourceType}_events`)
             .update({ [key]: val })
             .eq('id', id)
             .select()
@@ -60,12 +50,11 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any) => {
-        console.log(formData, eventId)
         let keys = Object.keys(formData)
         let key = keys[0]
         let value = formData[key]
         updateCell.mutateAsync({ id: eventId, key: key, val: value }).then((res: any) => {
-            queryClient.invalidateQueries({ queryKey: [typeOfEvent, ressourceId] })
+            queryClient.invalidateQueries({ queryKey: [`${ressourceType}_events`] })
         }
         )
     }

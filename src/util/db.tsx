@@ -200,25 +200,6 @@ export function useCampaignsByAuthor(id: string | undefined) {
 };
 
 
-// export function useDeleteEvent() {
-//     const deleteEventMutation = useMutation(
-//         (eventId: string) => {
-//             console.log(eventId)
-//             return supabase
-//                 .from('campaign_events')
-//                 .delete()
-//                 .eq('id', eventId);
-//         }
-//     );
-
-//     const deleteEvent = async (eventId: string, callback) => {
-//         await deleteEventMutation.mutateAsync(eventId)
-//             .then(() => { callback })
-//             ;
-//     }
-
-//     return { deleteEvent, deleteEventMutation };
-// }
 export function useDeleteEvent() {
     const deleteEventMutation = useMutation(
         ({ eventId, type }) => {

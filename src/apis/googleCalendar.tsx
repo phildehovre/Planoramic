@@ -1,6 +1,7 @@
 import { supabase } from '../App';
 import dayjs from 'dayjs'
 import { useQuery, QueryFunctionContext } from '@tanstack/react-query'
+import { backOff } from 'exponential-backoff'
 
 export async function deleteCalendarEvent(id: string, session: any) {
     try {
@@ -111,24 +112,13 @@ export function useHolidays(region: any, session: any) {
     )
 };
 
-export async function postEvents(events: any[], targetDate: Date, session: any) {
+export async function postEventsToGoogle(events: any[], targetDate: Date, session: any) {
     for (let i = 0; i < events.length; i++) {
-        if (i > 0) {
-            setTimeout(() => {
-                console.log('withTimeout')
-                formatAndPostEvent(events[i], targetDate, session)
-                    .then(() => {
-                        events = events.slice(i + 1, events.length - 1)
-                    })
-                    .catch(err => alert(err))
-            }, 400)
-        } else {
-            console.log('withoutTimeout')
-            formatAndPostEvent(events[i], targetDate, session)
-                .then(() => {
-                    events = events.slice(i + 1, events.length - 1)
-                })
-                .catch(err => alert(err))
+        try {
+            const response = await backOff(() => formatAndPostEvent(events[i], targetDate, session))
+            return response
+        } catch (e) {
+            console.log('error: ', e)
         }
     }
 }
@@ -152,6 +142,7 @@ async function formatAndPostEvent(eventObj: {
         event_id
     } = eventObj
 
+    console.log(eventObj)
 
     const start = dayjs(targetDate).subtract(position, 'days')
     const end = dayjs(targetDate).subtract(position, 'days').add(1, 'hour')
@@ -187,3 +178,4 @@ async function formatAndPostEvent(eventObj: {
         alert('Unable to create event at this time: ' + error)
     }
 }
+
