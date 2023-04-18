@@ -11,11 +11,12 @@ import { v4 as uuidv4 } from 'uuid'
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 
-function Create() {
+function Create(props: { ressourceType: string }) {
+
+    const { ressourceType } = props
     const navigate = useNavigate()
 
     const [showModal, setShowModal] = React.useState(false)
-    const [ressourceType, setRessourceType] = React.useState('')
     const [name, setName] = React.useState('New ressource')
 
     const { setSelectedTemplateId } = React.useContext(selectedTemplateContext)
@@ -45,16 +46,14 @@ function Create() {
             .select(),
     });
 
-    const handleOpenModalWithRessource = (ressourceType: string) => {
+    const handleOpenModalWithRessource = () => {
         setShowModal(true)
-        setRessourceType(ressourceType)
     }
 
 
     return (
         <div className='create-page'>
-            <button onClick={() => handleOpenModalWithRessource('template')}>New Template</button>
-            <button onClick={() => handleOpenModalWithRessource('campaign')}>New Campaign</button>
+            <button onClick={() => handleOpenModalWithRessource()}>{`New ${ressourceType}`}</button>
             <Modal
                 showModal={showModal}
                 onSave={() => handleCreateRessource(ressourceType)}

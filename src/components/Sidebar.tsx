@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { PostgrestSingleResponse } from '@supabase/supabase-js'
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
+import Create from './Create'
 '../contexts/SelectedTemplateContext'
 
 function Sidebar(props: { ressource: PostgrestSingleResponse<{ [x: string]: any; }[]> | undefined }) {
@@ -77,6 +78,7 @@ function Sidebar(props: { ressource: PostgrestSingleResponse<{ [x: string]: any;
                     <div className={`sidebar-content ${showSidebar ? 'showing' : ''}`}>
                         <h4>{sidebarContent}</h4>
                         {renderData()}
+                        <Create ressourceType={sidebarContent} />
                     </div>
                 )
             }
