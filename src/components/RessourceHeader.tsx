@@ -1,6 +1,5 @@
 import React from 'react'
 import './RessourceHeader.scss'
-import TestForm from './SelectWrapper'
 import { Spinner } from 'react-bootstrap'
 import Modal from './Modal'
 import TemplateDescriptionEdit from './Modals/TemplateDescriptionEdit'
@@ -53,12 +52,6 @@ function RessourceHeader(props: any) {
     return (
         <>
             {
-                !ressource || ressource.isLoading
-                    ? <Spinner />
-                    : renderHeader()
-
-            }
-            {
                 showModal && <Modal
                     onClose={() => { console.log('closing') }}
                     onSave={() => { submitDescription(description) }}
@@ -72,6 +65,12 @@ function RessourceHeader(props: any) {
                         placeholder='Describe this template'
                     />}
                 />
+            }
+            {
+                !ressource || ressource.isLoading
+                    ? <Spinner />
+                    : renderHeader()
+
             }
 
         </>

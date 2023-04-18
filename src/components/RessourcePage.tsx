@@ -10,9 +10,7 @@ function RessourcePage(props: any) {
 
 
     const session = useSession()
-    const { id } = useParams()
-    const { ressource: ressourceType } = useParams()
-
+    const { ressource: ressourceType, id } = useParams()
 
 
     const {

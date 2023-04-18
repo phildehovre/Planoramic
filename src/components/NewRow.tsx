@@ -47,7 +47,7 @@ function NewRow(props: {
     const campaignKeys = [...templateKeys, 'completed']
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
     const typeOfEvent = ressourceType === 'template' ? 'template_events' : 'campaign_events'
-    const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
+    // const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
 
     const addRessource = useMutation({
         mutationFn: async (event: any) => await supabase

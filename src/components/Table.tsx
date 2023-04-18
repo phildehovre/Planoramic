@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
-    position_units: yup.string().required('A duration is required'),
+    position_units: yup.string().required('Select days, weeks, or month(s)'),
     category: yup.string().required('Please chose a category'),
     description: yup.string().required('A description is required'),
     entity_responsible: yup.string().required('Select a responsible entity'),
@@ -75,7 +75,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     }
     return (
         <div className='table-ctn'>
-            {!ressource.isLoading && ressource?.data?.data.length > 0 &&
+            {ressource?.data?.data.length > 0 &&
                 <TableHeader
                     setSelectedRows={setSelectedRows}
                     selectedRows={selectedRows}
@@ -85,7 +85,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 />
             }
             {ressource?.data?.data.length === 0
-                ? <Spinner />
+                ? <h3>No events yet.</h3>
                 : renderRows()
             }
             <NewRow
