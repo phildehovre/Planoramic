@@ -41,8 +41,8 @@ function SelectRefactor(props: SelectRefactorProps) {
     }, [ref]);
 
     return (
-        <div className="cell-ctn entity_responsible" ref={ref} onClick={() => setIsOpen(!isOpen)}>
-            <div className="selected-option">{selectedOption.label || 'Select an option'}</div>
+        <div className="select-ctn" ref={ref} onClick={() => setIsOpen(!isOpen)}>
+            <div className="selected-option">{selectedOption.label || <p>{label.split('_').join(' ')}</p>}</div>
             {isOpen && <div className={`options-ctn ${isOpen ? 'open' : ''}`}>
                 {options.map((option) => (
                     <div
