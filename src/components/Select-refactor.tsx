@@ -1,8 +1,6 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { UseFormRegister, useFormContext } from 'react-hook-form';
-import { SelectWrapper, Dropdown, OptionList, OptionItem, Label, SelectInput } from '../styles/SelectStyles';
+import { SelectWrapper, OptionList, OptionItem, Label, SelectInput } from '../styles/SelectStyles';
 
 
 function CustomSelect({
@@ -14,33 +12,28 @@ function CustomSelect({
     isDisabled = false,
     defaultValue = '',
     onOptionClick,
-    setIsEditing,
-    // isOpen
 }: any) {
-
-    const [isOpen, setIsOpen] = useState(true);
-
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleOptionClick = (value: string) => {
         onOptionClick(value)
-        setIsEditing(false);
-        setIsOpen
+        setIsOpen(false);
     };
 
     return (
-        <>
+        <SelectWrapper>
             <Label htmlFor={label}>{label}</Label>
             <SelectInput
                 type="text"
-                placeholder={label}
-                value={label}
+                placeholder={placeholder}
+                value={defaultValue}
                 onClick={() => setIsOpen(!isOpen)}
                 readOnly
                 disabled={isDisabled}
                 ref={register}
             />
             {isOpen && (
-                <OptionList>
+                <div>
                     {options.map((option: any) => (
                         <OptionItem
                             key={option.value}
@@ -50,9 +43,9 @@ function CustomSelect({
                             {option.label}
                         </OptionItem>
                     ))}
-                </OptionList>
+                </div>
             )}
-        </>
+        </SelectWrapper>
     );
 }
 

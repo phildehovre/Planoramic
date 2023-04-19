@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './index.css'
+import './index.scss'
 import { createClient } from '@supabase/supabase-js'
 // import { SessionContextProvider } from '@supabase/'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'

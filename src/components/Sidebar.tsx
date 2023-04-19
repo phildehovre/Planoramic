@@ -60,6 +60,7 @@ function Sidebar(props: { ressource: PostgrestSingleResponse<{ [x: string]: any;
     return (
         <div className='sidebar'>
             <div className='sidebar_btn-ctn'>
+                <h2 style={{ padding: '0', margin: '0' }} onClick={() => navigate('/')}>Home</h2>
 
                 <button onClick={() => handleButtonClick('template')}>
                     <FontAwesomeIcon icon={faClone} />

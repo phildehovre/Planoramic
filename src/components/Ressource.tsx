@@ -3,8 +3,8 @@ import { useCampaignEvents, useTemplateEvents } from '../util/db'
 import { useParams } from 'react-router'
 import { useSession } from '@supabase/auth-helpers-react'
 import Table from './Table'
-import { v4 as uuidv4 } from 'uuid'
-import Spinner from './Spinner'
+import Modal from './Modal'
+import { useState } from 'react'
 
 function Ressource() {
 
@@ -35,7 +35,6 @@ function Ressource() {
 
     const templateEvents = useTemplateEvents(templateId)
     const campaignEvents = useCampaignEvents(campaignId)
-
 
     return (
         <div>

@@ -56,7 +56,6 @@ const Modal: React.FC<ModalProps> = ({
 
     return (
         <>
-            {/* <button type="button" onClick={() => setShowModal(true)}>Open Modal</button> */}
             {showModal && (
                 <div className="modal-overlay" onClick={handleOutsideClick}>
                     <div className="modal">

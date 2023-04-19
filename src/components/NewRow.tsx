@@ -13,6 +13,8 @@ import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 import { selectedDataTableContext } from '../contexts/SelectedDataTableContext'
 import { useParams } from 'react-router'
+import Select from './Select'
+import { SelectOptions } from '../assets/selectOptions'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -38,13 +40,13 @@ function NewRow(props: {
     } = props
     // const submitKeys = ressource?.data?.data.map(())
 
-    const { handleSubmit, formState: { errors }, register } = useForm()
+    const { handleSubmit, formState: { errors }, register, setValue } = useForm()
     const queryClient = useQueryClient()
     const session = useSession()
     const params = useParams()
 
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
-    const campaignKeys = [...templateKeys, 'completed']
+    const campaignKeys = [...templateKeys]
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
     const typeOfEvent = ressourceType === 'template' ? 'template_events' : 'campaign_events'
     // const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
@@ -82,7 +84,6 @@ function NewRow(props: {
         })
     }
 
-
     const renderFormInputs = () => {
         return keys.map((key: string) => {
             return (
@@ -90,12 +91,14 @@ function NewRow(props: {
                     type='text'
                     {...register(key)}
                     key={key}
-                    className={`cell-ctn ${key}`} placeholder={key}
+                    className={`cell-ctn ${key}`}
+                    placeholder={key}
                     autoComplete='off'
                 />
             )
         })
     }
+
 
     return (
         <form className='row-ctn new-row' onSubmit={handleSubmit(onSubmit)}>
