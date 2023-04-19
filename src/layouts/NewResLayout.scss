@@ -1,0 +1,16 @@
+.newres-layout {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    align-items: center;
+    height: 100vh;
+
+    .newres-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        width: 100%;
+    }
+}

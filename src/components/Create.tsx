@@ -11,10 +11,13 @@ import { v4 as uuidv4 } from 'uuid'
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 
-function Create(props: { ressourceType: string }) {
+function Create(props: { ressourceType?: string }) {
 
     const { ressourceType } = props
     const navigate = useNavigate()
+    const params = useParams()
+
+    const type = ressourceType || params.ressource
 
     const [showModal, setShowModal] = React.useState(false)
     const [name, setName] = React.useState('New ressource')
@@ -22,15 +25,15 @@ function Create(props: { ressourceType: string }) {
     const { setSelectedTemplateId } = React.useContext(selectedTemplateContext)
     const { setSelectedCampaignId } = React.useContext(selectedCampaignContext)
 
-    const handleCreateRessource = (ressourceType: string) => {
-        addRessource.mutateAsync([{ name: name, created_at: new Date(), [`${ressourceType}_id`]: uuidv4() }])
+    const handleCreateRessource = (type: string | undefined) => {
+        addRessource.mutateAsync([{ name: name, created_at: new Date(), [`${type}_id`]: uuidv4() }])
             .then((res) => {
                 console.log
-                if (ressourceType === 'template' && res.data) {
+                if (type === 'template' && res.data) {
                     setSelectedTemplateId(res?.data[0].template_id)
                     navigate(`/dashboard/template/${res?.data[0].template_id}`)
                 }
-                if (ressourceType === 'campaign' && res.data) {
+                if (type === 'campaign' && res.data) {
                     setSelectedCampaignId(res?.data[0].campaign_id)
                     navigate(`/dashboard/campaign/${res?.data[0].campaign_id}`)
                 }
@@ -41,7 +44,7 @@ function Create(props: { ressourceType: string }) {
 
     const addRessource = useMutation({
         mutationFn: async (event: any) => await supabase
-            .from(`${ressourceType}s`)
+            .from(`${type}s`)
             .insert(event)
             .select(),
     });
@@ -52,13 +55,13 @@ function Create(props: { ressourceType: string }) {
 
 
     return (
-        <div className='create-page'>
-            <button onClick={() => handleOpenModalWithRessource()}>{`New ${ressourceType}`}</button>
+        <div className='create-ctn'>
+            <button onClick={() => handleOpenModalWithRessource()}>{`New ${type}`}</button>
             <Modal
                 showModal={showModal}
-                onSave={() => handleCreateRessource(ressourceType)}
+                onSave={() => handleCreateRessource(type)}
                 onClose={() => setShowModal(false)}
-                title={`Create ${ressourceType}`}
+                title={`Create ${type}`}
                 content={<NewRessource name={name} setName={setName} />}
                 setShowModal={setShowModal}
 

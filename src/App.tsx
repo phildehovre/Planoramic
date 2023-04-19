@@ -9,6 +9,7 @@ import SelectedTemplateContextProvider from './contexts/SelectedTemplateContext'
 import SelectedCampaignContextProvider from './contexts/SelectedCampaignContext'
 import New from './components/New'
 import ModalContextProvider from './contexts/ModalContext-UNUSED'
+import Create from './components/Create'
 
 export const supabase = createClient(import.meta.env.VITE_REACT_APP_SUPABASE_PROJECT_URL, import.meta.env.VITE_REACT_APP_SUPABASE_API_KEY)
 
@@ -26,6 +27,7 @@ function App() {
                 <Route path='/dashboard' element={<Dashboard />}>
                   <Route path='' element={<New />} />
                   <Route path=':ressource' element={<RessourcePage />} >
+                    <Route path='' element={<Create />} />
                     <Route path=':id' element={<Ressource />} />
                   </Route>
                 </Route>
