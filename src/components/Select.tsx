@@ -1,16 +1,13 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { UseFormRegister, useFormContext } from 'react-hook-form';
-import { SelectWrapper, Dropdown, OptionList, OptionItem, Label, SelectInput } from '../styles/SelectStyles';
+import { OptionList, OptionItem, Label, SelectInput, Container } from '../styles/SelectStyles';
 
 
 function CustomSelect({
     label,
     options,
     register,
-    setValue,
-    placeholder = '',
     isDisabled = false,
     defaultValue = '',
     onOptionClick,
@@ -28,7 +25,7 @@ function CustomSelect({
     };
 
     return (
-        <>
+        <Container>
             <Label htmlFor={label}>{label}</Label>
             <SelectInput
                 type="text"
@@ -52,7 +49,7 @@ function CustomSelect({
                     ))}
                 </OptionList>
             )}
-        </>
+        </Container>
     );
 }
 

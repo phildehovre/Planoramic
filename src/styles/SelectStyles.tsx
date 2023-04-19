@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1;
 `;
 
 export const Label = styled.label`
@@ -101,4 +102,5 @@ export const OptionItem = styled.li<{ isSelected?: boolean }>`
   &:hover {
     background-color: #ccc;
   }
+  z-index: 100;
 `;

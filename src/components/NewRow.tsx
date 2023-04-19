@@ -15,10 +15,11 @@ import { selectedDataTableContext } from '../contexts/SelectedDataTableContext'
 import { useParams } from 'react-router'
 import Select from './Select'
 import { SelectOptions } from '../assets/selectOptions'
+import SelectRefactor from './SelectRefactor'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
-    position_units: yup.string().required('A duration is required'),
+    // position_units: yup.string().required('A duration is required'),
     category: yup.string().required('Please chose a category'),
     description: yup.string().required('A description is required'),
     entity_responsible: yup.string().required('Select a responsible entity'),
@@ -40,7 +41,7 @@ function NewRow(props: {
     } = props
     // const submitKeys = ressource?.data?.data.map(())
 
-    const { handleSubmit, formState: { errors }, register, setValue } = useForm()
+    const { handleSubmit, formState: { errors }, register, setValue } = useForm({ resolver: yupResolver(schema) })
     const queryClient = useQueryClient()
     const session = useSession()
     const params = useParams()
@@ -62,6 +63,7 @@ function NewRow(props: {
     const { selectedCampaignId } = useContext(selectedCampaignContext)
 
     const onSubmit = (formData: any) => {
+        console.log('formdata: ', formData)
         const data = formatRessourceObjectForSubmission(keys, formData)
         let event = {
             ...data,
@@ -86,22 +88,49 @@ function NewRow(props: {
 
     const renderFormInputs = () => {
         return keys.map((key: string) => {
-            return (
-                <input
-                    type='text'
-                    {...register(key)}
-                    key={key}
-                    className={`cell-ctn ${key}`}
-                    placeholder={key}
-                    autoComplete='off'
-                />
-            )
+            if (key !== 'entity_responsible' && key !== 'type') {
+                return (
+                    <input
+                        type='text'
+                        {...register(key)}
+                        key={key}
+                        className={`cell-ctn ${key}`}
+                        placeholder={key}
+                        autoComplete='off'
+                    />
+                )
+
+            }
+            if (key === 'entity_responsible') {
+                return (
+                    <SelectRefactor
+                        options={SelectOptions.entity_responsible}
+                        register={register}
+                        setValue={setValue}
+                        key={key}
+                        onOptionClick={() => { console.log('option click') }}
+                        label={'entity_responsible'}
+                    />
+                )
+            }
+            if (key === 'type') {
+                return (
+                    <SelectRefactor
+                        options={SelectOptions.type}
+                        register={register}
+                        setValue={setValue}
+                        key={key}
+                        label={'type'}
+                        onOptionClick={() => { console.log('option click') }}
+                    />
+                )
+            }
         })
     }
-
-
+    console.log(selectedTemplateId)
     return (
         <form className='row-ctn new-row' onSubmit={handleSubmit(onSubmit)}>
+
             <div className='row-inputs'>
                 {renderFormInputs()}
             </div>
