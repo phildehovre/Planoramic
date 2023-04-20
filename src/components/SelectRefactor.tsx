@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './SelectRefactor.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
 interface Option {
     label: string;
@@ -19,6 +21,7 @@ function SelectRefactor(props: SelectRefactorProps) {
 
     const [selectedOption, setSelectedOption] = useState<Option>({ label: '', value: '' });
     const [isOpen, setIsOpen] = useState(false);
+    const [hovering, setHovering] = useState('');
     const ref = useRef<HTMLDivElement>(null);
 
     const handleOptionClick = (option: Option) => {
@@ -46,9 +49,11 @@ function SelectRefactor(props: SelectRefactorProps) {
             {isOpen && <div className={`options-ctn ${isOpen ? 'open' : ''}`}>
                 {options.map((option) => (
                     <div
-                        className="option-item"
+                        className={`option-item ${hovering === option.value ? 'hovering' : ''}`}
                         key={option.value}
                         onClick={() => handleOptionClick(option)}
+                        onMouseEnter={() => setHovering(option.value)}
+                        onMouseLeave={() => setHovering('')}
                     >
                         {option.label}
                     </div>

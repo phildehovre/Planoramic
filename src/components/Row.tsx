@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import Cell from './Cell'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 
 function Row(props: {
     row: any,
@@ -24,6 +26,10 @@ function Row(props: {
         isNew
     } = props;
 
+    const ref = useRef<HTMLDivElement | null>()
+
+    const [hovering, setHovering] = React.useState(null)
+    const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
 
     const eventId = row.id
 
@@ -34,6 +40,18 @@ function Row(props: {
             setSelectedRows([...selectedRows, eventId])
         }
     }
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (ref.current && !ref.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [ref]);
 
     const renderCells = () => {
         return keys?.map((key: string) => {
@@ -52,11 +70,29 @@ function Row(props: {
     }
 
     return (
-        <div className='row-ctn'>
+        <div className='row-ctn'
+            onMouseEnter={() => setHovering(row.id)}
+            onMouseLeave={() => setHovering(null)}
+        >
             {!isHeader && !isNew && <input type='checkbox' checked={selectedRows.includes(eventId)}
                 onChange={handleRowSelection} />}
             {renderCells()}
-        </div>
+            {hovering === row.id &&
+                <span
+                    className='row-ellipsis'
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                </span>}
+            {isDropdownOpen &&
+                <div className='dropdown-ctn'
+                    // @ts-ignore
+                    ref={ref}
+                >
+                    <button>Duplicate</button>
+                    <button onClick={() => { console.log('Delete') }}>Delete</button>
+                </div>}
+        </div >
     )
 }
 
