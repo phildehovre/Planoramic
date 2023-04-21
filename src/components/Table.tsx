@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import Row from './Row'
 import './Table.scss'
-import Spinner from './Spinner';
 import TableHeader from './TableHeader';
 import { useForm } from 'react-hook-form';
 import { supabase } from '../App';
