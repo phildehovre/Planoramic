@@ -80,7 +80,9 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
     }
 
     return (
-        <form className={`cell-ctn ${isEditing ? 'isEditing' : ''} ${label}`}
+        <form
+            title='Click on this cell to edit'
+            className={`cell-ctn ${isEditing ? 'isEditing' : ''} ${label}`}
             onClick={() => handleCellClick()}
             onSubmit={handleFormSubmit}
             ref={cellRef}

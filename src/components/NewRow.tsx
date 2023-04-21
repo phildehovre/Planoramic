@@ -63,7 +63,6 @@ function NewRow(props: {
     const { selectedCampaignId } = useContext(selectedCampaignContext)
 
     const onSubmit = (formData: any) => {
-        console.log('formdata: ', formData)
         const data = formatRessourceObjectForSubmission(keys, formData)
         let event = {
             ...data,
@@ -127,8 +126,9 @@ function NewRow(props: {
             }
         })
     }
-    console.log(selectedTemplateId)
+
     return (
+
         <form className='row-ctn new-row' onSubmit={handleSubmit(onSubmit)}>
 
             <div className='row-inputs'>

@@ -1,13 +1,16 @@
 import React, { useContext } from 'react'
 import Row from './Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faMailForward } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faMailForward, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postEvents, useDeleteEvent } from '../util/db';
 import Spinner from './Spinner';
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext';
 import { postEventsToGoogle } from '../apis/googleCalendar';
 import { useSession } from '@supabase/auth-helpers-react'
+import { selectedTemplateContext } from '../contexts/SelectedTemplateContext';
+import { supabase } from '../App';
+import { v4 as uuidv4 } from 'uuid'
 
 function TableHeader(props: {
     ressource: any,
@@ -23,6 +26,9 @@ function TableHeader(props: {
         setSelectedRows,
         events
     } = props;
+
+    const { setSelectedTemplateId } = React.useContext(selectedTemplateContext)
+    const { setSelectedCampaignId } = React.useContext(selectedCampaignContext)
 
     const mapSelectedEvents = () => {
         let selectedEvents
@@ -74,6 +80,29 @@ function TableHeader(props: {
         }
     }
 
+    const handleCreateRessource = (type: string | undefined) => {
+        addRessource.mutateAsync([{ name: name, created_at: new Date(), [`${type}_id`]: uuidv4() }])
+            .then((res) => {
+                console.log
+                if (type === 'template' && res.data) {
+                    setSelectedTemplateId(res?.data[0].template_id)
+                }
+                if (type === 'campaign' && res.data) {
+                    setSelectedCampaignId(res?.data[0].campaign_id)
+                }
+
+            })
+    }
+
+
+
+    const addRessource = useMutation({
+        mutationFn: async (event: any) => await supabase
+            .from(`${ressourceType}s`)
+            .insert(event)
+            .select(),
+    });
+
     return (
         <div className='table-header'>
             <div>
@@ -82,6 +111,9 @@ function TableHeader(props: {
                         checked={selectedRows.length === events.length}
                         onChange={handleSelectAll} />Select all
                 </label>
+                <button title='Create a new phase'>
+                    <FontAwesomeIcon icon={faPlus} />
+                </button>
                 {ressourceType === 'campaign' && <button
                     onClick={() =>
                         postEventsToGoogle(mapSelectedEvents(), ressource?.data?.data[0].targetDate, session)
@@ -93,6 +125,7 @@ function TableHeader(props: {
                     }
                 </button>}
                 <button
+                    title='Delete selected rows'
                     onClick={handleDelete}
                     disabled={selectedRows.length === 0}>
                     {deleteEventMutation.isLoading

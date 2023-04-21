@@ -9,6 +9,7 @@ import NewRow from './NewRow';
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useParams } from 'react-router-dom'
+import Phase from './Phase';
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -25,6 +26,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     const [eventId, setEventId] = React.useState(null)
     const [selectedRows, setSelectedRows] = React.useState([])
+    const [phases, setPhases] = React.useState<any>({})
 
     const { register,
         formState: { errors },
@@ -36,6 +38,17 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const campaignKeys = [...templateKeys, 'completed']
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys
 
+    useEffect(() => {
+        let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
+        let phases: any = {}
+        for (let i = 0; i < data?.length; i++) {
+            if (!phases[data[i].phase_number] && data[i].phase_number !== null) {
+                phases[data[i].phase_number] = data[i].phase_name
+            }
+        }
+        setPhases(phases)
+    }, [ressource])
+
     const updateCellFn = async ({ id, key, val }: any) => {
         return await supabase
             .from(`${ressourceType}_events`)
@@ -43,6 +56,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
             .eq('id', id)
             .select()
     }
+
 
     const updateCell = useMutation({
         mutationFn: ({ id, key, val }: any) => updateCellFn({ id, key, val })
@@ -58,20 +72,47 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         )
     }
 
+    const rowProps = {
+        keys: keys,
+        onSubmit: onSubmit,
+        setEventId: setEventId,
+        selectedRows: selectedRows,
+        setSelectedRows: setSelectedRows,
+    }
+
+    const renderPhases = () => {
+        let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
+        let phaseKeys = Object.keys(phases)
+        return phaseKeys.map((phase: any, i: number) => {
+            let phaseEvents = data?.filter((row: any) => {
+                return row.phase_number === Number(phaseKeys[i])
+            })
+            console.log(phases[phase])
+            return (
+                <Phase
+                    name={phases[phase]}
+                    number={phases[phase]}
+                    events={phaseEvents}
+                    rowProps={rowProps}
+                    key={phase}
+                />
+            )
+        })
+    }
+
     const renderRows = () => {
         let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
         return data?.map((row: any) => {
-            return <Row
-                row={row}
-                key={row.id}
-                keys={keys}
-                onSubmit={onSubmit}
-                setEventId={setEventId}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-            />
+            if (row.phase_number === null) {
+                return <Row
+                    row={row}
+                    key={row.id}
+                    {...rowProps}
+                />
+            }
         });
     }
+
     return (
         <div className='table-ctn'>
             {ressource?.data?.data.length > 0 &&
@@ -83,6 +124,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                     events={ressource?.data?.data}
                 />
             }
+            {ressource?.data?.data.length > 0 && renderPhases()}
             {ressource?.data?.data.length === 0
                 ? <h3>No events yet.</h3>
                 : renderRows()

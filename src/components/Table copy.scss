@@ -6,8 +6,6 @@
     align-items: center;
     z-index: -1;
 
-    gap: .5em;
-
     :last-child {
         border-bottom: none;
     }
@@ -33,31 +31,13 @@
     }
 }
 
-.phase-ctn {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 4em;
-    padding: .5em;
-    height: auto;
-}
-
 .row-ctn {
     display: flex;
     flex-direction: row;
     width: 80%;
     z-index: 0;
+    border-bottom: 1px solid rgb(63, 63, 63);
     position: relative;
-    height: 3em;
-    gap: .5em;
-    border: 1px solid lightgrey;
-    border-radius: 10px;
-
-    :last-child {
-        border-right: none
-    }
 
     &.new-row {
         margin: 1.5em 2.5em;
@@ -126,7 +106,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     position: relative;
-    border-right: 1px solid lightgrey;
+
 
     &.isEditing {
         background-color: rgb(95, 95, 95);
