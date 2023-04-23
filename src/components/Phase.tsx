@@ -5,7 +5,11 @@ function Phase(props: {
     name: string
     events: any
     number: number
-    rowProps: object
+    rowProps: {
+        keys: string[],
+        setSelectedRows: React.Dispatch<React.SetStateAction<any[]>>
+        selectedRows: string[]
+    }
 }) {
 
 
@@ -16,10 +20,29 @@ function Phase(props: {
         rowProps
     } = props;
 
+    const { keys, setSelectedRows, selectedRows } = rowProps;
+
+    const handleSelectAllPhaseEvents = () => {
+        if (selectedRows.length !== events.length) {
+            setSelectedRows(events?.map((event: any) => {
+                return event.id
+            }))
+        } else {
+            setSelectedRows([])
+        }
+    }
+
+    const renderColumnHeaders = () => {
+        return keys.map((key: string) => {
+            return <div className='cell-ctn headers' key={key}>{key}</div>
+        });
+    }
+
+    console.log(selectedRows)
+
     const renderRows = () => {
         let data = events?.sort((a: any, b: any) => b.position - a.position)
         return data?.map((row: any) => {
-            console.log(row)
             return (<Row
                 row={row}
                 key={row.id}
@@ -28,9 +51,16 @@ function Phase(props: {
         });
     }
 
+
+
+
     return (
         <div className='phase-ctn'>
-            <h3>{name}</h3>
+            <h3>Phase {number}: {name}</h3>
+            <div className='row-ctn'>
+                <input type='checkbox' onChange={handleSelectAllPhaseEvents} />
+                {renderColumnHeaders()}
+            </div>
             {renderRows()}
         </div>
     )

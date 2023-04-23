@@ -5,7 +5,6 @@
     flex-direction: column;
     align-items: center;
     z-index: -1;
-
     gap: .5em;
 
     :last-child {
@@ -42,6 +41,11 @@
     margin-bottom: 4em;
     padding: .5em;
     height: auto;
+
+    >h3 {
+        width: 80%;
+        text-align: left
+    }
 }
 
 .row-ctn {
@@ -127,6 +131,7 @@
     white-space: nowrap;
     position: relative;
     border-right: 1px solid lightgrey;
+
 
     &.isEditing {
         background-color: rgb(95, 95, 95);
