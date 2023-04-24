@@ -56,7 +56,10 @@ function Cell(props: {
                 />)
             }
             return (
-                <>
+                <
+                    // className='select-span' 
+                    // onMouseDown={(e) => handleSelectMouseDown(e)}
+                    >
                     {SelectOptions[label].find((option: any) => option.value === value)?.label}
                     <FontAwesomeIcon icon={faAngleDown} />
                 </>
@@ -79,12 +82,15 @@ function Cell(props: {
         return value
     }
 
+    const handleSelectMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
+        console.log("click");
+    };
+
     const handleCellClick = () => {
         setEventId(eventId)
         setIsEditing(true)
     }
-
-    console.log(label)
 
     const onOptionClick = (value: string) => {
         setEventId(eventId)

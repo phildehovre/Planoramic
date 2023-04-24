@@ -10,6 +10,7 @@ import SelectedCampaignContextProvider from './contexts/SelectedCampaignContext'
 import New from './components/New'
 import ModalContextProvider from './contexts/ModalContext-UNUSED'
 import Create from './components/Create'
+import Footer from './components/Footer'
 
 export const supabase = createClient(import.meta.env.VITE_REACT_APP_SUPABASE_PROJECT_URL, import.meta.env.VITE_REACT_APP_SUPABASE_API_KEY)
 
@@ -32,6 +33,7 @@ function App() {
                   </Route>
                 </Route>
               </Routes>
+              <Footer />
             </ModalContextProvider>
           </SelectedTemplateContextProvider>
         </SelectedCampaignContextProvider>

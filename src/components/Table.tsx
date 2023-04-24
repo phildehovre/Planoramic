@@ -12,12 +12,12 @@ import { useParams } from 'react-router-dom'
 import Phase from './Phase';
 
 const schema = yup.object().shape({
-    position: yup.number().min(1).required('A duration is required'),
-    position_units: yup.string().required('Select days, weeks, or month(s)'),
-    category: yup.string().required('Please chose a category'),
+    // position: yup.number().min(1).required('A duration is required'),
+    // position_units: yup.string().required('Select days, weeks, or month(s)'),
+    // category: yup.string().required('Please chose a category'),
     description: yup.string().required('A description is required'),
-    entity_responsible: yup.string().required('Select a responsible entity'),
-    type: yup.string().required('Select a type of task'),
+    // entity_responsible: yup.string().required('Select a responsible entity'),
+    // type: yup.string().required('Select a type of task'),
 })
 
 function Table(props: { ressource: any, ressourceType: string | undefined }) {
@@ -33,6 +33,8 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     } = useForm({ resolver: yupResolver(schema) });
 
     const params = useParams();
+
+    console.log(errors)
 
     const templateKeys = ['position', 'position_units', 'category', 'description', 'entity_responsible']
     const campaignKeys = [...templateKeys, 'completed']
@@ -81,6 +83,14 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         setSelectedRows: setSelectedRows,
     };
 
+    const newRowProps = {
+        propKeys: ['description'],
+        onSubmit: onSubmit,
+        ressource: ressource,
+        ressourceType: ressourceType,
+        register: register
+    }
+
     const renderPhases = () => {
         let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
         let phaseKeys = Object.keys(phases)
@@ -89,15 +99,21 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 return row.phase_number === Number(phaseKeys[i])
             });
             return (
-                <Phase
-                    name={phases[phase]}
-                    number={phase}
-                    events={phaseEvents}
-                    rowProps={rowProps}
-                    key={phase}
-                />
+                <>
+                    <Phase
+                        name={phases[phase]}
+                        number={phase}
+                        events={phaseEvents}
+                        rowProps={rowProps}
+                        key={phase}
+                        newRowProps={newRowProps}
+                    />
+                    {/* <NewRow
+                        {...newRowProps}
+                    /> */}
+                </>
             )
-        });
+        })
     };
 
     const renderRows = () => {
@@ -130,13 +146,11 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 ? <h3>No events yet.</h3>
                 : renderRows()
             }
-            <NewRow
-                keys={keys}
-                onSubmit={onSubmit}
-                ressource={ressource}
-                ressourceType={ressourceType}
-                register={register}
-            />
+
+            {/* <NewRow
+                {...newRowProps}
+            /> */}
+
         </div>
     )
 };

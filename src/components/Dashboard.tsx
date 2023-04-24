@@ -3,6 +3,7 @@ import { Link, Outlet, useParams } from 'react-router-dom'
 import DashboardLayout from '../layouts/DashboardLayout'
 import Sidebar from './Sidebar'
 import { useCampaigns, useTemplates } from '../util/db'
+import Footer from './Footer'
 
 function Dashboard() {
 
@@ -25,7 +26,9 @@ function Dashboard() {
             sidebar={<Sidebar
                 ressource={ressourceType === 'template' ? templatesData : campaignsData}
             />}
-            outlet={< Outlet />} />
+            outlet={< Outlet />}
+        // footer={< Footer />}
+        />
     )
 }
 

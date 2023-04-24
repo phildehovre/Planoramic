@@ -5,11 +5,9 @@
     flex-direction: column;
     align-items: center;
     z-index: -1;
-    gap: .5em;
+    margin-bottom: 5em;
 
-    :last-child {
-        border-bottom: none;
-    }
+
 
     .table-header {
         display: flex;
@@ -20,14 +18,6 @@
         font-weight: 700;
         font-size: larger;
         border-bottom: 1px solid rgb(63, 63, 63);
-
-        >.row-ctn {
-            border: none;
-            outline: none;
-            margin-bottom: .2em;
-            padding-left: 1em;
-            z-index: -1
-        }
     }
 }
 
@@ -37,9 +27,9 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 4em;
     padding: .5em;
     height: auto;
+
 
     >h3 {
         width: 80%;
@@ -62,16 +52,11 @@
     border: 1px solid lightgrey;
     border-radius: 10px;
 
-    :last-child {
-        border-right: none
-    }
-
     &.new-row {
-        margin: 1.5em 2.5em;
-        width: 79%;
-        flex-direction: column;
-        transform: translateX(10px);
-
+        width: 80%;
+        margin-bottom: 2.5em;
+        display: flex;
+        justify-content: space-between;
 
         >button {
             width: 5em
@@ -79,12 +64,11 @@
 
         .row-inputs {
             display: flex;
+            width: 100%;
             flex-direction: row;
-            gap: .2em;
-            ;
 
             >input {
-                // outline: none;
+                // outline: none;   
                 color: black;
                 border: none;
                 background-color: transparent;
@@ -140,11 +124,12 @@
     position: relative;
     border-right: 1px solid lightgrey;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     &.headers {
         >&.position {
-            width: 37.5%;
+            width: 382px;
             border-right: 1px solid lightgrey;
 
         }
@@ -152,12 +137,6 @@
         >&.position_units {
             display: none;
         }
-    }
-
-
-    &.isEditing {
-        // background-color: rgb(95, 95, 95);
-        z-index: 0;
     }
 
     >input {
@@ -170,14 +149,28 @@
         margin: 0;
     }
 
-    &.position_units {
-        // display: none;
+    .select-span {
+        display: flex;
+        width: 100%;
+        position: relative;
+        height: 100%;
+        align-items: center;
 
-        width: 25%;
+        :last-child {
+            position: absolute;
+            right: 0;
+            top: 25%;
+        }
+    }
+
+    &.position_units {
+        width: 300px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     &.position {
-        width: 10%;
+        width: 50px;
         border-right: none;
     }
 
@@ -186,6 +179,7 @@
     }
 
     &.entity_responsible {
+
         width: 50%;
     }
 
