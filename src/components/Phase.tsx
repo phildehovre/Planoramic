@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Row from './Row';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 function Phase(props: {
     name: string
@@ -12,6 +14,7 @@ function Phase(props: {
     }
 }) {
 
+    const [isChecked, setIsChecked] = React.useState(false)
 
     const {
         name,
@@ -22,23 +25,42 @@ function Phase(props: {
 
     const { keys, setSelectedRows, selectedRows } = rowProps;
 
+    useEffect(() => {
+        if (selectedRows.length === 0 || !events.every((event: any) => selectedRows.includes(event.id))) {
+            setIsChecked(false)
+        }
+
+        if (events.every((event: any) => selectedRows.includes(event.id))) {
+            setIsChecked(true)
+        }
+    }, [selectedRows])
+
+
     const handleSelectAllPhaseEvents = () => {
-        if (selectedRows.length !== events.length) {
-            setSelectedRows(events?.map((event: any) => {
-                return event.id
-            }))
-        } else {
-            setSelectedRows([])
+        let phaseEvents = events?.map((event: any) => {
+            return event.id
+        })
+        if (!isChecked) {
+            setSelectedRows((prev) => [...prev, ...phaseEvents])
+            setIsChecked(true)
+        } else if (isChecked) {
+            setSelectedRows((prev) => prev.filter((id: string) => !phaseEvents.includes(id)))
+            setIsChecked(false)
         }
     }
 
+
     const renderColumnHeaders = () => {
+        let labels: any = {
+            description: 'Task',
+            position: 'When',
+            category: 'Category',
+            entity_responsible: 'Who',
+        }
         return keys.map((key: string) => {
-            return <div className='cell-ctn headers' key={key}>{key}</div>
+            return <div className={`cell-ctn headers ${key}`} key={key}>{labels[key]}</div>
         });
     }
-
-    console.log(selectedRows)
 
     const renderRows = () => {
         let data = events?.sort((a: any, b: any) => b.position - a.position)
@@ -56,9 +78,9 @@ function Phase(props: {
 
     return (
         <div className='phase-ctn'>
-            <h3>Phase {number}: {name}</h3>
+            <h3>Phase {number}: {name} <FontAwesomeIcon icon={faEllipsis} /></h3>
             <div className='row-ctn'>
-                <input type='checkbox' onChange={handleSelectAllPhaseEvents} />
+                <input type='checkbox' checked={isChecked} onChange={handleSelectAllPhaseEvents} />
                 {renderColumnHeaders()}
             </div>
             {renderRows()}

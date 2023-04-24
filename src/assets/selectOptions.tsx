@@ -42,5 +42,27 @@ export const SelectOptions = {
             value: 'pr_radio',
             label: 'PR + Radio'
         },
+    ],
+    position_units: [
+        {
+            value: 'days_before',
+            label: 'Days before'
+        },
+        {
+            value: 'days_after',
+            label: 'Days after'
+        },
+        {
+            value: 'weeks_before',
+            label: 'Weeks before'
+        },
+        {
+            value: 'months_before',
+            label: 'Months before'
+        },
+        {
+            value: 'months_after',
+            label: 'Months after'
+        },
     ]
 }

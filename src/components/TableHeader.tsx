@@ -134,13 +134,6 @@ function TableHeader(props: {
                     }
                 </button>
             </div>
-            <Row
-                row={ressourceType === 'template'
-                    ? templateObject
-                    : { ...templateObject, completed: 'completed' }}
-                keys={keys}
-                isHeader={true}
-            />
         </div >
     )
 }

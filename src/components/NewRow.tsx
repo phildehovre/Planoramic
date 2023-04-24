@@ -96,6 +96,7 @@ function NewRow(props: {
                         className={`cell-ctn ${key}`}
                         placeholder={key}
                         autoComplete='off'
+                        autoFocus={true}
                     />
                 )
 

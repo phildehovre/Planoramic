@@ -34,7 +34,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     const params = useParams();
 
-    const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
+    const templateKeys = ['position', 'position_units', 'category', 'description', 'entity_responsible']
     const campaignKeys = [...templateKeys, 'completed']
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys
 
@@ -63,6 +63,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any) => {
+        console.log(formData)
         let keys = Object.keys(formData)
         let key = keys[0]
         let value = formData[key]
