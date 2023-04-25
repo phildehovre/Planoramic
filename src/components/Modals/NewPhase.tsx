@@ -6,8 +6,8 @@ function TemplateDescriptionEdit(props: {
     phaseName: string | undefined,
     phaseNumber: number | undefined,
     placeholder?: string | undefined
-    setPhaseName: React.Dispatch<React.SetStateAction<string | undefined>>
-    setPhaseNumber: React.Dispatch<React.SetStateAction<number | undefined>>
+    setPhaseName: any
+    setPhaseNumber: any
     ressource: any
 }) {
 

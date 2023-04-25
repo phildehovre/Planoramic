@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import Row from './Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faMailForward, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -11,11 +10,23 @@ import { useSession } from '@supabase/auth-helpers-react'
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext';
 import { supabase } from '../App';
 import { v4 as uuidv4 } from 'uuid'
-import { formatRessourceObjectForSubmission } from '../utils/ressourceObjectFormatter';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 import Modal from './Modal';
 import NewPhase from './Modals/NewPhase';
+
+interface Event {
+    description: string,
+    author_id: string | undefined,
+    created_at: Date | string,
+    phase_number: number | undefined,
+    phase_name: string | undefined,
+    template_id: string,
+}
+
+interface EventWithCampaignId extends Event {
+    campaign_id?: string
+}
 
 function TableHeader(props: {
     ressource: any,
@@ -35,8 +46,8 @@ function TableHeader(props: {
     } = props;
 
     const [showModal, setShowModal] = React.useState(false);
-    const [phaseName, setPhaseName] = React.useState('');
-    const [phaseNumber, setPhaseNumber] = React.useState(phases.length + 1);
+    const [phaseName, setPhaseName] = React.useState<string>('New phase');
+    const [phaseNumber, setPhaseNumber] = React.useState<number>(phases.length + 1);
 
     const { setSelectedTemplateId } = React.useContext(selectedTemplateContext)
     const { setSelectedCampaignId } = React.useContext(selectedCampaignContext)
@@ -102,12 +113,11 @@ function TableHeader(props: {
     const { selectedCampaignId } = useContext(selectedCampaignContext)
 
     const handleCreatePhaseWithEvent = (phaseName: string, phaseNumber: number) => {
-        // const data = formatRessourceObjectForSubmission(keys, formData)
-        let event = {
+        let event: EventWithCampaignId = {
             description: 'First event',
             author_id: session?.user.id,
             created_at: dayjs().format(),
-            phase_number: phaseNumber || null,
+            phase_number: phaseNumber,
             phase_name: phaseName || '',
             template_id: selectedTemplateId || params.id,
         };
@@ -115,8 +125,6 @@ function TableHeader(props: {
         if (typeOfEvent === 'campaign_events') {
             event = {
                 ...event,
-                completed: false,
-                template_id: ressource?.data?.data[0].template_id,
                 campaign_id: selectedCampaignId || params.id
             }
         }

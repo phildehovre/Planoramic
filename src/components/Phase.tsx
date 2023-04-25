@@ -3,6 +3,8 @@ import Row from './Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './NewRow';
+import Dropdown from './Dropdown';
+import Modal from './Modal';
 
 function Phase(props: {
     name: string
@@ -17,6 +19,10 @@ function Phase(props: {
 }) {
 
     const [isChecked, setIsChecked] = React.useState(false)
+    const [showDropdown, setShowDropdown] = React.useState(false)
+    const [modalCallback, setModalCallback] = React.useState<any>(null)
+    const [modalPrompt, setModalPrompt] = React.useState('')
+    const [showModal, setShowModal] = React.useState(false)
 
     const {
         name,
@@ -52,6 +58,25 @@ function Phase(props: {
         }
     }
 
+    const deletePhase = () => {
+        console.log('delete phase')
+    }
+
+    const duplicatePhase = () => {
+        console.log('duplicate phase')
+    }
+
+    const handleOptionClick = (option: string) => {
+        setShowModal(true)
+        if (option === 'Delete') {
+            setModalCallback(() => deletePhase)
+            setModalPrompt('Are you sure you want to delete this phase?')
+        } else if (option === 'Duplicate') {
+            duplicatePhase()
+            setModalPrompt('')
+        }
+        setShowDropdown(false)
+    }
 
     const renderColumnHeaders = () => {
         let labels: any = {
@@ -77,11 +102,21 @@ function Phase(props: {
     }
 
 
-
-
     return (
         <div className='phase-ctn'>
-            <h3>Phase {number}: {name} <FontAwesomeIcon icon={faEllipsis} /></h3>
+            <h3 >Phase {number}: {name}
+                <span style={{ position: 'relative', cursor: 'pointer' }}>
+                    <FontAwesomeIcon
+                        icon={faEllipsis}
+                        onClick={() => setShowDropdown(true)}
+                    />
+                    {showDropdown && <Dropdown
+                        options={['Duplicate', 'Delete']}
+                        onOptionClick={(option: string) => { handleOptionClick(option) }}
+                        setIsOpen={setShowDropdown}
+                    />}
+                </span>
+            </h3>
             <div className='row-ctn'>
                 <input type='checkbox' checked={isChecked} onChange={handleSelectAllPhaseEvents} />
                 {renderColumnHeaders()}
@@ -91,6 +126,13 @@ function Phase(props: {
                 {...newRowProps}
                 phaseNumber={number}
                 phaseName={name}
+            />
+            <Modal
+                onClose={() => console.log('close')}
+                onSave={() => modalCallback()}
+                title={modalPrompt}
+                showModal={showModal && modalPrompt !== ''}
+                setShowModal={setShowModal}
             />
         </div>
     )

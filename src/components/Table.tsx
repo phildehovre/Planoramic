@@ -97,16 +97,14 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 return row.phase_number === Number(phaseKeys[i])
             });
             return (
-                <>
-                    <Phase
-                        name={phases[phase]}
-                        number={phase}
-                        events={phaseEvents}
-                        rowProps={rowProps}
-                        key={phase}
-                        newRowProps={newRowProps}
-                    />
-                </>
+                <Phase
+                    name={phases[phase]}
+                    number={phase}
+                    events={phaseEvents}
+                    rowProps={rowProps}
+                    key={phase}
+                    newRowProps={newRowProps}
+                />
             )
         })
     };

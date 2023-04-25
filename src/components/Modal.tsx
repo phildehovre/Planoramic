@@ -7,7 +7,8 @@ interface ModalProps {
     showModal: boolean;
     setShowModal: (showModal: boolean) => void;
     title: string;
-    content: React.ReactNode;
+    content?: React.ReactNode;
+
 }
 
 const Modal: React.FC<ModalProps> = ({
