@@ -292,17 +292,3 @@ async function formatAndPostEvent(eventObj: {
 }
 
 
-// const deletePhaseMutation = useMutation(
-//     async () => {
-//         const res = await supabase
-//             .from(`${ressourceType}_events`)
-//             .delete()
-//             .eq('phase_name', phaseName)
-//         return res
-//     }
-//     , {})
-
-// const deletePhase = () => {
-//     deletePhaseMutation.mutateAsync()
-//         .then((res) => queryClient.invalidateQueries([`${ressourceType}_events`]))
-// }

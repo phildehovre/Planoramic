@@ -79,8 +79,27 @@ function Phase(props: {
             .then((res) => queryClient.invalidateQueries([`${ressourceType}_events`]))
     }
 
+    const duplicatePhaseMutation = useMutation(
+        async () => {
+            await supabase
+                .from(`${ressourceType}_events`)
+                .insert(events.map((event: any) => {
+                    const { id, ...newEvent } = event
+                    return {
+                        ...newEvent,
+                        phase_number: phaseNumber + 1,
+                        phase_name: phaseName + ' (copy)',
+                    }
+                }),
+                )
+        }
+    )
+
+
+
     const duplicatePhase = () => {
-        console.log('duplicate phase')
+        duplicatePhaseMutation.mutateAsync()
+            .then((res) => queryClient.invalidateQueries([`${ressourceType}_events`]))
     }
 
     const handleOptionClick = (option: string) => {
