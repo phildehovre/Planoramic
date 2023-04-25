@@ -79,7 +79,7 @@ function NewRow(props: {
 
         if (typeOfEvent === 'campaign_events') {
             event = {
-                ...data,
+                ...event,
                 completed: false,
                 template_id: ressource?.data?.data[0].template_id,
                 campaign_id: selectedCampaignId || params.id

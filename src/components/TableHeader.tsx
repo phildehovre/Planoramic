@@ -25,7 +25,8 @@ interface Event {
 }
 
 interface EventWithCampaignId extends Event {
-    campaign_id?: string
+    campaign_id?: string | undefined
+    event_id?: string | undefined
 }
 
 function TableHeader(props: {
@@ -45,9 +46,10 @@ function TableHeader(props: {
         phases
     } = props;
 
+
     const [showModal, setShowModal] = React.useState(false);
     const [phaseName, setPhaseName] = React.useState<string>('New phase');
-    const [phaseNumber, setPhaseNumber] = React.useState<number>(phases.length + 1);
+    const [phaseNumber, setPhaseNumber] = React.useState<number>(Object.keys(phases).length + 1);
 
     const { setSelectedTemplateId } = React.useContext(selectedTemplateContext)
     const { setSelectedCampaignId } = React.useContext(selectedCampaignContext)
@@ -113,24 +115,30 @@ function TableHeader(props: {
     const { selectedCampaignId } = useContext(selectedCampaignContext)
 
     const handleCreatePhaseWithEvent = (phaseName: string, phaseNumber: number) => {
-        let event: EventWithCampaignId = {
-            description: 'First event',
-            author_id: session?.user.id,
-            created_at: dayjs().format(),
-            phase_number: phaseNumber,
-            phase_name: phaseName || '',
-            template_id: selectedTemplateId || params.id,
-        };
+        try {
 
-        if (typeOfEvent === 'campaign_events') {
-            event = {
-                ...event,
-                campaign_id: selectedCampaignId || params.id
+            let event: EventWithCampaignId = {
+                description: 'First event',
+                author_id: session?.user.id,
+                created_at: dayjs().format(),
+                phase_number: phaseNumber,
+                phase_name: phaseName || '',
+                template_id: selectedTemplateId || params.id,
+            };
+
+            if (typeOfEvent === 'campaign_events') {
+                event = {
+                    ...event,
+                    campaign_id: selectedCampaignId || params.id,
+                    event_id: uuidv4(),
+                }
             }
+            addRessource.mutateAsync(event).then(() => {
+                queryClient.invalidateQueries([typeOfEvent])
+            })
+        } catch (err) {
+            console.log(err)
         }
-        addRessource.mutateAsync(event).then(() => {
-            queryClient.invalidateQueries([typeOfEvent])
-        })
     }
 
     return (

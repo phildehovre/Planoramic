@@ -104,6 +104,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                     rowProps={rowProps}
                     key={phase}
                     newRowProps={newRowProps}
+                    ressourceType={ressourceType}
                 />
             )
         })

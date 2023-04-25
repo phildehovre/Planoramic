@@ -14,6 +14,8 @@ function SelectedTemplateContextProvider(props: { children: React.ReactNode }) {
     const [selectedTemplateId, setSelectedTemplateId] = useState<string | undefined>(undefined)
 
     const values = { selectedTemplateId, setSelectedTemplateId }
+
+    // console.log(selectedTemplateId ? 'selectedTemplateId is set' : 'selectedTemplateId is not set')
     return (
         <selectedTemplateContext.Provider
             value={values}

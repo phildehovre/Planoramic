@@ -22,15 +22,15 @@ function Ressource() {
         if (ressourceType === 'template' && params.id) {
             setTemplateId(ressourceId)
         }
-        if (ressourceType === 'template' && !params.id) {
-            setTemplateId(newTemplateId)
-        }
+        // if (ressourceType === 'template' && !params.id) {
+        //     setTemplateId(newTemplateId)
+        // }
         if (ressourceType === 'campaign') {
             setCampaignId(ressourceId)
         }
-        if (ressourceType === 'campaign' && !params.id) {
-            setCampaignId(newCampaignId)
-        }
+        // if (ressourceType === 'campaign' && !params.id) {
+        //     setCampaignId(newCampaignId)
+        // }
     }, [ressourceType, ressourceId, session])
 
     const templateEvents = useTemplateEvents(templateId)

@@ -5,6 +5,8 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './NewRow';
 import Dropdown from './Dropdown';
 import Modal from './Modal';
+import { supabase } from '../App';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function Phase(props: {
     name: string
@@ -16,6 +18,7 @@ function Phase(props: {
         selectedRows: string[]
     }
     newRowProps: any
+    ressourceType: string | undefined
 }) {
 
     const [isChecked, setIsChecked] = React.useState(false)
@@ -25,14 +28,16 @@ function Phase(props: {
     const [showModal, setShowModal] = React.useState(false)
 
     const {
-        name,
+        name: phaseName,
         events,
-        number,
+        number: phaseNumber,
         rowProps,
-        newRowProps
+        newRowProps,
+        ressourceType
     } = props;
 
     const { keys, setSelectedRows, selectedRows } = rowProps;
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         if (selectedRows.length === 0 || !events.every((event: any) => selectedRows.includes(event.id))) {
@@ -58,8 +63,20 @@ function Phase(props: {
         }
     }
 
+    const deletePhaseMutation = useMutation(
+        async () => {
+            const res = await supabase
+                .from(`${ressourceType}_events`)
+                .delete()
+                .eq('phase_name', phaseName)
+                .eq('phase_number', phaseNumber)
+            return res
+        }
+        , {})
+
     const deletePhase = () => {
-        console.log('delete phase')
+        deletePhaseMutation.mutateAsync()
+            .then((res) => queryClient.invalidateQueries([`${ressourceType}_events`]))
     }
 
     const duplicatePhase = () => {
@@ -104,7 +121,7 @@ function Phase(props: {
 
     return (
         <div className='phase-ctn'>
-            <h3 >Phase {number}: {name}
+            <h3 >Phase {phaseNumber}: {phaseName}
                 <span style={{ position: 'relative', cursor: 'pointer' }}>
                     <FontAwesomeIcon
                         icon={faEllipsis}
@@ -124,12 +141,12 @@ function Phase(props: {
             {renderRows()}
             <NewRow
                 {...newRowProps}
-                phaseNumber={number}
-                phaseName={name}
+                phaseNumber={phaseNumber}
+                phaseName={phaseName}
             />
             <Modal
                 onClose={() => console.log('close')}
-                onSave={() => modalCallback()}
+                onSave={modalCallback}
                 title={modalPrompt}
                 showModal={showModal && modalPrompt !== ''}
                 setShowModal={setShowModal}
