@@ -62,7 +62,6 @@ function NewRow(props: {
             .select(),
     });
 
-    console.log(errors)
 
     const { selectedTemplateId } = useContext(selectedTemplateContext)
     const { selectedCampaignId } = useContext(selectedCampaignContext)

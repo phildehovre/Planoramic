@@ -34,8 +34,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     const params = useParams();
 
-    console.log(errors)
-
     const templateKeys = ['position', 'position_units', 'category', 'description', 'entity_responsible']
     const campaignKeys = [...templateKeys, 'completed']
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys
@@ -108,9 +106,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                         key={phase}
                         newRowProps={newRowProps}
                     />
-                    {/* <NewRow
-                        {...newRowProps}
-                    /> */}
                 </>
             )
         })
@@ -138,6 +133,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                     ressource={ressource}
                     ressourceType={ressourceType}
                     events={ressource?.data?.data}
+                    phases={phases}
                 />
             }
             {ressource?.data?.data.length > 0 &&
@@ -146,11 +142,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 ? <h3>No events yet.</h3>
                 : renderRows()
             }
-
-            {/* <NewRow
-                {...newRowProps}
-            /> */}
-
         </div>
     )
 };
