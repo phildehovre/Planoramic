@@ -42,7 +42,7 @@ const Modal: React.FC<ModalProps> = ({
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
-                event.preventDefault();
+                // event.preventDefault();
                 saveButtonRef.current?.click();
             }
         };

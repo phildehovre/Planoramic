@@ -10,8 +10,8 @@ interface SelectedTemplateInterface {
 }
 
 function SelectedTemplateContextProvider(props: { children: React.ReactNode }) {
-
     const [selectedTemplateId, setSelectedTemplateId] = useState<string | undefined>(undefined)
+    console.log(selectedTemplateId)
 
     const values = { selectedTemplateId, setSelectedTemplateId }
     return (

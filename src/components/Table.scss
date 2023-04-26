@@ -5,29 +5,39 @@
     flex-direction: column;
     align-items: center;
     z-index: -1;
+    margin-bottom: 5em;
 
-    :last-child {
-        border-bottom: none;
-    }
+
 
     .table-header {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-evenly;
         width: 100%;
         font-weight: 700;
         font-size: larger;
-        border: none;
         border-bottom: 1px solid rgb(63, 63, 63);
+    }
+}
 
-        >.row-ctn {
-            border: none;
-            outline: none;
-            margin-bottom: .2em;
-            padding-left: 1em;
-            z-index: -1
-        }
+.phase-ctn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: .5em;
+    height: auto;
+
+
+    >h3 {
+        width: 80%;
+        text-align: left
+    }
+
+    .headers {
+        font-weight: bolder;
     }
 }
 
@@ -36,15 +46,17 @@
     flex-direction: row;
     width: 80%;
     z-index: 0;
-    border-bottom: 1px solid rgb(63, 63, 63);
     position: relative;
+    height: 3em;
+    gap: .5em;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
 
     &.new-row {
-        margin: 1.5em 2.5em;
-        width: 79%;
-        flex-direction: column;
-        transform: translateX(10px);
-
+        width: 80%;
+        margin-bottom: 2.5em;
+        display: flex;
+        justify-content: space-between;
 
         >button {
             width: 5em
@@ -52,13 +64,15 @@
 
         .row-inputs {
             display: flex;
+            width: 100%;
             flex-direction: row;
-            gap: .2em;
 
             >input {
-                background-color: rgb(26, 26, 26);
+                // outline: none;   
+                color: black;
+                border: none;
+                background-color: transparent;
                 padding: .75em;
-                border: 1px solid rgb(48, 48, 48);
             }
 
             &.btn {
@@ -78,7 +92,7 @@
     top: 50%;
     height: 2em;
     width: 2em;
-    background-color: rgb(26, 26, 26);
+    // background-color: rgb(26, 26, 26);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,15 +122,26 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     position: relative;
+    border-right: 1px solid lightgrey;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+    &.headers {
+        >&.position {
+            width: 382px;
+            border-right: 1px solid lightgrey;
 
-    &.isEditing {
-        background-color: rgb(95, 95, 95);
-        z-index: 0;
+        }
+
+        >&.position_units {
+            display: none;
+        }
     }
 
     >input {
         background-color: transparent;
+        color: black;
         outline: none;
         border: none;
         font-size: .9em;
@@ -124,8 +149,39 @@
         margin: 0;
     }
 
+    .select-span {
+        display: flex;
+        width: 100%;
+        position: relative;
+        height: 100%;
+        align-items: center;
+
+        :last-child {
+            position: absolute;
+            right: 0;
+            top: 25%;
+        }
+    }
+
+    &_submit-btn {
+        border: none;
+        background-color: lightgreen;
+        border-radius: 100px;
+        height: 2em;
+        width: 2em;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &.position_units {
+        width: 250px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     &.position {
-        width: 25%;
+        width: 50px;
+        border-right: none;
     }
 
     &.category {
@@ -133,9 +189,8 @@
     }
 
     &.entity_responsible {
-        width: 50%;
 
-        // >div>ul {}
+        width: 50%;
     }
 
     &.type {

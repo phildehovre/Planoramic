@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { OptionList, OptionItem, Label, SelectInput, Container } from '../styles/SelectStyles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 
 function CustomSelect({
@@ -21,7 +23,7 @@ function CustomSelect({
     const handleOptionClick = (value: string) => {
         onOptionClick(value)
         setIsEditing(false);
-        setIsOpen
+        setIsOpen(false)
     };
 
     return (
@@ -36,6 +38,7 @@ function CustomSelect({
                 disabled={isDisabled}
                 ref={register}
             />
+            <FontAwesomeIcon icon={faAngleDown} color='black' />
             {isOpen && (
                 <OptionList>
                     {options.map((option: any) => (

@@ -3,8 +3,16 @@ import React, { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form';
 import Select from './Select';
 import { SelectOptions } from '../assets/selectOptions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDoubleDown, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
-function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: any, eventId?: any }) {
+function Cell(props: {
+    value: any,
+    label: string,
+    onSubmit: any,
+    setEventId: any,
+    eventId?: any
+}) {
 
     const [isEditing, setIsEditing] = React.useState(false);
     const [data, setData] = React.useState<any>();
@@ -17,6 +25,8 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
         setEventId,
         eventId
     } = props;
+
+    // console.log(isEditing ? eventId + value : '')
 
     const cellRef: React.MutableRefObject<any> = useRef()
 
@@ -35,16 +45,26 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
     }, [])
 
     const renderCell = () => {
-        if (isEditing) {
-            if (label === 'entity_responsible' || label === 'type') {
+        if (label === 'entity_responsible'
+            || label === 'type'
+            || label === 'position_units') {
+            if (isEditing) {
                 return (<Select
-                    name={label === 'entity_responsible' ? 'entity_responsible' : 'type'}
+                    name={label}
                     onOptionClick={onOptionClick}
                     options={SelectOptions[label]}
                     isOpen={isEditing}
                     setIsEditing={setIsEditing}
                 />)
             }
+            return (
+                <>
+                    {SelectOptions[label].find((option: any) => option.value === value)?.label}
+                    <FontAwesomeIcon icon={faAngleDown} />
+                </>
+            )
+        }
+        if (isEditing) {
             return (
                 <input
                     autoFocus
@@ -74,13 +94,16 @@ function Cell(props: { value: any, label: string, onSubmit: any, setEventId?: an
 
 
     async function handleFormSubmit(data: any) {
+        console.log('through cell: ', data)
         await handleSubmit(onSubmit)(data);
         // This code will execute after the handleSubmit Promise is resolved
         setIsEditing(false)
     }
 
     return (
-        <form className={`cell-ctn ${isEditing ? 'isEditing' : ''} ${label}`}
+        <form
+            title='Click on this cell to edit'
+            className={`cell-ctn ${isEditing ? 'isEditing' : ''} ${label}`}
             onClick={() => handleCellClick()}
             onSubmit={handleFormSubmit}
             ref={cellRef}

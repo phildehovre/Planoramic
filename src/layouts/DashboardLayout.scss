@@ -3,14 +3,12 @@
     flex-direction: row;
     justify-content: flex-start;
     width: 100vw;
-    overflow-y: hidden;
+    // overflow-y: hidden;
 }
 
 .sidebar-layout {
     width: auto;
     height: 100vh;
-    background-color: #383838;
-    border-right: 1px solid #4b4b4b;
 }
 
 .dashboard-outlet {

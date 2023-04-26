@@ -43,6 +43,7 @@ function SelectRefactor(props: SelectRefactorProps) {
         };
     }, [ref]);
 
+
     return (
         <div className="select-ctn" ref={ref} onClick={() => setIsOpen(!isOpen)}>
             <div className="selected-option">{selectedOption.label || <p>{label.split('_').join(' ')}</p>}</div>
