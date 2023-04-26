@@ -10,7 +10,7 @@ function Cell(props: {
     value: any,
     label: string,
     onSubmit: any,
-    setEventId?: any,
+    setEventId: any,
     eventId?: any
 }) {
 
@@ -25,6 +25,8 @@ function Cell(props: {
         setEventId,
         eventId
     } = props;
+
+    // console.log(isEditing ? eventId + value : '')
 
     const cellRef: React.MutableRefObject<any> = useRef()
 

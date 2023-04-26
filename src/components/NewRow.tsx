@@ -12,8 +12,6 @@ import { formatRessourceObjectForSubmission } from '../utils/ressourceObjectForm
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 import { useParams } from 'react-router'
-import { SelectOptions } from '../assets/selectOptions'
-import SelectRefactor from './SelectRefactor'
 
 const schema = yup.object().shape({
     description: yup.string().required('A description is required'),
@@ -30,6 +28,8 @@ function NewRow(props: {
     keys: string[]
     onSubmit: any
     register: any
+    phaseNumber: number | undefined
+    phaseName: string | undefined
 }) {
 
     const { selectedTemplateId, setSelectedTemplateId } = useContext(selectedTemplateContext)
@@ -47,10 +47,16 @@ function NewRow(props: {
     const {
         ressource,
         ressourceType,
+        phaseName, phaseNumber
     } = props
-    // const submitKeys = ressource?.data?.data.map(())
 
-    const { handleSubmit, formState: { errors }, register, setValue } = useForm({ resolver: yupResolver(schema) })
+    const {
+        handleSubmit,
+        formState: { errors },
+        register,
+        setValue,
+        reset
+    } = useForm({ resolver: yupResolver(schema) })
     const queryClient = useQueryClient()
     const session = useSession()
     const params = useParams()
@@ -59,7 +65,6 @@ function NewRow(props: {
     const campaignKeys = [...templateKeys]
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
     const typeOfEvent = ressourceType === 'template' ? 'template_events' : 'campaign_events'
-    // const ressourceId = ressource?.data?.data[0][typeOfEvent.split('_')[0] + '_id']
 
     const addRessource = useMutation({
         mutationFn: async (event: any) => await supabase
@@ -69,8 +74,6 @@ function NewRow(props: {
     });
 
 
-    console.log('New row tepmlate id ', selectedTemplateId)
-
     const onSubmit = (formData: any) => {
         const data = formatRessourceObjectForSubmission(keys, formData)
         let event = {
@@ -78,12 +81,14 @@ function NewRow(props: {
             author_id: session?.user.id,
             created_at: dayjs().format(),
             position_units: formData.position_units,
+            phase_number: phaseNumber,
+            phase_name: phaseName,
             template_id: selectedTemplateId || params.id,
         };
 
         if (typeOfEvent === 'campaign_events') {
             event = {
-                ...data,
+                ...event,
                 completed: false,
                 template_id: ressource?.data?.data[0].template_id,
                 campaign_id: selectedCampaignId || params.id
@@ -91,7 +96,8 @@ function NewRow(props: {
         }
         addRessource.mutateAsync(event).then(() => {
             queryClient.invalidateQueries([typeOfEvent])
-        })
+            reset()
+        });
     }
 
     const renderFormInputs = () => {
@@ -109,30 +115,6 @@ function NewRow(props: {
                     />
                 )
 
-            }
-            if (key === 'entity_responsible') {
-                return (
-                    <SelectRefactor
-                        options={SelectOptions.entity_responsible}
-                        register={register}
-                        setValue={setValue}
-                        key={key}
-                        onOptionClick={() => { console.log('option click') }}
-                        label={'entity_responsible'}
-                    />
-                )
-            }
-            if (key === 'type') {
-                return (
-                    <SelectRefactor
-                        options={SelectOptions.type}
-                        register={register}
-                        setValue={setValue}
-                        key={key}
-                        label={'type'}
-                        onOptionClick={() => { console.log('option click') }}
-                    />
-                )
             }
         })
     }
@@ -152,4 +134,3 @@ function NewRow(props: {
 }
 
 export default NewRow
-

@@ -7,7 +7,7 @@ interface ModalProps {
     showModal: boolean;
     setShowModal: (showModal: boolean) => void;
     title: string;
-    content: React.ReactNode;
+    content?: React.ReactNode;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -42,7 +42,7 @@ const Modal: React.FC<ModalProps> = ({
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
-                event.preventDefault();
+                // event.preventDefault();
                 saveButtonRef.current?.click();
             }
         };

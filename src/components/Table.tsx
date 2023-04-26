@@ -28,6 +28,8 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
     const [phases, setPhases] = React.useState<any>({});
 
+    console.log(eventId)
+
     const { register,
         formState: { errors },
     } = useForm({ resolver: yupResolver(schema) });
@@ -64,13 +66,18 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     const onSubmit = (formData: any) => {
         console.log('from table: ', formData)
-        let keys = Object.keys(formData)
-        let key = keys[0]
-        let value = formData[key]
-        updateCell.mutateAsync({ id: eventId, key: key, val: value }).then((res: any) => {
-            queryClient.invalidateQueries({ queryKey: [`${ressourceType}_events`] })
+        try {
+
+            let keys = Object.keys(formData)
+            let key = keys[0]
+            let value = formData[key]
+            updateCell.mutateAsync({ id: eventId, key: key, val: value }).then((res: any) => {
+                queryClient.invalidateQueries({ queryKey: [`${ressourceType}_events`] })
+            }
+            );
+        } catch (error) {
+            alert(error)
         }
-        );
     };
 
     const rowProps = {
@@ -104,6 +111,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                     rowProps={rowProps}
                     key={phase}
                     newRowProps={newRowProps}
+                    ressourceType={ressourceType}
                 />
             )
         });
@@ -139,10 +147,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 ? <h3>No events yet.</h3>
                 : renderRows()
             }
-            {/* <NewRow
-                keys={keys}
-                {...newRowProps}
-            /> */}
         </div>
     )
 };
