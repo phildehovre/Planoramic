@@ -56,10 +56,7 @@ function Cell(props: {
                 />)
             }
             return (
-                <
-                    // className='select-span' 
-                    // onMouseDown={(e) => handleSelectMouseDown(e)}
-                    >
+                <>
                     {SelectOptions[label].find((option: any) => option.value === value)?.label}
                     <FontAwesomeIcon icon={faAngleDown} />
                 </>
@@ -73,7 +70,7 @@ function Cell(props: {
                     className={`cell-ctn ${label}`}
                     type={typeof value === 'number' ? 'number' : 'text'}
                     defaultValue={value}
-                    placeholder={value || label}
+                    placeholder={label}
                     {...register(label)}
                     name={label}
                 />
@@ -81,11 +78,6 @@ function Cell(props: {
         }
         return value
     }
-
-    const handleSelectMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        e.stopPropagation();
-        console.log("click");
-    };
 
     const handleCellClick = () => {
         setEventId(eventId)
@@ -100,6 +92,7 @@ function Cell(props: {
 
 
     async function handleFormSubmit(data: any) {
+        console.log(data)
         await handleSubmit(onSubmit)(data);
         // This code will execute after the handleSubmit Promise is resolved
         setIsEditing(false)
