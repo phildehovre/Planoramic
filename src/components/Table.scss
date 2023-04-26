@@ -163,8 +163,18 @@
         }
     }
 
+    &_submit-btn {
+        border: none;
+        background-color: lightgreen;
+        border-radius: 100px;
+        height: 2em;
+        width: 2em;
+        justify-content: center;
+        align-items: center;
+    }
+
     &.position_units {
-        width: 300px;
+        width: 250px;
         text-overflow: ellipsis;
         white-space: nowrap;
     }

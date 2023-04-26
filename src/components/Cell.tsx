@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import Select from './Select';
 import { SelectOptions } from '../assets/selectOptions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDoubleDown, faAngleDown, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 function Cell(props: {
     value: any,
@@ -27,6 +27,7 @@ function Cell(props: {
     } = props;
 
     const cellRef: React.MutableRefObject<any> = useRef()
+    const saveButtonRef: React.MutableRefObject<any> = useRef()
 
     useEffect(() => {
         window.addEventListener('click', (e) => {
@@ -41,6 +42,7 @@ function Cell(props: {
             }
         })
     }, [])
+
 
     const renderCell = () => {
         if (label === 'entity_responsible'
@@ -64,16 +66,23 @@ function Cell(props: {
         }
         if (isEditing) {
             return (
-                <input
-                    autoFocus
-                    autoComplete='off'
-                    className={`cell-ctn ${label}`}
-                    type={typeof value === 'number' ? 'number' : 'text'}
-                    defaultValue={value}
-                    placeholder={label}
-                    {...register(label)}
-                    name={label}
-                />
+                <>
+                    <input
+                        autoFocus
+                        autoComplete='off'
+                        className={`cell-ctn ${label}`}
+                        type={typeof value === 'number' ? 'number' : 'text'}
+                        // defaultValue={value}
+                        placeholder={label}
+                        {...register(label)}
+                        name={label}
+                    />
+                    <button type='submit' className='cell_submit-btn'
+                        title='Validate changes'
+                    >
+                        <FontAwesomeIcon icon={faCircleCheck} color='lightgreen' size='2x' />
+                    </button>
+                </>
             )
         }
         return value
@@ -87,13 +96,13 @@ function Cell(props: {
     const onOptionClick = (value: string) => {
         setEventId(eventId)
         setValue(label, value);
-        handleSubmit(onSubmit)();
+        handleSubmit(handleFormSubmit)();
     };
 
 
     async function handleFormSubmit(data: any) {
-        console.log(data)
-        await handleSubmit(onSubmit)(data);
+        console.log(data.data)
+        await onSubmit(data);
         // This code will execute after the handleSubmit Promise is resolved
         setIsEditing(false)
     }

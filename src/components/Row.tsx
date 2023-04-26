@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
-import Cell from './Cell'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
+import Cell from './Cell'
 
 function Row(props: {
     row: any,

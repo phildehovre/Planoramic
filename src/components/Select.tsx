@@ -26,8 +26,6 @@ function CustomSelect({
         setIsOpen(false)
     };
 
-    console.log(options)
-
     return (
         <Container>
             <Label htmlFor={label}>{label}</Label>
