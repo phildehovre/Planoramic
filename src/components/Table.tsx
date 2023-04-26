@@ -63,7 +63,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any) => {
-        console.log(formData)
+        console.log('from table: ', formData)
         let keys = Object.keys(formData)
         let key = keys[0]
         let value = formData[key]
@@ -81,6 +81,14 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         setSelectedRows: setSelectedRows,
     };
 
+    const newRowProps = {
+        propKeys: ['description'],
+        onSubmit: onSubmit,
+        ressource: ressource,
+        ressourceType: ressourceType,
+        register: register
+    }
+
     const renderPhases = () => {
         let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
         let phaseKeys = Object.keys(phases)
@@ -95,6 +103,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                     events={phaseEvents}
                     rowProps={rowProps}
                     key={phase}
+                    newRowProps={newRowProps}
                 />
             )
         });
@@ -130,13 +139,10 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                 ? <h3>No events yet.</h3>
                 : renderRows()
             }
-            <NewRow
+            {/* <NewRow
                 keys={keys}
-                onSubmit={onSubmit}
-                ressource={ressource}
-                ressourceType={ressourceType}
-                register={register}
-            />
+                {...newRowProps}
+            /> */}
         </div>
     )
 };

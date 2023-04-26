@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Row from './Row'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
@@ -11,19 +11,17 @@ import { useSession } from '@supabase/auth-helpers-react'
 import { formatRessourceObjectForSubmission } from '../utils/ressourceObjectFormatter'
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
-import { selectedDataTableContext } from '../contexts/SelectedDataTableContext'
 import { useParams } from 'react-router'
-import Select from './Select'
 import { SelectOptions } from '../assets/selectOptions'
 import SelectRefactor from './SelectRefactor'
 
 const schema = yup.object().shape({
-    position: yup.number().min(1).required('A duration is required'),
-    // position_units: yup.string().required('A duration is required'),
-    category: yup.string().required('Please chose a category'),
     description: yup.string().required('A description is required'),
-    entity_responsible: yup.string().required('Select a responsible entity'),
-    type: yup.string().required('Select a type of task'),
+    // position: yup.number().min(1).required('A duration is required'),
+    // position_units: yup.string().required('A duration is required'),
+    // category: yup.string().required('Please chose a category'),
+    // entity_responsible: yup.string().required('Select a responsible entity'),
+    // type: yup.string().required('Select a type of task'),
 })
 
 function NewRow(props: {
@@ -34,6 +32,17 @@ function NewRow(props: {
     register: any
 }) {
 
+    const { selectedTemplateId, setSelectedTemplateId } = useContext(selectedTemplateContext)
+    const { selectedCampaignId, setSelectedCampaignId } = useContext(selectedCampaignContext)
+
+    useEffect(() => {
+        if (ressourceType === 'template' && selectedTemplateId === undefined) {
+            setSelectedTemplateId(params.id)
+        }
+        if (ressourceType === 'campaign' && selectedCampaignId === undefined) {
+            setSelectedCampaignId(params.id)
+        }
+    }, [selectedTemplateId, selectedCampaignId])
 
     const {
         ressource,
@@ -46,7 +55,7 @@ function NewRow(props: {
     const session = useSession()
     const params = useParams()
 
-    const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
+    const templateKeys = ['description']
     const campaignKeys = [...templateKeys]
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
     const typeOfEvent = ressourceType === 'template' ? 'template_events' : 'campaign_events'
@@ -59,8 +68,8 @@ function NewRow(props: {
             .select(),
     });
 
-    const { selectedTemplateId } = useContext(selectedTemplateContext)
-    const { selectedCampaignId } = useContext(selectedCampaignContext)
+
+    console.log('New row tepmlate id ', selectedTemplateId)
 
     const onSubmit = (formData: any) => {
         const data = formatRessourceObjectForSubmission(keys, formData)
@@ -69,7 +78,7 @@ function NewRow(props: {
             author_id: session?.user.id,
             created_at: dayjs().format(),
             position_units: formData.position_units,
-            template_id: selectedTemplateId,
+            template_id: selectedTemplateId || params.id,
         };
 
         if (typeOfEvent === 'campaign_events') {
@@ -143,3 +152,4 @@ function NewRow(props: {
 }
 
 export default NewRow
+

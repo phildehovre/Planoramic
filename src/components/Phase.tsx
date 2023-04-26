@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Row from './Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import NewRow from './NewRow';
 
 function Phase(props: {
     name: string
@@ -12,6 +13,7 @@ function Phase(props: {
         setSelectedRows: React.Dispatch<React.SetStateAction<any[]>>
         selectedRows: string[]
     }
+    newRowProps: any
 }) {
 
     const [isChecked, setIsChecked] = React.useState(false)
@@ -20,7 +22,8 @@ function Phase(props: {
         name,
         events,
         number,
-        rowProps
+        rowProps,
+        newRowProps
     } = props;
 
     const { keys, setSelectedRows, selectedRows } = rowProps;
@@ -48,7 +51,6 @@ function Phase(props: {
             setIsChecked(false)
         }
     }
-
 
     const renderColumnHeaders = () => {
         let labels: any = {
@@ -84,6 +86,11 @@ function Phase(props: {
                 {renderColumnHeaders()}
             </div>
             {renderRows()}
+            <NewRow
+                {...newRowProps}
+                phaseNumber={number}
+                phaseName={name}
+            />
         </div>
     )
 }

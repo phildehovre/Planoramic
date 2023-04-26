@@ -84,8 +84,6 @@ function Cell(props: {
         setIsEditing(true)
     }
 
-    console.log(label)
-
     const onOptionClick = (value: string) => {
         setEventId(eventId)
         setValue(label, value);
@@ -94,6 +92,7 @@ function Cell(props: {
 
 
     async function handleFormSubmit(data: any) {
+        console.log('through cell: ', data)
         await handleSubmit(onSubmit)(data);
         // This code will execute after the handleSubmit Promise is resolved
         setIsEditing(false)
