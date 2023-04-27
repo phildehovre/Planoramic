@@ -12,6 +12,8 @@ import { formatRessourceObjectForSubmission } from '../utils/ressourceObjectForm
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 import { useParams } from 'react-router'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCirclePlus, faPlus, faPlusCircle, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
 
 const schema = yup.object().shape({
     description: yup.string().required('A description is required'),
@@ -122,12 +124,12 @@ function NewRow(props: {
     return (
 
         <form className='row-ctn new-row' onSubmit={handleSubmit(onSubmit)}>
-
             <div className='row-inputs'>
                 {renderFormInputs()}
-            </div>
-            <div className='row-inputs btn'>
-                <button type='submit'>Submit</button>
+                <button type='submit' className='row-inputs btn'>
+                    {/* <FontAwesomeIcon icon={faPlus} size='2x' /> */}
+                    Add
+                </button>
             </div>
         </form>
     )

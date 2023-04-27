@@ -57,29 +57,47 @@
         margin-bottom: 2.5em;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        border: none;
 
         >button {
-            width: 5em
+            width: 5em;
         }
 
         .row-inputs {
+            height: 3em;
             display: flex;
             width: 100%;
             flex-direction: row;
+            align-items: center;
+            border-radius: 10px;
+            border: 1px solid lightgrey;
 
             >input {
-                // outline: none;   
                 color: black;
                 border: none;
                 background-color: transparent;
                 padding: .75em;
+
+                &:focus {
+                    outline: none;
+                }
             }
 
             &.btn {
+                width: fit-content;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
-                margin: .5em
+                // margin: .5em;
+                border: 2px solid lightgrey;
+                outline: none;
+                transition: 150ms all ease-in-out;
+
+                &:hover {
+                    background-color: lightgrey;
+                    font-weight: bold;
+                }
             }
         }
 
