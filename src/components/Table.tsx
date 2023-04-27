@@ -139,6 +139,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                     ressource={ressource}
                     ressourceType={ressourceType}
                     events={ressource?.data?.data}
+                    phases={phases}
                 />
             }
             {ressource?.data?.data.length > 0 &&
