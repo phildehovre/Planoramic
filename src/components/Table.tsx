@@ -28,8 +28,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
     const [phases, setPhases] = React.useState<any>({});
 
-    console.log(eventId)
-
     const { register,
         formState: { errors },
     } = useForm({ resolver: yupResolver(schema) });

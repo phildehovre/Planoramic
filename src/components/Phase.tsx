@@ -138,7 +138,9 @@ function Phase(props: {
 
     return (
         <div className='phase-ctn'>
-            <h3>Phase {phaseNumber}: {phaseName}
+            <h3>
+                <input type='checkbox' checked={isChecked} onChange={handleSelectAllPhaseEvents} />
+                Phase {phaseNumber}: {phaseName}
                 <span style={{ position: 'relative', cursor: 'pointer', padding: '0 1.5em' }}>
                     <FontAwesomeIcon
                         icon={faEllipsis}
@@ -152,7 +154,6 @@ function Phase(props: {
                 </span>
             </h3>
             <div className='row-ctn'>
-                <input type='checkbox' checked={isChecked} onChange={handleSelectAllPhaseEvents} />
                 {renderColumnHeaders()}
             </div>
             {renderRows()}

@@ -10,6 +10,8 @@ import { supabase } from '../App'
 import { v4 as uuidv4 } from 'uuid'
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 function Create(props: { ressourceType?: string }) {
 
@@ -28,7 +30,6 @@ function Create(props: { ressourceType?: string }) {
     const handleCreateRessource = (type: string | undefined) => {
         addRessource.mutateAsync([{ name: name, created_at: new Date(), [`${type}_id`]: uuidv4() }])
             .then((res) => {
-                console.log
                 if (type === 'template' && res.data) {
                     setSelectedTemplateId(res?.data[0].template_id)
                     navigate(`/dashboard/template/${res?.data[0].template_id}`)
@@ -56,7 +57,9 @@ function Create(props: { ressourceType?: string }) {
 
     return (
         <div className='create-ctn'>
-            <button onClick={() => handleOpenModalWithRessource()}>{`New ${type}`}</button>
+            <button onClick={() => handleOpenModalWithRessource()}>
+                <FontAwesomeIcon icon={faPlus} />
+            </button>
             <Modal
                 showModal={showModal}
                 onSave={() => handleCreateRessource(type)}

@@ -1,10 +1,14 @@
-$sidebar-content-width: 200px;
+$sidebar-content-width: 100%;
 
 
 .sidebar {
     position: relative;
     height: 100vh;
     display: flex;
+    padding: 0 2em;
+    border-right: 1px solid #4b4b4b;
+
+
 
     &_btn-ctn {
         display: flex;
@@ -19,11 +23,25 @@ $sidebar-content-width: 200px;
         top: 0;
         width: $sidebar-content-width;
         height: 100vh;
-        overflow-y: hidden;
-        border-right: 1px solid #4b4b4b;
+        // overflow-y: hidden;
+        gap: .4em;
+        display: flex;
+        flex-direction: column;
+
+        >h4 {
+            text-align: center;
+        }
 
         .sidebar-content__item {
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            min-height: 2em;
+            background-color: lightgrey;
+            width: 80%;
+            padding: .4em;
+            font-size: smaller;
+            border-radius: 10px;
         }
 
     }

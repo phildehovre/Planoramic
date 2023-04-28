@@ -4,10 +4,12 @@ import Page from '../components/Page'
 import HomepageLayout from '../layouts/HomepageLayout'
 import Hero from '../components/Hero'
 import Navbar from '../components/Navbar'
+import GetGoogleEvents from '../components/GetGoogleEvents'
 
 function Home() {
     return (
         <Page>
+            <GetGoogleEvents />
             <HomepageLayout navbar={<Navbar />} body={<Hero />} />
         </Page>
     )

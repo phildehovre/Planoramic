@@ -190,6 +190,21 @@ function TableHeader(props: {
                     />}
                 />
             }
+            {/* {
+                showNewCampaignModal && <Modal
+                    onClose={() => { console.log('closing') }}
+                    onSave={() => { createNewCampaignFromTemplate(ressourceId) }}
+                    showModal={showNewCampaignModal}
+                    setShowModal={setShowNewCampaignModal}
+                    title={`${ressourceKey[0].toUpperCase() + ressourceKey.slice(1)} description`}
+                    content={<
+                        
+
+                    />}
+
+                />
+
+            } */}
         </div >
     )
 }

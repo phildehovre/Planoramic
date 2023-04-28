@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Modal.scss';
+import Spinner from './Spinner';
 
 interface ModalProps {
     onClose: () => void;
@@ -8,6 +9,7 @@ interface ModalProps {
     setShowModal: (showModal: boolean) => void;
     title: string;
     content?: React.ReactNode;
+    isLoading?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -16,9 +18,9 @@ const Modal: React.FC<ModalProps> = ({
     showModal,
     setShowModal,
     title,
+    isLoading,
     content: Content
 }) => {
-
 
     const saveButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -65,7 +67,11 @@ const Modal: React.FC<ModalProps> = ({
                             {Content}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" onClick={handleSaveClick} ref={saveButtonRef}>Save</button>
+                            <button style={{ backgroundColor: 'salmon' }} type="button" onClick={() => setShowModal(false)} >Cancel</button>
+                            {isLoading ?
+                                <Spinner />
+                                : <button type="button" onClick={handleSaveClick} ref={saveButtonRef}>Confirm</button>
+                            }
                         </div>
                     </div>
                 </div>

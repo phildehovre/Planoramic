@@ -20,6 +20,8 @@ export interface TaskObj {
     type: string,
     template_id: string,
     author_id: string
+    phase_number: number,
+    phase_name: string
 }
 
 export interface CampaignObj {
