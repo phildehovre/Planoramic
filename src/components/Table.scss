@@ -183,6 +183,7 @@
             position: absolute;
             right: 0;
             top: 25%;
+            background-color: yellow
         }
     }
 
@@ -203,7 +204,7 @@
     }
 
     &.position {
-        width: 50px;
+        width: fit-content;
         border-right: none;
     }
 

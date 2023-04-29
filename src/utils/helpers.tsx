@@ -26,6 +26,24 @@ export function convertPositionToDays(position: number, unit: string) {
     }
 }
 
+export function convertPositionToDate(position: number, unit: string = 'days', targetDate: any) {
+    let [unitType, beforeOrAfter] = unit.split('_')
+    let hash: any = {
+        days: 'day',
+        weeks: 'week',
+        months: 'month'
+    }
+    let newDate
+    if (beforeOrAfter === 'before') {
+        newDate = dayjs(targetDate).subtract(position, hash[unitType]).format('DD-MM-YYYY')
+    }
+    if (beforeOrAfter === 'after') {
+        newDate = dayjs(targetDate).add(position, hash[unitType]).format('DD-MM-YYYY')
+    }
+    console.log(newDate)
+    return newDate
+}
+
 export function formatTemplateEventsToCampaign(templateEvents: TaskObj[], campaignId: string) {
     const newArray = templateEvents.map((t) => {
         const {

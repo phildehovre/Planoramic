@@ -34,7 +34,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const params = useParams();
 
     const templateKeys = ['position', 'position_units', 'category', 'description', 'entity_responsible']
-    const campaignKeys = [...templateKeys, 'completed']
+    const campaignKeys = ['position', 'category', 'description', 'entity_responsible', 'completed']
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys
 
     useEffect(() => {

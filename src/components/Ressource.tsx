@@ -5,6 +5,7 @@ import { useSession } from '@supabase/auth-helpers-react'
 import Table from './Table'
 import Modal from './Modal'
 import { useState } from 'react'
+import { convertPositionToDate } from '../utils/helpers'
 
 function Ressource() {
 
@@ -17,6 +18,7 @@ function Ressource() {
 
     const [templateId, setTemplateId] = React.useState<string | undefined>(undefined)
     const [campaignId, setCampaignId] = React.useState<string | undefined>(undefined)
+    const [formattedCampaignEvents, setFormattedCampaignEvents] = React.useState<any>({ data: { data: [] } })
 
     useEffect(() => {
         if (ressourceType === 'template' && params.id) {
@@ -36,10 +38,25 @@ function Ressource() {
     const templateEvents = useTemplateEvents(templateId)
     const campaignEvents = useCampaignEvents(campaignId)
 
+    useEffect(() => {
+        if (campaignEvents?.data?.data) {
+            const newCampaignEvents = campaignEvents?.data?.data.map((event: any) => {
+                return {
+                    ...event,
+                    position: convertPositionToDate(event.position, event.position_units, event.start_date)
+                }
+            });
+            setFormattedCampaignEvents((prev: any) => {
+                return { ...prev, data: { data: [...newCampaignEvents] } }
+            })
+        }
+
+    }, [campaignEvents?.data?.data])
+
     return (
         <div>
             <Table
-                ressource={ressourceType === 'template' ? templateEvents : campaignEvents}
+                ressource={ressourceType === 'template' ? templateEvents : formattedCampaignEvents}
                 ressourceType={ressourceType}
             />
         </div>

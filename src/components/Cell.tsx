@@ -5,6 +5,7 @@ import Select from './Select';
 import { SelectOptions } from '../assets/selectOptions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleDown, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { convertPositionToDate } from '../utils/helpers';
 
 function Cell(props: {
     value: any,
@@ -25,8 +26,6 @@ function Cell(props: {
         setEventId,
         eventId
     } = props;
-
-    // console.log(isEditing ? eventId + value : '')
 
     const cellRef: React.MutableRefObject<any> = useRef()
 
