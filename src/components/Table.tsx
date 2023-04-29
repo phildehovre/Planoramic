@@ -2,14 +2,13 @@ import React, { useEffect } from 'react'
 import Row from './Row'
 import './Table.scss'
 import TableHeader from './TableHeader';
-import { useForm } from 'react-hook-form';
 import { supabase } from '../App';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import NewRow from './NewRow';
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useParams } from 'react-router-dom'
 import Phase from './Phase';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),

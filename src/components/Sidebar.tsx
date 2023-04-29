@@ -29,9 +29,9 @@ function Sidebar(props: {
         return ressources?.map((ressource: any) => {
             const type = ressource.type.slice(0, -1)
             return (
-                <>
+                <React.Fragment key={ressource.type} >
                     <h4
-                        key={ressource.type}
+
                         style={{ cursor: 'pointer' }}
                         onClick={() => {
                             setDisplayRessources((prev: string) => {
@@ -57,7 +57,7 @@ function Sidebar(props: {
                     }
                     {displayRessources === ressource.type && <Create ressourceType={type} />}
 
-                </>
+                </React.Fragment>
             )
         })
     }

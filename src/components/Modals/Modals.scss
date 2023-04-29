@@ -8,3 +8,25 @@
 input {
     padding: .5em
 }
+
+.modal_form-ctn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 1em;
+
+
+    >input {
+        font-size: large;
+        padding: 1em;
+        width: 100%;
+        border: 1px solid rgb(112, 112, 112);
+        border-radius: 10px;
+    }
+
+    >input[type=date] {
+        cursor: pointer;
+    }
+}

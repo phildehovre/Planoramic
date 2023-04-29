@@ -4,6 +4,7 @@
     height: 15vh;
     padding: 0 .5em;
 
+
     >h2 {
         margin: 0 0;
         padding: .5em 0 0 0
@@ -16,5 +17,42 @@
         cursor: pointer;
     }
 
+    .title-ctn {
+        display: flex;
+        align-items: center;
+        gap: 1em;
 
+        .dropdown-container {
+            position: relative;
+        }
+
+        >:last-child {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+    }
+
+    .campaign_info-ctn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1em;
+        margin: 0 0;
+        padding: 0;
+        width: 100%;
+        background-color: lightgrey;
+        padding: .4em;
+        ;
+
+        >span {
+            padding: none;
+            width: 50%;
+            height: 2em;
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+
+    }
 }

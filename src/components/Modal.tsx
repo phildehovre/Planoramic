@@ -4,7 +4,7 @@ import Spinner from './Spinner';
 
 interface ModalProps {
     onClose: () => void;
-    onSave: () => void;
+    onSave?: () => void;
     showModal: boolean;
     setShowModal: (showModal: boolean) => void;
     title: string;
@@ -26,7 +26,7 @@ const Modal: React.FC<ModalProps> = ({
 
     const handleSaveClick = () => {
         setShowModal(false);
-        onSave();
+        onSave ? onSave() : onClose();
     };
 
     const handleOutsideClick = (event: React.MouseEvent<HTMLDivElement>) => {

@@ -51,6 +51,8 @@
     border: 1px solid lightgrey;
     border-radius: 10px;
 
+
+
     &.new-row {
         width: 80%;
         margin-bottom: 2.5em;
@@ -143,6 +145,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &:last-child {
+        border-right: none;
+    }
 
     &.headers {
         >&.position {
