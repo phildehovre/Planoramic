@@ -214,6 +214,7 @@ function RessourceHeader(props: any) {
             {
                 showEditDescriptionModal && <Modal
                     onClose={() => { console.log('closing') }}
+                    showFooter={false}
                     onSave={() => { submitDescription(description) }}
                     showModal={showEditDescriptionModal}
                     setShowModal={setShowEditDescriptionModal}
@@ -229,6 +230,7 @@ function RessourceHeader(props: any) {
             {
                 showNewCampaignModal && <Modal
                     onClose={() => { console.log('closing') }}
+                    onSave={() => { handleSubmit(onSubmit) }}
                     showModal={showNewCampaignModal}
                     setShowModal={setShowNewCampaignModal}
                     title={`New Campaign from ${ressource?.data.name}`}

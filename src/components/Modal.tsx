@@ -10,6 +10,7 @@ interface ModalProps {
     title: string;
     content?: React.ReactNode;
     isLoading?: boolean;
+    showFooter?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -19,7 +20,8 @@ const Modal: React.FC<ModalProps> = ({
     setShowModal,
     title,
     isLoading,
-    content: Content
+    content: Content,
+    showFooter
 }) => {
 
     const saveButtonRef = useRef<HTMLButtonElement>(null);
@@ -66,13 +68,15 @@ const Modal: React.FC<ModalProps> = ({
                             <h2>{title}</h2>
                             {Content}
                         </div>
-                        <div className="modal-footer">
-                            <button style={{ backgroundColor: 'salmon' }} type="button" onClick={() => setShowModal(false)} >Cancel</button>
+                        {showFooter && <div className="modal-footer">
+                            <button
+                                style={{ backgroundColor: 'salmon' }}
+                                type="button" onClick={() => setShowModal(false)} >Cancel</button>
                             {isLoading ?
                                 <Spinner />
                                 : <button type="button" onClick={handleSaveClick} ref={saveButtonRef}>Confirm</button>
                             }
-                        </div>
+                        </div>}
                     </div>
                 </div>
             )}
