@@ -5,6 +5,7 @@ import TableHeader from './TableHeader';
 import { supabase } from '../App';
 import { useParams } from 'react-router-dom'
 import Phase from './Phase';
+import ErrorNotification from './ErrorNotification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup'
@@ -26,6 +27,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const [eventId, setEventId] = React.useState(null);
     const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
     const [phases, setPhases] = React.useState<any>({});
+    const [showNotification, setShowNotification] = React.useState(false);
 
     const { register,
         formState: { errors },
@@ -62,7 +64,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any) => {
-        console.log('from table: ', formData)
         try {
 
             let keys = Object.keys(formData)
@@ -139,6 +140,15 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
                     phases={phases}
                 />
             }
+            <ErrorNotification
+                title={'test'}
+                show={showNotification}
+                content={'testy tests'}
+                type={'tips'}
+                onClose={() => { setShowNotification(false) }}
+                ressourceType={ressourceType}
+                ressource={ressource}
+            />
             {ressource?.data?.data.length > 0 &&
                 renderPhases()}
             {ressource?.data?.data.length === 0

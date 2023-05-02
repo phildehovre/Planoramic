@@ -19,6 +19,7 @@ function Cell(props: {
     const [data, setData] = React.useState<any>();
     const { register, handleSubmit, setValue } = useForm()
 
+
     const {
         value,
         label,
@@ -27,14 +28,14 @@ function Cell(props: {
         eventId
     } = props;
 
+    // console.log(label === 'entity_responsible' ? isEditing : '')
     const cellRef: React.MutableRefObject<any> = useRef()
 
     useEffect(() => {
         window.addEventListener('click', (e) => {
             try {
-
                 if (cellRef.current !== null && !cellRef.current.contains(e.target)) {
-                    setIsEditing(false)
+                    // setIsEditing(false)
                 }
             }
             catch (err) {
@@ -49,11 +50,12 @@ function Cell(props: {
             || label === 'position_units') {
             if (isEditing) {
                 return (<Select
-                    name={label}
+                    label={label}
                     onOptionClick={onOptionClick}
                     options={SelectOptions[label]}
                     isOpen={isEditing}
                     setIsEditing={setIsEditing}
+                    register={register}
                 />)
             }
             return (
@@ -93,7 +95,6 @@ function Cell(props: {
 
 
     async function handleFormSubmit(data: any) {
-        console.log('through cell: ', data)
         await handleSubmit(onSubmit)(data);
         // This code will execute after the handleSubmit Promise is resolved
         setIsEditing(false)

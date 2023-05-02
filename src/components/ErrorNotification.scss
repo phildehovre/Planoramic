@@ -1,0 +1,58 @@
+.notification-ctn {
+    width: fit-content;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    min-width: 15em;
+    padding: .5em;
+    margin: .5em 0;
+    position: relative;
+
+    >.close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 1.5em;
+        width: 1.5em;
+
+        &:hover {
+            cursor: pointer;
+            color: white;
+        }
+    }
+
+    &.error {
+        background-color: rgba(255, 147, 147, 0.445);
+        border: 1px solid rgb(255, 147, 147);
+    }
+
+    &.warning {
+        background-color: rgba(255, 217, 147, 0.445);
+        border: 1px solid rgb(255, 217, 147);
+    }
+
+    &.tips {
+        background-color: rgba(170, 224, 255, 0.973);
+        border: 1px solid rgba(0, 119, 255, 0.37);
+    }
+
+    >span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        text-transform: capitalize;
+        gap: 1em;
+
+        >h3 {
+            margin: 0
+        }
+    }
+
+    >p {
+        margin: 0;
+        text-align: center;
+    }
+}

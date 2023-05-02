@@ -1,12 +1,8 @@
-import React, { SetStateAction, useContext, useEffect } from 'react'
+import React, { SetStateAction, useEffect } from 'react'
 import './Sidebar.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBoltLightning, faBullhorn, faClone, } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from 'react-router'
-import { PostgrestSingleResponse } from '@supabase/supabase-js'
-import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
-import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 import Create from './Create'
+import { useParams } from 'react-router-dom'
 '../contexts/SelectedTemplateContext'
 
 function Sidebar(props: {
@@ -19,11 +15,21 @@ function Sidebar(props: {
     } = props
 
     const navigate = useNavigate()
-    const [displayRessources, setDisplayRessources] = React.useState<SetStateAction<string>>('')
-    const [sidebarContent, setSidebarContent] = React.useState('')
+    const params = useParams()
 
-    const { setSelectedTemplateId } = useContext(selectedTemplateContext)
-    const { setSelectedCampaignId } = useContext(selectedCampaignContext)
+    const [displayRessources, setDisplayRessources] = React.useState<SetStateAction<string>>('')
+
+
+    useEffect(() => {
+        if (params.ressource === 'campaigns') {
+            setDisplayRessources('campaign')
+        }
+        if (params.ressource === 'templates') {
+            setDisplayRessources('template')
+        }
+        console.log(params.ressource)
+
+    })
 
     const renderData = () => {
         return ressources?.map((ressource: any) => {

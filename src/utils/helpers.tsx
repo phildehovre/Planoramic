@@ -26,7 +26,7 @@ export function convertPositionToDays(position: number, unit: string) {
     }
 }
 
-export function convertPositionToDate(position: number, unit: string = 'days', targetDate: any) {
+export function convertPositionToDate(position: number, unit: string = 'days_before', targetDate: any) {
     let [unitType, beforeOrAfter] = unit.split('_')
     let hash: any = {
         days: 'day',
@@ -40,7 +40,6 @@ export function convertPositionToDate(position: number, unit: string = 'days', t
     if (beforeOrAfter === 'after') {
         newDate = dayjs(targetDate).add(position, hash[unitType]).format('DD-MM-YYYY')
     }
-    console.log(newDate)
     return newDate
 }
 

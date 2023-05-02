@@ -97,11 +97,11 @@ function RessourceHeader(props: any) {
     })
 
     const onSubmit = (data: any) => {
-        console.log(data ? data : 'no data')
         setSelectedTemplateId(selectedTemplateId)
         const campaignSansDate = {
-            'name': `New Campaign from ${ressource.data.name}`,
-            'description': ressource.data.description,
+
+            'name': data.artistName + ' - ' + data.songName,
+            'description': `Template: ${ressource.data.name}`,
             'template_id': selectedTemplateId,
             'campaign_id': uuidv4(),
             'author_id': session?.user.id,
@@ -125,6 +125,7 @@ function RessourceHeader(props: any) {
         }).then((res: any) => {
             console.log(res)
             queryClient.invalidateQueries({ queryKey: ['campaigns'] })
+            setShowNewCampaignModal(false)
             var campaignId = res.data[0].campaign_id
             setSelectedCampaignId(campaignId)
             const templateEventsFormatted = formatTemplateEventsToCampaign(templateEventsData?.data as any, campaignId)
