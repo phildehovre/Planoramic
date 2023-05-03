@@ -180,6 +180,7 @@ function TableHeader(props: {
                     showModal={showModal}
                     setShowModal={setShowModal}
                     title={`Create a new phase`}
+                    showFooter={true}
                     content={<NewPhase
                         ressource={ressource}
                         phaseName={phaseName}

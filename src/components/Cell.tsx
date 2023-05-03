@@ -28,7 +28,6 @@ function Cell(props: {
         eventId
     } = props;
 
-    // console.log(label === 'entity_responsible' ? isEditing : '')
     const cellRef: React.MutableRefObject<any> = useRef()
 
     useEffect(() => {
