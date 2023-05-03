@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import SelectItem from './SelectItem';
+import React from 'react'
+import SelectItem from '../SelectItem';
 import * as Select from '@radix-ui/react-select';
 import classnames from 'classnames';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
@@ -21,14 +21,10 @@ function CustomSelect(props: {
         onOptionClick,
     } = props;
 
-    const [options, setOptions] = React.useState(null)
-    const [selectedValue, setSelectedValue] = React.useState('');
 
-    useEffect(() => {
-        if (SelectOptions) {
-            setOptions(SelectOptions[label])
-        }
-    }, [SelectOptions])
+    const options = SelectOptions[label]
+
+    const [selectedValue, setSelectedValue] = React.useState('');
 
     const handleOptionClick = (value: string) => {
         setSelectedValue(value);
@@ -57,7 +53,7 @@ function CustomSelect(props: {
                     <Select.Viewport className="SelectViewport">
                         <Select.Group>
                             <Select.Label className="SelectLabel">Who</Select.Label>
-                            {options?.map((option: any, index: number) => {
+                            {options.map((option: any, index: number) => {
                                 return (
                                     <SelectItem
                                         key={index}

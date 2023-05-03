@@ -47,22 +47,15 @@ function Cell(props: {
         if (label === 'entity_responsible'
             || label === 'type'
             || label === 'position_units') {
-            if (isEditing) {
-                return (<Select
-                    label={label}
-                    onOptionClick={onOptionClick}
-                    options={SelectOptions[label]}
-                    isOpen={isEditing}
-                    setIsEditing={setIsEditing}
-                    register={register}
-                />)
-            }
-            return (
-                <>
-                    {SelectOptions[label].find((option: any) => option.value === value)?.label}
-                    <FontAwesomeIcon icon={faAngleDown} />
-                </>
-            )
+            return (<Select
+                label={label}
+                onOptionClick={onOptionClick}
+                options={SelectOptions[label]}
+                isOpen={isEditing}
+                setIsEditing={setIsEditing}
+                register={register}
+                value={value}
+            />)
         }
         if (isEditing) {
             return (
