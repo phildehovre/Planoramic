@@ -7,8 +7,6 @@
     z-index: -1;
     margin-bottom: 5em;
 
-
-
     .table-header {
         display: flex;
         align-items: center;
@@ -187,6 +185,8 @@
         }
     }
 
+
+
     &_submit-btn {
         border: none;
         background-color: lightgreen;
@@ -225,4 +225,26 @@
         width: 10%;
     }
 
+}
+
+.checkbox-ctn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    height: 100%;
+    width: 2em;
+    padding: 0 .4em;
+}
+
+.CheckboxRoot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid lightgrey;
+    height: 1em;
+    width: 2em;
+    padding: .4em;
+
+    .ChecboxIndicator {}
 }

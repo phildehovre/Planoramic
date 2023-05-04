@@ -59,9 +59,11 @@ const CustomSelect = (props: {
     };
 
     const formatValue = (value: string) => {
-        let formattedValue = value.replace(/_/g, ' ')
-        formattedValue = formattedValue[0].toUpperCase() + formattedValue.slice(1)
-        return formattedValue
+        if (value && value.length > 0) {
+            let formattedValue = value.replace(/_/g, ' ')
+            formattedValue = formattedValue[0].toUpperCase() + formattedValue.slice(1)
+            return formattedValue
+        }
     }
 
     return (
@@ -72,6 +74,7 @@ const CustomSelect = (props: {
             <Select.Trigger className="SelectTrigger" aria-label="Food">
                 <Select.Value asChild={true}>
                     <span>{formatValue(value)}</span>
+                    {/* <span>{value}</span> */}
                 </Select.Value>
                 <Select.Icon className="SelectIcon">
                     <ChevronDownIcon />

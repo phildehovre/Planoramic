@@ -27,7 +27,6 @@ function Sidebar(props: {
         if (params.ressource === 'templates') {
             setDisplayRessources('template')
         }
-        console.log(params.ressource)
 
     })
 

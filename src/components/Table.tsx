@@ -64,7 +64,6 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     });
 
     const onSubmit = (formData: any) => {
-        console.log(formData)
         try {
 
             let keys = Object.keys(formData)
