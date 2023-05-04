@@ -14,6 +14,8 @@ import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 import Modal from './Modal';
 import NewPhase from './Modals/NewPhase';
+import * as Checkbox from '@radix-ui/react-checkbox';
+import { CheckIcon } from '@radix-ui/react-icons';
 
 interface Event {
     description: string,
@@ -144,9 +146,18 @@ function TableHeader(props: {
     return (
         <div className='table-header'>
             <label>
-                <input type='checkbox'
-                    checked={selectedRows.length === events.length}
-                    onChange={handleSelectAll} />Select all
+                <div className='checkbox-ctn' title='Select all events'>
+                    <Checkbox.Root
+                        className="CheckboxRoot"
+                        checked={selectedRows.length === events.length}
+                        onCheckedChange={handleSelectAll}
+                    >
+                        <Checkbox.Indicator className="CheckboxIndicator">
+                            <CheckIcon />
+                        </Checkbox.Indicator>
+                    </Checkbox.Root>
+                </div>
+                Select all
             </label>
             <button
                 title='Create a new phase'

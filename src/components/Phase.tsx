@@ -7,6 +7,8 @@ import Modal from './Modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../App';
 import Dropdown from './Dropdown';
+import * as Checkbox from '@radix-ui/react-checkbox';
+import { CheckIcon } from '@radix-ui/react-icons';
 
 function Phase(props: {
     name: string
@@ -139,7 +141,17 @@ function Phase(props: {
     return (
         <div className='phase-ctn'>
             <h3>
-                <input type='checkbox' checked={isChecked} onChange={handleSelectAllPhaseEvents} />
+                <div className='checkbox-ctn'>
+                    <Checkbox.Root
+                        className="CheckboxRoot"
+                        checked={isChecked}
+                        onCheckedChange={handleSelectAllPhaseEvents}
+                    >
+                        <Checkbox.Indicator className="CheckboxIndicator">
+                            <CheckIcon />
+                        </Checkbox.Indicator>
+                    </Checkbox.Root>
+                </div>
                 Phase {phaseNumber}: {phaseName}
                 <span style={{ position: 'relative', cursor: 'pointer', padding: '0 1.5em' }}>
                     <FontAwesomeIcon
