@@ -35,7 +35,7 @@ function Cell(props: {
         window.addEventListener('click', (e) => {
             try {
                 if (cellRef.current !== null && !cellRef.current.contains(e.target)) {
-                    // setIsEditing(false)
+                    setIsEditing(false)
                 }
             }
             catch (err) {
@@ -44,20 +44,45 @@ function Cell(props: {
         })
     }, [])
 
+    const handleCellClick = () => {
+        setEventId(eventId)
+        setIsEditing(true)
+    }
+
+    const onOptionClick = async (value: string) => {
+        try {
+            await setEventId(eventId); // assuming eventId is declared somewhere
+            setValue(label, value);
+            await handleSubmit(onSubmit)();
+            console.log('then');
+        } catch (error) {
+            // handle error
+        }
+    };
+
+
+    async function handleFormSubmit(data: any) {
+        await handleSubmit(onSubmit)(data);
+        // This code will execute after the handleSubmit Promise is resolved
+        setIsEditing(false)
+    }
+
     const renderCell = () => {
         if (label === 'entity_responsible'
             || label === 'type'
             || label === 'position_units') {
-            if (isEditing) {
-                return (<Select
-                    label={label}
-                    onOptionClick={onOptionClick}
-                    options={SelectOptions[label]}
-                    isOpen={isEditing}
-                    setIsEditing={setIsEditing}
-                    register={register}
-                />)
-            }
+            // if (isEditing) {
+            return (<Select
+                label={label}
+                onOptionClick={onOptionClick}
+                options={SelectOptions[label]}
+                isOpen={isEditing}
+                setIsEditing={setIsEditing}
+                register={register}
+                value={value}
+                handleCellClick={handleCellClick}
+            />)
+            // }
             return (
                 <>
                     {SelectOptions[label].find((option: any) => option.value === value)?.label}
@@ -80,24 +105,6 @@ function Cell(props: {
             )
         }
         return value
-    }
-
-    const handleCellClick = () => {
-        setEventId(eventId)
-        setIsEditing(true)
-    }
-
-    const onOptionClick = (value: string) => {
-        setEventId(eventId)
-        setValue(label, value);
-        handleSubmit(onSubmit)();
-    };
-
-
-    async function handleFormSubmit(data: any) {
-        await handleSubmit(onSubmit)(data);
-        // This code will execute after the handleSubmit Promise is resolved
-        setIsEditing(false)
     }
 
     return (

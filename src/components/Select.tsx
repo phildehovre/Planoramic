@@ -34,7 +34,17 @@ const CustomSelect = (props: {
     isOpen: boolean,
 }) => {
 
-    const { label, options, register, onOptionClick, setIsEditing, isOpen } = props;
+    const {
+        label,
+        options,
+        register,
+        onOptionClick,
+        setIsEditing,
+        isOpen,
+        value,
+        handleCellClick
+    } = props;
+
     const [selectedValue, setSelectedValue] = React.useState('');
     const selectRef = useRef<HTMLDivElement>(null);
 
@@ -48,12 +58,21 @@ const CustomSelect = (props: {
         setIsEditing(false);
     };
 
+    const formatValue = (value: string) => {
+        let formattedValue = value.replace(/_/g, ' ')
+        formattedValue = formattedValue[0].toUpperCase() + formattedValue.slice(1)
+        return formattedValue
+    }
+
     return (
         <Select.Root
             onValueChange={(e) => { handleOptionClick(e) }}
+            onOpenChange={(e) => { handleCellClick() }}
         >
             <Select.Trigger className="SelectTrigger" aria-label="Food">
-                <Select.Value placeholder="Select an entity…" />
+                <Select.Value asChild={true}>
+                    <span>{formatValue(value)}</span>
+                </Select.Value>
                 <Select.Icon className="SelectIcon">
                     <ChevronDownIcon />
                 </Select.Icon>

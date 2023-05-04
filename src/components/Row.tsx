@@ -8,7 +8,7 @@ function Row(props: {
     row: any,
     keys?: string[],
     onSubmit?: any,
-    setEventId?: any,
+    setEventId: any,
     isHeader?: boolean
     selectedRows?: any,
     setSelectedRows?: any
