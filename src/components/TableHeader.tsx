@@ -153,7 +153,7 @@ function TableHeader(props: {
                         onCheckedChange={handleSelectAll}
                     >
                         <Checkbox.Indicator className="CheckboxIndicator">
-                            <CheckIcon />
+                            <CheckIcon className='CheckboxIcon' />
                         </Checkbox.Indicator>
                     </Checkbox.Root>
                 </div>
