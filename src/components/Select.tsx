@@ -32,6 +32,8 @@ const CustomSelect = (props: {
     onOptionClick: (value: string) => void,
     setIsEditing: (bool: boolean) => void,
     isOpen: boolean,
+    value: string,
+    handleCellClick: () => void
 }) => {
 
     const {

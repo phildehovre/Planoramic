@@ -123,18 +123,20 @@ function Phase(props: {
             entity_responsible: 'Who',
         }
         return keys.map((key: string) => {
-            return <div className={`cell-ctn headers ${key}`} key={key}>{labels[key]}</div>
+            return <div className={`cell-ctn headers  ${key} ${ressourceType}`} key={key}>{labels[key]}</div>
         });
     }
 
     const renderRows = () => {
         let data = events?.sort((a: any, b: any) => b.position - a.position)
         return data?.map((row: any) => {
-            return (<Row
-                row={row}
-                key={row.id}
-                {...rowProps}
-            />)
+            return (
+                <Row
+                    row={row}
+                    key={row.id}
+                    {...rowProps}
+                />
+            )
         });
     }
 
@@ -165,7 +167,7 @@ function Phase(props: {
                     />}
                 </span>
             </h3>
-            <div className='row-ctn'>
+            <div className={`row-ctn ${ressourceType}`}>
                 {renderColumnHeaders()}
             </div>
             {renderRows()}
@@ -180,6 +182,7 @@ function Phase(props: {
                 title={modalPrompt}
                 showModal={showModal && modalPrompt !== ''}
                 setShowModal={setShowModal}
+                showFooter={true}
             />
         </div>
     )

@@ -3,6 +3,8 @@ import './Sidebar.scss'
 import { useNavigate } from 'react-router'
 import Create from './Create'
 import { useParams } from 'react-router-dom'
+import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
+import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 '../contexts/SelectedTemplateContext'
 
 function Sidebar(props: {
@@ -19,6 +21,9 @@ function Sidebar(props: {
 
     const [displayRessources, setDisplayRessources] = React.useState<SetStateAction<string>>('')
 
+    const { setSelectedCampaignId } = React.useContext(selectedCampaignContext)
+    const { setSelectedTemplateId } = React.useContext(selectedTemplateContext)
+
 
     useEffect(() => {
         if (params.ressource === 'campaigns') {
@@ -29,6 +34,15 @@ function Sidebar(props: {
         }
 
     })
+
+    const handleRessourceSelection = (ressourceType: string, id: string) => {
+        if (ressourceType === 'campaigns') {
+            setSelectedCampaignId(id)
+        }
+        if (ressourceType === 'templates') {
+            setSelectedTemplateId(id)
+        }
+    }
 
     const renderData = () => {
         return ressources?.map((ressource: any) => {
@@ -55,7 +69,10 @@ function Sidebar(props: {
                                 <div
                                     key={item.id}
                                     className='sidebar-content__item'
-                                    onClick={() => { navigate(`/dashboard/${type}/${item[`${type}_id`]}`) }}
+                                    onClick={() => {
+                                        navigate(`/dashboard/${type}/${item[`${type}_id`]}`)
+                                        handleRessourceSelection(ressource.type, item[`${type}_id`])
+                                    }}
                                 >{item.name}</div>
                             )
                         })

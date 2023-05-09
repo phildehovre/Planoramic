@@ -1,11 +1,9 @@
-import { useQueryClient } from '@tanstack/react-query';
 import React, { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form';
 import Select from './Select';
 import { SelectOptions } from '../assets/selectOptions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDoubleDown, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { convertPositionToDate } from '../utils/helpers';
+import * as Checkbox from '@radix-ui/react-checkbox';
+import { CheckIcon } from '@radix-ui/react-icons';
 
 function Cell(props: {
     value: any,
@@ -28,7 +26,6 @@ function Cell(props: {
         eventId
     } = props;
 
-    // console.log(label === 'entity_responsible' ? isEditing : '')
     const cellRef: React.MutableRefObject<any> = useRef()
 
     useEffect(() => {
@@ -83,12 +80,19 @@ function Cell(props: {
                 handleCellClick={handleCellClick}
             />)
             // }
-            return (
-                <>
-                    {SelectOptions[label].find((option: any) => option.value === value)?.label}
-                    <FontAwesomeIcon icon={faAngleDown} />
-                </>
-            )
+        }
+        if (label === 'completed') {
+            <div className='checkbox-ctn' title='Select all events'>
+                <Checkbox.Root
+                    className="CheckboxRoot"
+                    checked={value}
+                    onCheckedChange={() => setValue(label, !value)}
+                >
+                    <Checkbox.Indicator className="CheckboxIndicator">
+                        <CheckIcon className='CheckboxIcon' />
+                    </Checkbox.Indicator>
+                </Checkbox.Root>
+            </div>
         }
         if (isEditing) {
             return (

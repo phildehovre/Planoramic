@@ -1,19 +1,15 @@
 import React, { useContext, useEffect } from 'react'
-import Row from './Row'
 import dayjs from 'dayjs'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { supabase } from '../App'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { v4 as uuidv4 } from 'uuid'
 import { useSession } from '@supabase/auth-helpers-react'
 import { formatRessourceObjectForSubmission } from '../utils/ressourceObjectFormatter'
 import { selectedTemplateContext } from '../contexts/SelectedTemplateContext'
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext'
 import { useParams } from 'react-router'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCirclePlus, faPlus, faPlusCircle, faSquarePlus } from '@fortawesome/free-solid-svg-icons'
 
 const schema = yup.object().shape({
     description: yup.string().required('A description is required'),

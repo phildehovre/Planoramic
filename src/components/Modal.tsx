@@ -22,7 +22,14 @@ const Modal: React.FC<ModalProps> = ({
     isLoading,
     content: Content,
     showFooter
+
 }) => {
+
+    const [showModalFooter, setShowModalFooter] = useState(true)
+
+    useEffect(() => {
+        showFooter === false ? setShowModalFooter(false) : setShowModalFooter(true)
+    })
 
     const saveButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -68,7 +75,7 @@ const Modal: React.FC<ModalProps> = ({
                             <h2>{title}</h2>
                             {Content}
                         </div>
-                        {showFooter && <div className="modal-footer">
+                        {showModalFooter && <div className="modal-footer">
                             <button
                                 style={{ backgroundColor: 'salmon' }}
                                 type="button" onClick={() => setShowModal(false)} >Cancel</button>

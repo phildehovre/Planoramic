@@ -35,10 +35,10 @@ export function convertPositionToDate(position: number, unit: string = 'days_bef
     }
     let newDate
     if (beforeOrAfter === 'before') {
-        newDate = dayjs(targetDate).subtract(position, hash[unitType]).format('DD-MM-YYYY')
+        newDate = dayjs(targetDate).subtract(position, hash[unitType]).format('ddd DD-MM-YYYY')
     }
     if (beforeOrAfter === 'after') {
-        newDate = dayjs(targetDate).add(position, hash[unitType]).format('DD-MM-YYYY')
+        newDate = dayjs(targetDate).add(position, hash[unitType]).format('ddd DD-MM-YYYY')
     }
     return newDate
 }

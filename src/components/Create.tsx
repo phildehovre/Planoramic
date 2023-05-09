@@ -67,6 +67,7 @@ function Create(props: { ressourceType?: string }) {
                 title={`Create ${type}`}
                 content={<NewRessource name={name} setName={setName} />}
                 setShowModal={setShowModal}
+                showFooter={true}
 
             />
         </div>

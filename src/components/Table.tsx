@@ -3,13 +3,17 @@ import Row from './Row'
 import './Table.scss'
 import TableHeader from './TableHeader';
 import { supabase } from '../App';
-import { useParams } from 'react-router-dom'
 import Phase from './Phase';
 import ErrorNotification from './ErrorNotification';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { formatAndUpdateEvent } from '../apis/googleCalendar';
+import { useSession } from '@supabase/auth-helpers-react';
+import { selectedCampaignContext } from '../contexts/SelectedCampaignContext';
+import { useCampaign } from '../util/db';
+import Modal from './Modal';
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -23,17 +27,18 @@ const schema = yup.object().shape({
 function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const { ressource, ressourceType } = props;
     const queryClient = useQueryClient()
+    const session = useSession()
 
     const [eventId, setEventId] = React.useState(null);
     const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
     const [phases, setPhases] = React.useState<any>({});
-    const [showNotification, setShowNotification] = React.useState(false);
 
     const { register,
         formState: { errors },
     } = useForm({ resolver: yupResolver(schema) });
 
-    const params = useParams();
+    const { selectedCampaignId } = React.useContext(selectedCampaignContext)
+    const { data: campaignData } = useCampaign(selectedCampaignId, !!selectedCampaignId)
 
     const templateKeys = ['position', 'position_units', 'category', 'description', 'entity_responsible']
     const campaignKeys = ['position', 'category', 'description', 'entity_responsible', 'completed']
@@ -50,6 +55,8 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         setPhases(phases)
     }, [ressource]);
 
+
+
     const updateCellFn = async ({ id, key, val }: any) => {
         return await supabase
             .from(`${ressourceType}_events`)
@@ -63,6 +70,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         mutationFn: ({ id, key, val }: any) => updateCellFn({ id, key, val })
     });
 
+
     const onSubmit = (formData: any) => {
         try {
 
@@ -70,13 +78,15 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
             let key = keys[0]
             let value = formData[key]
             updateCell.mutateAsync({ id: eventId, key: key, val: value }).then((res: any) => {
+                formatAndUpdateEvent(res.data[0], campaignData?.data?.targetDate, session)
                 queryClient.invalidateQueries({ queryKey: [`${ressourceType}_events`] })
             }
-            );
+            )
         } catch (error) {
             alert(error)
         }
     };
+
 
     const rowProps = {
         keys: keys,
@@ -85,6 +95,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         selectedRows: selectedRows,
         setSelectedRows: setSelectedRows,
         eventId: eventId,
+        ressourceType: ressourceType,
     };
 
     const newRowProps = {
@@ -131,22 +142,15 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     return (
         <div className='table-ctn'>
-            {ressource?.data?.data.length > 0 &&
-                <TableHeader
-                    setSelectedRows={setSelectedRows}
-                    selectedRows={selectedRows}
-                    ressource={ressource}
-                    ressourceType={ressourceType}
-                    events={ressource?.data?.data}
-                    phases={phases}
-                />
-            }
+            <TableHeader
+                setSelectedRows={setSelectedRows}
+                selectedRows={selectedRows}
+                ressource={ressource}
+                ressourceType={ressourceType}
+                events={ressource?.data?.data}
+                phases={phases}
+            />
             <ErrorNotification
-                title={'test'}
-                show={showNotification}
-                content={'testy tests'}
-                type={'tips'}
-                onClose={() => { setShowNotification(false) }}
                 ressourceType={ressourceType}
                 ressource={ressource}
             />

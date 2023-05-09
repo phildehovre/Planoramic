@@ -4,24 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClose, faQuestion, faQuestionCircle, faWarning } from '@fortawesome/free-solid-svg-icons'
 
 function ErrorNotification(props: {
-    show: boolean,
-    content: string
-    title: string
-    type: 'tips' | 'error' | 'warning'
-    onClose: () => void
     ressourceType?: string
     ressource?: any
 }): JSX.Element {
 
     const {
-        show,
-        content,
-        title,
-        type,
-        onClose,
         ressourceType,
         ressource,
     } = props
+
+    const [show, setShow] = React.useState<boolean>(false)
+    const [type, setType] = React.useState<string>('warning')
+    const [additionnalContent, setAdditionnalContent] = React.useState<string>('')
 
     useEffect(() => {
         if (ressourceType === 'campaigns') {
@@ -32,29 +26,69 @@ function ErrorNotification(props: {
         }
     }, [ressourceType, ressource])
 
-    const renderIcon = () => {
-        switch (props.type) {
+    useEffect(() => {
+        // Test for absence of dates
+        if (ressource?.data?.data.some((row: any) => row.position < 1)) {
+            setShow(true)
+            setType('error')
+            setAdditionnalContent(`All events must have a position greater than 0 before creating a campaign. `)
+        }
+
+        // Test for absence of dates
+
+    })
+
+    const renderNotificationContent = () => {
+        switch (type) {
             case 'tips':
-                return <FontAwesomeIcon icon={faQuestionCircle} color='blue' size='lg' />;
+                return (
+
+                    <>
+                        <FontAwesomeIcon icon={faQuestionCircle} color='blue' size='lg' />
+                        <h3>Tip</h3>
+                        <p>Here is a tip:
+                            tippity tip
+                        </p>
+                    </>
+                )
             case 'error':
-                return <FontAwesomeIcon icon={faWarning} color='red' size='lg' />;
+
+                return (
+                    <>
+                        <FontAwesomeIcon icon={faWarning} color='red' size='lg' />
+                        <h3>Error</h3>
+                        <p>Some cells require your attention:
+                        </p>
+                        <p>{additionnalContent}</p>
+                    </>
+                )
             case 'warning':
-                return <FontAwesomeIcon icon={faWarning} color='orange' size='lg' />;
+
+                return (
+                    <>
+                        <FontAwesomeIcon icon={faWarning} color='orange' size='lg' />
+                        <h3>Warning</h3>
+                        <p>This is all wrong
+                        </p>
+                    </>
+                )
             default:
-                return <FontAwesomeIcon icon={faQuestion} color='blue' size='lg' />;
+                return (
+                    <>
+                        <FontAwesomeIcon icon={faQuestion} color='blue' size='lg' />
+                    </>
+                )
         }
     }
 
     return (
         <>
-            {show &&
+            {show && type &&
                 <div className={`notification-ctn ${type}`}>
-                    <FontAwesomeIcon icon={faClose} className='close' onClick={onClose} />
+                    <FontAwesomeIcon icon={faClose} className='close' onClick={() => setShow(false)} />
                     <span>
-                        {renderIcon()}
-                        <h3>{title}</h3>
+                        {renderNotificationContent()}
                     </span>
-                    <p>{content}</p>
                 </div>
             }
         </>

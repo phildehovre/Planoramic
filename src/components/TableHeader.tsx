@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faMailForward, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -36,7 +36,7 @@ function TableHeader(props: {
     ressourceType: string | undefined
     selectedRows: any,
     setSelectedRows: any,
-    events: any,
+    events?: any,
     phases: number[]
 }) {
     const {
@@ -149,7 +149,7 @@ function TableHeader(props: {
                 <div className='checkbox-ctn' title='Select all events'>
                     <Checkbox.Root
                         className="CheckboxRoot"
-                        checked={selectedRows.length === events.length}
+                        checked={selectedRows.length === events?.length}
                         onCheckedChange={handleSelectAll}
                     >
                         <Checkbox.Indicator className="CheckboxIndicator">
@@ -201,21 +201,24 @@ function TableHeader(props: {
                     />}
                 />
             }
-            {/* {
-                showNewCampaignModal && <Modal
+            {
+                !events && <Modal
                     onClose={() => { console.log('closing') }}
-                    onSave={() => { createNewCampaignFromTemplate(ressourceId) }}
-                    showModal={showNewCampaignModal}
-                    setShowModal={setShowNewCampaignModal}
-                    title={`${ressourceKey[0].toUpperCase() + ressourceKey.slice(1)} description`}
-                    content={<
-                        
-
+                    onSave={() => { handleCreatePhaseWithEvent(phaseName, phaseNumber) }}
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    title={`Create a new phase`}
+                    content={<NewPhase
+                        ressource={ressource}
+                        phaseName={phaseName}
+                        setPhaseName={setPhaseName}
+                        setPhaseNumber={setPhaseNumber}
+                        phaseNumber={phaseNumber}
+                        placeholder='Name of the phase'
                     />}
-
                 />
+            }
 
-            } */}
         </div >
     )
 }

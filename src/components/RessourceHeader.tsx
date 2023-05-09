@@ -123,7 +123,6 @@ function RessourceHeader(props: any) {
             return res
 
         }).then((res: any) => {
-            console.log(res)
             queryClient.invalidateQueries({ queryKey: ['campaigns'] })
             setShowNewCampaignModal(false)
             var campaignId = res.data[0].campaign_id

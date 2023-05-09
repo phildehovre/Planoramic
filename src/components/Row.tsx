@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react'
 import Cell from './Cell'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
-import { convertPositionToDate } from '../utils/helpers';
 import * as Checkbox from '@radix-ui/react-checkbox';
 import { CheckIcon } from '@radix-ui/react-icons';
 
@@ -10,11 +9,12 @@ function Row(props: {
     row: any,
     keys?: string[],
     onSubmit?: any,
-    setEventId: any,
+    setEventId?: any,
     isHeader?: boolean
     selectedRows?: any,
     setSelectedRows?: any
     isNew?: boolean
+    ressourceType?: string
 }) {
 
 
@@ -26,7 +26,8 @@ function Row(props: {
         isHeader,
         selectedRows,
         setSelectedRows,
-        isNew
+        isNew,
+        ressourceType
     } = props;
 
     const ref = useRef<HTMLDivElement | null>()
@@ -73,13 +74,12 @@ function Row(props: {
     }
 
     return (
-        <div className='row-ctn'
+        <div className={`row-ctn ${ressourceType}`}
             onMouseEnter={() => setHovering(row.id)}
             onMouseLeave={() => setHovering(null)}
         >
             {!isHeader && !isNew &&
                 <div className='checkbox-ctn'>
-
                     <Checkbox.Root
                         className="CheckboxRoot"
                         checked={selectedRows.includes(eventId)}

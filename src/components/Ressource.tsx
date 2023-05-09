@@ -43,12 +43,13 @@ function Ressource() {
             const newCampaignEvents = campaignEvents?.data?.data.map((event: any) => {
                 return {
                     ...event,
-                    position: convertPositionToDate(event.position, event.position_units, event.start_date)
+                    position: convertPositionToDate(event.position, event.position_units, event.start_date)?.toString()
                 }
             });
             setFormattedCampaignEvents((prev: any) => {
                 return { ...prev, data: { data: [...newCampaignEvents] } }
             })
+            console.log(formattedCampaignEvents)
         }
 
     }, [campaignEvents?.data?.data])
