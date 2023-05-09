@@ -53,9 +53,6 @@ function TableHeader(props: {
     const [phaseName, setPhaseName] = React.useState<string>('New phase');
     const [phaseNumber, setPhaseNumber] = React.useState<number>(Object.keys(phases).length + 1);
 
-    const { setSelectedTemplateId } = React.useContext(selectedTemplateContext)
-    const { setSelectedCampaignId } = React.useContext(selectedCampaignContext)
-
     const mapSelectedEvents = () => {
         let selectedEvents
         if (selectedRows.length === 0) {
@@ -69,17 +66,15 @@ function TableHeader(props: {
         return selectedEvents
     }
 
+    useEffect(() => {
+        if (events?.length === 0) {
+            handleCreatePhaseWithEvent(phaseName, phaseNumber)
+        }
+        console.log(events)
+    }, [events])
+
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
     const campaignKeys = [...templateKeys, 'completed']
-
-    const templateObject = {
-        description: 'Description',
-        position: 'Position',
-        category: 'Category',
-        entity_responsible: 'Entity Responsible',
-        type: 'Type'
-    }
-    const keys = ressourceType === 'template' ? templateKeys : campaignKeys;
     const typeOfEvent = ressourceType === 'template' ? 'template_events' : 'campaign_events'
 
     const session = useSession()
@@ -120,7 +115,7 @@ function TableHeader(props: {
         try {
 
             let event: EventWithCampaignId = {
-                description: 'First event',
+                description: 'Your event',
                 author_id: session?.user.id,
                 created_at: dayjs().format(),
                 phase_number: phaseNumber,

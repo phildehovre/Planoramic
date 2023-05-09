@@ -114,7 +114,7 @@ function Cell(props: {
     return (
         <form
             title='Click on this cell to edit'
-            className={`cell-ctn ${isEditing ? 'isEditing' : ''} ${label}`}
+            className={`cell-ctn ${isEditing ? 'isEditing' : ''} ${label} ${value === null || value === undefined ? 'error' : ''}`}
             onClick={() => handleCellClick()}
             onSubmit={handleFormSubmit}
             ref={cellRef}

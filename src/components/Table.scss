@@ -239,6 +239,9 @@
         width: 100%;
     }
 
+    &.error {
+        background-color: hsla(0, 100%, 79%, 0.445);
+    }
 }
 
 .checkbox-ctn {
