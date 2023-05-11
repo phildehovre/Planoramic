@@ -16,6 +16,25 @@
         font-size: larger;
         border-bottom: 1px solid rgb(63, 63, 63);
     }
+
+    .phase-header {
+        width: 80%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        margin: .75em;
+
+        >h3 {
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .phase-toggle:hover {
+            cursor: pointer;
+            color: coral;
+        }
+    }
 }
 
 .phase-ctn {
@@ -28,14 +47,12 @@
     height: auto;
 
 
-    >h3 {
-        width: 80%;
-        text-align: left
-    }
 
     .headers {
         font-weight: bolder;
     }
+
+
 }
 
 .row-ctn {
@@ -46,10 +63,14 @@
     position: relative;
     height: 3.2em;
     gap: 1em;
-    border-top: 1px solid lightgrey;
-    border-left: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
+    // border-top: 1px solid lightgrey;
+    // border-left: 1px solid lightgrey;
+    // border-right: 1px solid lightgrey;
+    border: 1px solid lightgrey;
     border-radius: 10px;
+    background-color: #EDEFF7;
+    margin-bottom: .25em;
+
 
     >&.campaign {
         grid-template-columns: 2em 10em 10em 15% 2fr 10em 2em;
@@ -63,6 +84,8 @@
         justify-content: space-between;
         align-items: center;
         border: none;
+        background-color: transparent;
+
 
         >button {
             width: 5em;
@@ -156,7 +179,6 @@
         >&.position {
             width: auto;
             grid-column-start: 2;
-            // border-right: 1px solid lightgrey;
 
             >&.template {
                 grid-column-end: span 2;
@@ -262,6 +284,8 @@
     height: 1em;
     width: 2em;
     padding: .4em;
+    background-color: white;
+    ;
 
     >button {
         width: 100%;

@@ -10,7 +10,7 @@ function Row(props: {
     keys?: string[],
     onSubmit?: any,
     setEventId?: any,
-    isHeader?: boolean
+    // isHeader?: boolean
     selectedRows?: any,
     setSelectedRows?: any
     isNew?: boolean
@@ -23,7 +23,7 @@ function Row(props: {
         keys,
         onSubmit,
         setEventId,
-        isHeader,
+        // isHeader,
         selectedRows,
         setSelectedRows,
         isNew,
@@ -78,7 +78,7 @@ function Row(props: {
             onMouseEnter={() => setHovering(row.id)}
             onMouseLeave={() => setHovering(null)}
         >
-            {!isHeader && !isNew &&
+            {!isNew &&
                 <div className='checkbox-ctn'>
                     <Checkbox.Root
                         className="CheckboxRoot"

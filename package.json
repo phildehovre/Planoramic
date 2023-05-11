@@ -29,6 +29,7 @@
     "@tanstack/react-query-devtools": "^4.29.1",
     "dayjs": "^1.11.7",
     "exponential-backoff": "^3.1.1",
+    "gsap": "^3.11.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-datetime": "^3.2.0",

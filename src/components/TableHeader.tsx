@@ -67,10 +67,9 @@ function TableHeader(props: {
     }
 
     useEffect(() => {
-        if (events?.length === 0) {
+        if (events?.length === 0 && ressourceType === 'template') {
             handleCreatePhaseWithEvent(phaseName, phaseNumber)
         }
-        console.log(events)
     }, [events])
 
     const templateKeys = ['description', 'position', 'category', 'entity_responsible', 'type']
@@ -154,12 +153,12 @@ function TableHeader(props: {
                 </div>
                 Select all
             </label>
-            <button
+            {ressourceType === 'template' && <button
                 title='Create a new phase'
                 onClick={() => { setShowModal(true) }}
             >
                 <FontAwesomeIcon icon={faPlus} />
-            </button>
+            </button>}
             {ressourceType === 'campaign' && <button
                 onClick={() =>
                     postEventsToGoogle(mapSelectedEvents(), ressource?.data?.data[0].targetDate, session)

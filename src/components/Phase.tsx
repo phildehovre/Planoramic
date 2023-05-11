@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Row from './Row';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faCaretDown, faCaretUp, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import NewRow from './NewRow';
 import Modal from './Modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -28,6 +28,8 @@ function Phase(props: {
     const [modalCallback, setModalCallback] = React.useState<any>(null)
     const [modalPrompt, setModalPrompt] = React.useState('')
     const [showModal, setShowModal] = React.useState(false)
+    const [showPhase, setShowPhase] = React.useState(1)
+    const contentRef = useRef()
 
     const {
         name: phaseName,
@@ -37,6 +39,7 @@ function Phase(props: {
         newRowProps,
         ressourceType
     } = props;
+
 
     const { keys, setSelectedRows, selectedRows } = rowProps;
 
@@ -103,6 +106,14 @@ function Phase(props: {
             .then((res) => queryClient.invalidateQueries([`${ressourceType}_events`]))
     }
 
+    const handlePhaseDisplay = () => {
+        if (showPhase == phaseNumber) {
+            setShowPhase(0)
+        } else {
+            setShowPhase(phaseNumber)
+        }
+    }
+
     const handleOptionClick = (option: string) => {
         setShowModal(true)
         if (option === 'Delete') {
@@ -141,8 +152,8 @@ function Phase(props: {
     }
 
     return (
-        <div className='phase-ctn'>
-            <h3>
+        <>
+            <span className='phase-header'>
                 <div className='checkbox-ctn'>
                     <Checkbox.Root
                         className="CheckboxRoot"
@@ -154,7 +165,9 @@ function Phase(props: {
                         </Checkbox.Indicator>
                     </Checkbox.Root>
                 </div>
-                Phase {phaseNumber}: {phaseName}
+                <h3 onClick={handlePhaseDisplay}>
+                    Phase {phaseNumber}: {phaseName}
+                </h3>
                 <span style={{ position: 'relative', cursor: 'pointer', padding: '0 1.5em' }}>
                     <FontAwesomeIcon
                         icon={faEllipsis}
@@ -166,25 +179,44 @@ function Phase(props: {
                         setIsOpen={setShowDropdown}
                     />}
                 </span>
-            </h3>
-            <div className={`row-ctn ${ressourceType}`}>
-                {renderColumnHeaders()}
+                <div onClick={handlePhaseDisplay} className='phase-toggle'>
+
+                    {
+                        showPhase == phaseNumber
+
+                            ? <FontAwesomeIcon icon={faCaretUp} />
+                            : <FontAwesomeIcon icon={faCaretDown} />
+
+                    }
+                </div>
+            </span>
+            <div className='phase-ctn'>
+                {
+                    showPhase == phaseNumber &&
+                    <>
+                        <div
+                            style={{ backgroundColor: 'white' }}
+                            className={`row-ctn ${ressourceType} headers`}>
+                            {renderColumnHeaders()}
+                        </div>
+                        {renderRows()}
+                        < NewRow
+                            {...newRowProps}
+                            phaseNumber={phaseNumber}
+                            phaseName={phaseName}
+                        />
+                    </>
+                }
+                <Modal
+                    onClose={() => setShowModal(false)}
+                    onSave={modalCallback}
+                    title={modalPrompt}
+                    showModal={showModal && modalPrompt !== ''}
+                    setShowModal={setShowModal}
+                    showFooter={true}
+                />
             </div>
-            {renderRows()}
-            <NewRow
-                {...newRowProps}
-                phaseNumber={phaseNumber}
-                phaseName={phaseName}
-            />
-            <Modal
-                onClose={() => setShowModal(false)}
-                onSave={modalCallback}
-                title={modalPrompt}
-                showModal={showModal && modalPrompt !== ''}
-                setShowModal={setShowModal}
-                showFooter={true}
-            />
-        </div>
+        </>
     )
 }
 

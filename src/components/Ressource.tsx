@@ -3,8 +3,6 @@ import { useCampaignEvents, useTemplateEvents } from '../util/db'
 import { useParams } from 'react-router'
 import { useSession } from '@supabase/auth-helpers-react'
 import Table from './Table'
-import Modal from './Modal'
-import { useState } from 'react'
 import { convertPositionToDate } from '../utils/helpers'
 
 function Ressource() {
@@ -49,7 +47,6 @@ function Ressource() {
             setFormattedCampaignEvents((prev: any) => {
                 return { ...prev, data: { data: [...newCampaignEvents] } }
             })
-            console.log(formattedCampaignEvents)
         }
 
     }, [campaignEvents?.data?.data])

@@ -1,18 +1,8 @@
 import React, { useEffect } from 'react'
 import './Modals.scss'
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
 
-const schema = yup.object().shape({
-    position: yup.number().min(1).required('A duration is required'),
-    position_units: yup.string().required('Select days, weeks, or month(s)'),
-    category: yup.string().required('Please chose a category'),
-    description: yup.string().required('A description is required'),
-    entity_responsible: yup.string().required('Select a responsible entity'),
-    type: yup.string().required('Select a type of task'),
-})
 
 function NewCampaignFromTemplate(props: {
     placeholder?: string | undefined
@@ -30,7 +20,6 @@ function NewCampaignFromTemplate(props: {
     const { handleSubmit, register } = useForm();
 
     async function handleFormSubmit(data: any) {
-        console.log('through cell: ', data)
         await handleSubmit((formData: any) => onSubmit(formData))(data)
         // This code will execute after the handleSubmit Promise is resolved
     }
