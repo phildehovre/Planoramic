@@ -1,9 +1,15 @@
 .dashboard-layout {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     width: 100vw;
-    // overflow-y: hidden;
+    justify-content: center;
+    // align-items: center;
+}
+
+.dashboard-navbar {
+    width: 100vw;
+    background-color: #EDEFF7;
 }
 
 .sidebar-layout {

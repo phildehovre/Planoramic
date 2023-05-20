@@ -10,6 +10,7 @@ const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
         return (
             <Select.Item
                 className={classnames('SelectItem', className)}
+                style={{ backgroundColor: props.color }}
                 {...props}
                 ref={forwardedRef}
             >

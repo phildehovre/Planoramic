@@ -3,6 +3,7 @@ import { Link, Outlet, useParams } from 'react-router-dom'
 import DashboardLayout from '../layouts/DashboardLayout'
 import Sidebar from './Sidebar'
 import { useCampaigns, useTemplates } from '../util/db'
+import Navbar from './Navbar'
 
 function Dashboard() {
     const [ressources, setRessources] = React.useState<any[]>([])
@@ -38,6 +39,7 @@ function Dashboard() {
 
     return (
         <DashboardLayout
+            navbar={<Navbar />}
             sidebar={<Sidebar
                 ressources={ressources}
                 ressourceType={ressourceType}

@@ -27,7 +27,7 @@ const useOnClickOutside = (ref: React.RefObject<any>, handler: (event: MouseEven
 
 const CustomSelect = (props: {
     label: string,
-    options: { label: string, value: string }[],
+    options: { label: string, value: string, color: string }[],
     register: any,
     onOptionClick: (value: string) => void,
     setIsEditing: (bool: boolean) => void,
@@ -90,12 +90,13 @@ const CustomSelect = (props: {
                     <Select.Viewport className="SelectViewport">
                         <Select.Group>
                             <Select.Label className="SelectLabel">Who</Select.Label>
-                            {options.map((option, index) => {
+                            {options.map((option: { value: string, label: string, color: string }, index) => {
                                 return (
                                     <SelectItem
                                         key={index}
                                         value={option.value}
                                         className={classnames('SelectItem', option.value === 'banana' && 'SelectItem--selected')}
+                                        color={option.color}
                                     >
                                         {option.label}
                                     </SelectItem>

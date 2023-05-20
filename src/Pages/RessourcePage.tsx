@@ -4,6 +4,7 @@ import { Outlet, useParams } from 'react-router'
 import RessourceHeader from '../components/RessourceHeader'
 import { useSession } from '@supabase/auth-helpers-react'
 import { useCampaign, useCampaigns, useTemplate, useTemplates } from '../util/db'
+import Navbar from '../components/Navbar'
 
 
 function RessourcePage(props: any) {

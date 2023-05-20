@@ -36,8 +36,8 @@ function RessourceHeader(props: any) {
     const [showDropdown, setShowDropdown] = React.useState(false)
     const [targetDate, setTargetDate] = React.useState<Date>(dayjs().add(1, 'month').toDate())
     const { ressource, ressourceType } = props
-
     const queryClient = useQueryClient()
+
     const navigate = useNavigate()
     const session = useSession()
     const { register,
@@ -56,7 +56,7 @@ function RessourceHeader(props: any) {
 
     const updateCellFn = async ({ id, key, val }: any) => {
         return await supabase
-            .from(ressourceType)
+            .from(`${ressourceType}s`)
             .update({ [key]: val })
             .eq(ressourceKey + '_id', id)
             .select()
@@ -68,10 +68,10 @@ function RessourceHeader(props: any) {
 
     const submitDescription = async (description: string) => {
         updateCell.mutateAsync({ id: ressourceId, key: 'description', val: description })
-            .then(() => {
-                queryClient.invalidateQueries({ queryKey: [ressourceKey, { id: ressourceId }] })
-            });
+            .then(() => queryClient.invalidateQueries({ queryKey: [ressourceKey, { [`${ressourceKey}_id`]: ressourceId }] })
+            );
     };
+
 
     // ================= New campaign from template =================
 
@@ -162,6 +162,8 @@ function RessourceHeader(props: any) {
         }
         setShowDropdown(false)
     }
+
+
     const renderHeader = () => {
         return (
             <div className="ressource-header">
@@ -214,7 +216,7 @@ function RessourceHeader(props: any) {
             {
                 showEditDescriptionModal && <Modal
                     onClose={() => { console.log('closing') }}
-                    showFooter={false}
+                    showFooter={true}
                     onSave={() => { submitDescription(description) }}
                     showModal={showEditDescriptionModal}
                     setShowModal={setShowEditDescriptionModal}

@@ -9,7 +9,6 @@ import GetGoogleEvents from '../components/GetGoogleEvents'
 function Home() {
     return (
         <Page>
-            <GetGoogleEvents />
             <HomepageLayout navbar={<Navbar />} body={<Hero />} />
         </Page>
     )

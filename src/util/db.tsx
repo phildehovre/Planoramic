@@ -31,7 +31,7 @@ const fetchTemplate = async (id: string) => {
 
 export function useTemplate(id: string | undefined, enabled: boolean) {
     return useQuery(
-        ['template', { id }], () => fetchTemplate(id),
+        ['template', { 'template_id': id }], () => fetchTemplate(id),
         {
             enabled: enabled
         }
@@ -50,13 +50,12 @@ export function useCampaign(id: string | undefined, enabled: boolean) {
                 return res;
             } catch (error) {
                 console.log(error);
-            } finally {
             }
         },
         [id]
     );
 
-    return useQuery(['campaign', { id }], fetchCampaignMemoized, {
+    return useQuery(['campaign', { 'campaign_id': id }], fetchCampaignMemoized, {
         enabled: enabled,
     });
 }
@@ -212,7 +211,7 @@ export function useDeleteEvent() {
 
     const deleteEvent = async (eventId: string, callback, type) => {
         await deleteEventMutation.mutateAsync({ eventId, type })
-            .then(() => { callback })
+            .then(() => callback)
             ;
     }
 

@@ -23,15 +23,15 @@ const NavBar = () => {
                 <div id='logo'>Logo</div>
             </div>
             <div className='nav_right-ctn'>
-                <button>Home</button>
+                <button className='navbar-btn'>Home</button>
+                {session &&
+                    <button className='navbar-btn' onClick={() => navigate('/dashboard')}>Dashboard</button>
+                }
+                {/* <button className='navbar-btn'>Get started</button> */}
                 {session
-                    ? <button onClick={handleSignOut}>Sign Out</button>
+                    ? <button className='navbar-btn sign-in' onClick={handleSignOut}>Sign Out</button>
                     : <SupabaseLogin redirect='/dashboard' />
                 }
-                {session &&
-                    <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-                }
-                <button>Get started</button>
             </div >
         </div>
     );

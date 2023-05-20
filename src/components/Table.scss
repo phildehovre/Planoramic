@@ -46,13 +46,9 @@
     padding: .5em;
     height: auto;
 
-
-
     .headers {
         font-weight: bolder;
     }
-
-
 }
 
 .row-ctn {
@@ -63,9 +59,6 @@
     position: relative;
     height: 3.2em;
     gap: 1em;
-    // border-top: 1px solid lightgrey;
-    // border-left: 1px solid lightgrey;
-    // border-right: 1px solid lightgrey;
     border: 1px solid lightgrey;
     border-radius: 10px;
     background-color: #EDEFF7;
@@ -74,7 +67,6 @@
 
     >&.campaign {
         grid-template-columns: 2em 10em 10em 15% 2fr 10em 2em;
-
     }
 
     &.new-row {

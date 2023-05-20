@@ -1,68 +1,88 @@
 export const SelectOptions = {
     entity_responsible: [
         {
-            value: 'artist',
-            label: 'Artist'
-        },
-        {
             value: 'supplier',
-            label: 'Supplier'
+            label: 'Supplier',
+            color: '#d4edbc'
         },
         {
             value: 'label',
-            label: 'Label'
+            label: 'Label',
+            color: '#ffc8aa'
+        },
+        {
+            value: 'pr',
+            label: 'PR',
+            color: '#e6cff2'
         },
         {
             value: 'distributor',
-            label: 'Distributor'
+            label: 'Distributor',
+            color: '#e6e6e6'
         },
         {
-            value: 'bedmar',
-            label: 'Bedmar'
+            value: 'bedmar & Artist',
+            label: 'Bedmar & Artist',
+            color: '#e9e9e9'
         },
+        {
+            value: 'artist',
+            label: 'Artist',
+            color: '#ffe5a0'
+        }
     ],
     type: [
         {
             value: 'action',
-            label: 'Action'
+            label: 'Action',
+            color: 'transparent'
         },
         {
             value: 'creative',
-            label: 'Creative'
+            label: 'Creative',
+            color: 'transparent'
         },
         {
             value: 'promotion',
-            label: 'Promotion'
+            label: 'Promotion',
+            color: 'transparent'
         },
         {
             value: 'announcement',
-            label: 'Announcement'
+            label: 'Announcement',
+            color: 'transparent'
         },
         {
             value: 'pr_radio',
-            label: 'PR + Radio'
+            label: 'PR + Radio',
+            color: 'transparent'
         },
     ],
     position_units: [
         {
             value: 'days_before',
-            label: 'Days before'
+            label: 'Days before',
+            color: 'transparent'
         },
         {
             value: 'days_after',
-            label: 'Days after'
+            label: 'Days after',
+            color: 'transparent'
         },
         {
             value: 'weeks_before',
-            label: 'Weeks before'
+            label: 'Weeks before',
+            color: 'transparent'
         },
         {
             value: 'months_before',
-            label: 'Months before'
+            label: 'Months before',
+            color: 'transparent'
         },
         {
             value: 'months_after',
-            label: 'Months after'
+            label: 'Months after',
+            color: 'transparent'
         },
     ]
 }

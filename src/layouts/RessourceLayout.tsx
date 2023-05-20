@@ -1,8 +1,14 @@
 import React from 'react'
 import './RessourceLayout.scss'
 
-function RessourceLayout(props: { header: React.ReactNode, outlet: React.ReactNode }) {
-    const { header: Header, outlet: Outlet } = props
+function RessourceLayout(props: {
+    header: React.ReactNode,
+    outlet: React.ReactNode
+}) {
+    const {
+        header: Header,
+        outlet: Outlet
+    } = props
 
 
     return (
