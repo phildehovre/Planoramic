@@ -14,6 +14,8 @@ import { useSession } from '@supabase/auth-helpers-react';
 import { selectedCampaignContext } from '../contexts/SelectedCampaignContext';
 import { useCampaign } from '../util/db';
 import Modal from './Modal';
+import dayjs from 'dayjs';
+import { convertPositionToDate } from '../utils/helpers';
 
 const schema = yup.object().shape({
     position: yup.number().min(1).required('A duration is required'),
@@ -45,7 +47,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     const keys = ressourceType === 'template' ? templateKeys : campaignKeys
 
     useEffect(() => {
-        let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
+        let data = ressource?.data?.data
         let phases: any = {}
         for (let i = 0; i < data?.length; i++) {
             if (!phases[data[i].phase_number] && data[i].phase_number !== null) {
@@ -97,7 +99,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         eventId: eventId,
         ressourceType: ressourceType,
     };
-
+    
     const newRowProps = {
         propKeys: ['description'],
         onSubmit: onSubmit,
@@ -107,7 +109,7 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
     }
 
     const renderPhases = () => {
-        let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
+        let data = ressource?.data?.data
         let phaseKeys = Object.keys(phases)
         return phaseKeys.map((phase: any, i: number) => {
             let phaseEvents = data?.filter((row: any) => {
@@ -127,8 +129,10 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
         });
     };
 
+    // Sort rows by dates: NOT WORKING //
     const renderRows = () => {
-        let data = ressource?.data?.data.sort((a: any, b: any) => b.position - a.position)
+        let data = ressource?.data?.data
+        // .sort((a: any, b: any) => dayjs(a.position).isAfter(dayjs(b.position)? -1 : 1))
         return data?.map((row: any) => {
             if (row.phase_number === null) {
                 return <Row

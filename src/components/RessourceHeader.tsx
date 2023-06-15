@@ -13,7 +13,6 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-
 import { useTemplateEvents } from '../util/db'
 import { formatTemplateEventsToCampaign } from '../utils/helpers'
 import TemplateDescriptionEdit from './Modals/TemplateDescriptionEdit'

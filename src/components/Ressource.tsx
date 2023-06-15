@@ -38,14 +38,13 @@ function Ressource() {
 
     useEffect(() => {
         if (campaignEvents?.data?.data) {
-            const newCampaignEvents = campaignEvents?.data?.data.map((event: any) => {
-                return {
-                    ...event,
-                    position: convertPositionToDate(event.position, event.position_units, event.start_date)?.toString()
-                }
-            });
+            const sortedEvents = campaignEvents?.data?.data.sort((a: any, b: any) => b.position - a.position)
+            // const formattedEvents = sortedEvents.map((event: any) => { 
+            //     console.log(event)
+            //     return {...event, position: convertPositionToDate(event.position, event.position_units, event.start_date)} 
+            // })
             setFormattedCampaignEvents((prev: any) => {
-                return { ...prev, data: { data: [...newCampaignEvents] } }
+                return { ...prev, data: { data: [...sortedEvents] } }
             })
         }
 

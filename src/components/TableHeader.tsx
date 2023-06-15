@@ -96,7 +96,7 @@ function TableHeader(props: {
         for (let i = 0; i < selectedRows.length; i++) {
             deleteEvent(selectedRows[i],
                 queryClient.invalidateQueries([typeOfEvent]), typeOfEvent)
-        }
+            }
     }
 
     const addRessource = useMutation({
