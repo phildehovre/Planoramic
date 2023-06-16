@@ -1,6 +1,17 @@
 .create-ctn {
+    cursor: pointer;
     display: flex;
-    justify-content: center;
-    gap: 1em;
     align-items: center;
+    justify-content: center;
+    min-height: 2em;
+    border:2px solid #edeff7;
+    width: 90%;
+    padding: .4em 1em;
+    font-size: smaller;
+    border-radius: 5px;
+
+    &:hover {
+    background-color: #edeff7;
+
+}
 }

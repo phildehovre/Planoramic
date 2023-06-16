@@ -25,8 +25,8 @@ function App() {
               <Route path='/dashboard' element={<Dashboard />}>
                 <Route path='' element={<New />} />
                 <Route path=':ressource' element={<RessourcePage />} >
-                  <Route path='' element={<Create />} />
-                  <Route path=':id' element={<Ressource />} />
+                  {/* <Route path='' element={<Create />} /> */}
+                  <Route path=':id' element={<Ressource/>} />
                 </Route>
               </Route>
             </Routes>

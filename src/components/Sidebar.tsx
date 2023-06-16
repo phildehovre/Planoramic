@@ -26,14 +26,13 @@ function Sidebar(props: {
 
 
     useEffect(() => {
-        if (params.ressource === 'campaigns') {
-            setDisplayRessources('campaign')
+        if (params.ressource === 'campaign') {
+            setDisplayRessources('campaigns')
         }
-        if (params.ressource === 'templates') {
-            setDisplayRessources('template')
+        if (params.ressource === 'template') {
+            setDisplayRessources('templates')
         }
-
-    })
+    }, [])
 
     const handleRessourceSelection = (ressourceType: string, id: string) => {
         if (ressourceType === 'campaigns') {
@@ -54,7 +53,7 @@ function Sidebar(props: {
                         style={{ cursor: 'pointer' }}
                         onClick={() => {
                             setDisplayRessources((prev: string) => {
-                                if (prev?.length) {
+                                if (prev?.length && prev === ressource.type) {
                                     return ''
                                 }
                                 else {

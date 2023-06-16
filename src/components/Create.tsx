@@ -58,7 +58,7 @@ function Create(props: { ressourceType?: string }) {
     return (
         <div className='create-ctn'>
             <button onClick={() => handleOpenModalWithRessource()}>
-                <FontAwesomeIcon icon={faPlus} />
+                <FontAwesomeIcon icon={faPlus} size='lg'/>
             </button>
             <Modal
                 showModal={showModal}

@@ -25,7 +25,6 @@ $sidebar-content-width: 100%;
         top: 0;
         width: $sidebar-content-width;
         height: 100vh;
-        // overflow-y: hidden;
         gap: .4em;
         display: flex;
         flex-direction: column;
@@ -39,11 +38,21 @@ $sidebar-content-width: 100%;
             display: flex;
             align-items: center;
             min-height: 2em;
-            background-color: lightgrey;
-            width: 80%;
-            padding: .4em;
+            background-color: #edeff7;
+            width: 90%;
+            padding: .4em 1em;
             font-size: smaller;
-            border-radius: 10px;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: white;
+                outline: 1px solid #edeff7;
+                transition: all ease-in-out 250ms;
+            }
+
+            &:active {
+                outline: 2px solid #bdcafa
+            }
         }
 
     }

@@ -7,6 +7,8 @@ import { convertPositionToDate } from '../utils/helpers'
 
 function Ressource() {
 
+    const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
+
     const { ressource: ressourceType, id: ressourceId } = useParams()
     const session = useSession()
     const params = useParams()
@@ -17,6 +19,7 @@ function Ressource() {
     const [templateId, setTemplateId] = React.useState<string | undefined>(undefined)
     const [campaignId, setCampaignId] = React.useState<string | undefined>(undefined)
     const [formattedCampaignEvents, setFormattedCampaignEvents] = React.useState<any>({ data: { data: [] } })
+
 
     useEffect(() => {
         if (ressourceType === 'template' && params.id) {
@@ -55,6 +58,8 @@ function Ressource() {
             <Table
                 ressource={ressourceType === 'template' ? templateEvents : formattedCampaignEvents}
                 ressourceType={ressourceType}
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
             />
         </div>
     )

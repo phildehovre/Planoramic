@@ -10,6 +10,7 @@ import Navbar from '../components/Navbar'
 function RessourcePage(props: any) {
 
 
+
     const session = useSession()
     const { ressource: ressourceType, id } = useParams()
 
@@ -28,13 +29,17 @@ function RessourcePage(props: any) {
 
     const headerProps = {
         ressource: ressourceType === 'template' ? templateData : campaignData,
-        ressourceType: ressourceType
+        ressourceType: ressourceType,
     }
+
 
     return (
         <RessourceLayout
             header={<RessourceHeader {...headerProps} />}
-            outlet={<Outlet />}
+            outlet={
+            <Outlet 
+            />
+        }
         />
     )
 }

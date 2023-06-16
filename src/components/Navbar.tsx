@@ -23,7 +23,7 @@ const NavBar = () => {
                 <div id='logo'>Logo</div>
             </div>
             <div className='nav_right-ctn'>
-                <button className='navbar-btn'>Home</button>
+                <Link className='navbar-btn' to='/'>Home</Link>
                 {session &&
                     <button className='navbar-btn' onClick={() => navigate('/dashboard')}>Dashboard</button>
                 }

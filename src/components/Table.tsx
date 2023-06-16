@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Dispatch, SetStateAction, useEffect } from 'react'
 import Row from './Row'
 import './Table.scss'
 import TableHeader from './TableHeader';
@@ -26,13 +26,22 @@ const schema = yup.object().shape({
     type: yup.string().required('Select a type of task'),
 })
 
-function Table(props: { ressource: any, ressourceType: string | undefined }) {
+function Table(props: { 
+    ressource: any, 
+    ressourceType: string | undefined 
+    selectedRows: any[],
+    setSelectedRows: Dispatch<SetStateAction<any[]>>,
+}) {
     const { ressource, ressourceType } = props;
     const queryClient = useQueryClient()
     const session = useSession()
+    const {
+        selectedRows,
+        setSelectedRows,
+    } = props;
 
     const [eventId, setEventId] = React.useState(null);
-    const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
+    // const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
     const [phases, setPhases] = React.useState<any>({});
 
     const { register,
@@ -146,14 +155,14 @@ function Table(props: { ressource: any, ressourceType: string | undefined }) {
 
     return (
         <div className='table-ctn'>
-            <TableHeader
+            {/* <TableHeader
                 setSelectedRows={setSelectedRows}
                 selectedRows={selectedRows}
                 ressource={ressource}
                 ressourceType={ressourceType}
                 events={ressource?.data?.data}
                 phases={phases}
-            />
+            /> */}
             <ErrorNotification
                 ressourceType={ressourceType}
                 ressource={ressource}
