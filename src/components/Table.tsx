@@ -181,7 +181,7 @@ function Table(props: {
       {ressource?.data?.data.length === 0 ? (
         <>
           <h3>No events yet.</h3>
-          <NewRow {...newRowProps} />
+          <NewRow keys={["description"]} {...newRowProps} />
         </>
       ) : (
         renderRows()
