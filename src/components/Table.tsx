@@ -155,7 +155,6 @@ function Table(props: {
     });
   };
 
-  // Sort rows by dates: NOT WORKING //
   const renderRows = () => {
     let data = ressource?.data?.data;
     // .sort((a: any, b: any) => dayjs(a.position).isAfter(dayjs(b.position)? -1 : 1))
