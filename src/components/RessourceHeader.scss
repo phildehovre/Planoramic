@@ -11,20 +11,12 @@
     }
 
 
-    >p {
-        margin: 0 0;
-        padding: 0;
-        cursor: pointer;
-    }
-
     .title-ctn {
         display: flex;
-        align-items: center;
+        align-items: left;
         gap: 1em;
-
-        .dropdown-container {
-            position: relative;
-        }
+        flex-direction: column;
+        justify-content: center;
 
         >:last-child {
             display: flex;

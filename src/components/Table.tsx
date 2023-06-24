@@ -13,10 +13,8 @@ import { formatAndUpdateEvent } from "../apis/googleCalendar";
 import { useSession } from "@supabase/auth-helpers-react";
 import { selectedCampaignContext } from "../contexts/SelectedCampaignContext";
 import { useCampaign } from "../util/db";
-import Modal from "./Modal";
-import dayjs from "dayjs";
-import { convertPositionToDate } from "../utils/helpers";
 import NewRow from "./NewRow";
+import TableHeaders from "./TableHeaders";
 
 const schema = yup.object().shape({
   position: yup.number().min(1).required("A duration is required"),
@@ -37,8 +35,6 @@ function Table(props: {
   const queryClient = useQueryClient();
   const session = useSession();
   const { selectedRows, setSelectedRows } = props;
-
-  console.log(ressource.data);
 
   const [eventId, setEventId] = React.useState(null);
   // const [selectedRows, setSelectedRows] = React.useState<any[]>([]);
@@ -165,6 +161,22 @@ function Table(props: {
     });
   };
 
+  const renderRowswithoutPhase = () => {
+    let data = ressource?.data?.data.filter((row: any) => {
+      return row.phase_number === null;
+    });
+    if (data?.length > 0) {
+      return (
+        <>
+          <TableHeaders keys={keys} ressourceType={ressourceType} />
+          {data?.map((row: any) => {
+            return <Row row={row} key={row.id} {...rowProps} />;
+          })}
+        </>
+      );
+    }
+  };
+
   return (
     <div className="table-ctn">
       <TableHeader
@@ -183,7 +195,7 @@ function Table(props: {
           <NewRow keys={["description"]} {...newRowProps} />
         </>
       ) : (
-        renderRows()
+        <>{renderRowswithoutPhase()}</>
       )}
     </div>
   );

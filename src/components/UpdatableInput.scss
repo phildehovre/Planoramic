@@ -1,0 +1,27 @@
+.input-value {
+
+    &.small {
+        font-size: 0.8rem;
+    }
+    &.normal {
+        font-size: 1rem;
+    }
+    &.large{
+        font-size: 1.2rem;
+    }
+    &.larger {      
+        font-size: 1.4rem;
+    }
+
+    &.bold {
+        font-weight: bold;
+    }
+
+    &.bolder {
+        font-weight: bolder;
+    }
+
+    &.italic {
+        font-style: italic;
+    }
+}
