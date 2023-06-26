@@ -1,6 +1,7 @@
 @import '@radix-ui/colors/blackA.css';
 @import '@radix-ui/colors/mauve.css';
 @import '@radix-ui/colors/violet.css';
+@import '../variables.scss';
 
 /* reset */
 button {
@@ -20,7 +21,8 @@ button {
     height: 35px;
     gap: 5px;
     background-color: white;
-    color: var(--violet11);
+    color: black;
+    font-size: 1em;
     // box-shadow: 0 2px 10px var(--blackA7);
 }
 
@@ -32,15 +34,9 @@ button {
     box-shadow: 0 0 0 2px black;
 }
 
-.SelectTrigger[data-placeholder] {
-    color: var(--violet9);
-}
-
-.SelectIcon {
-    color: Var(--violet11);
-}
 
 .SelectContent {
+    font-size: large;
     overflow: hidden;
     background-color: white;
     border-radius: 6px;
@@ -52,27 +48,30 @@ button {
 }
 
 .SelectItem {
-    font-size: 13px;
+    font-size: 1em;
     line-height: 1;
-    color: var(--violet11);
     border-radius: 3px;
     display: flex;
     align-items: center;
     height: 25px;
-    padding: 0 35px 0 25px;
+    padding: .4em .4em;
     position: relative;
     user-select: none;
+    margin: .25em 0;
 }
 
 .SelectItem[data-disabled] {
-    color: var(--mauve8);
     pointer-events: none;
 }
 
 .SelectItem[data-highlighted] {
     outline: none;
-    background-color: var(--violet9);
-    color: var(--violet1);
+    transition: 100ms ease-in-out all;
+    cursor: pointer;
+
+    &:hover {
+        font-weight: bold;
+    }
 }
 
 .SelectLabel {
@@ -84,7 +83,6 @@ button {
 
 .SelectSeparator {
     height: 1px;
-    background-color: var(--violet6);
     margin: 5px;
 }
 
@@ -103,6 +101,5 @@ button {
     justify-content: center;
     height: 25px;
     background-color: white;
-    color: var(--violet11);
     cursor: default;
 }

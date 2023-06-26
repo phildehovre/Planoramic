@@ -107,11 +107,11 @@ function RessourceHeader(props: any) {
     return campaign;
   };
 
+  // ==================Add all template events to campaign events ==============
   const copyTemplateEventsToCampaignEvents = useMutation({
     mutationFn: async (templateEvents: any) => {
       await supabase.from("campaign_events").insert(templateEvents);
     },
-    // ==================Add all template events to campaign events ==============
   });
 
   const onSubmit = (data: any) => {
@@ -179,11 +179,12 @@ function RessourceHeader(props: any) {
   const [hasFalsyValue, keysWithFalsyValues] = checkFalsyValuesInEvents(
     templateEventsData?.data
   );
-
+  // ======== Remove notification when template events are updated ========
   useEffect(() => {
     setShowNotification(false);
   }, [templateEventsData?.data]);
 
+  // ======== Trigger check on click ========
   const onOptionClick = (option: string) => {
     if (option === "New campaign from Template") {
       if (keysWithFalsyValues.length > 0) {

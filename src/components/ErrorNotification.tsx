@@ -12,7 +12,7 @@ function ErrorNotification(props: {
   ressourceType?: string;
   ressource?: any;
   show: boolean;
-  setshow: React.Dispatch<React.SetStateAction<boolean>>;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }): JSX.Element {
   const { ressourceType, ressource, show, setShow } = props;
 
