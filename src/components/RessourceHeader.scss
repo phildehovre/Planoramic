@@ -15,14 +15,23 @@
         display: flex;
         align-items: left;
         gap: 1em;
-        flex-direction: column;
-        justify-content: center;
+        // flex-direction: column;
+        // justify-content: center;
 
         >:last-child {
             display: flex;
             align-items: center;
-            cursor: pointer;
+            cursor: pointer
         }
+    }
+
+    .dropdown-btn {
+        border-radius: 50px;
+        width: 2em;
+        height: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .campaign_info-ctn {

@@ -80,11 +80,14 @@ function UpdatableInput(props: {
     if (isEditing) {
       return (
         <input
+          className={`input ${size} ${weight}`}
           type={type}
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
           ref={inputRef}
           placeholder={value}
+          size={value.length}
+          autoFocus
         />
       );
     }

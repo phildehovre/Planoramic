@@ -20,6 +20,7 @@
         z-index: 1;
         color: white;
 
+
         .modal-close {
             position: absolute;
             top: 8px;
@@ -30,8 +31,13 @@
             cursor: pointer;
         }
 
+
         .modal-content {
             padding: 16px;
+
+            >h2 {
+                text-transform: uppercase;
+            }
         }
 
         .modal-footer {
@@ -51,3 +57,5 @@
         }
     }
 }
+
+

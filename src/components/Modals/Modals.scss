@@ -9,6 +9,7 @@ input {
     padding: .5em
 }
 
+
 .modal_form-ctn {
     display: flex;
     flex-direction: column;
@@ -28,5 +29,22 @@ input {
 
     >input[type=date] {
         cursor: pointer;
+    }
+
+
+
+}
+
+.new_ressource-modal {
+    font-size: 1.2em;
+    
+
+
+    >input {
+        width: 90%;
+        border: 1px solid grey;
+        border-radius: 5px;
+        padding: 1em;
+font-size: 1.2em
     }
 }

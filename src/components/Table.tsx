@@ -187,7 +187,7 @@ function Table(props: {
         events={ressource?.data?.data}
         phases={phases}
       />
-      <ErrorNotification ressourceType={ressourceType} ressource={ressource} />
+      {/* <ErrorNotification ressourceType={ressourceType} ressource={ressource} /> */}
       {ressource?.data?.data.length > 0 && renderPhases()}
       {ressource?.data?.data.length === 0 ? (
         <>

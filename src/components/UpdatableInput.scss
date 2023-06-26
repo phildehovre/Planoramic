@@ -1,27 +1,37 @@
 .input-value {
 
-    &.small {
-        font-size: 0.8rem;
-    }
-    &.normal {
-        font-size: 1rem;
-    }
-    &.large{
-        font-size: 1.2rem;
-    }
-    &.larger {      
-        font-size: 1.4rem;
-    }
+}
+.small {
+    font-size: 0.8rem;
+}
+.normal {
+    font-size: 1rem;
+}
+.large{
+    font-size: 1.2rem;
+}
+.larger {      
+    font-size: 1.4rem;
+}
 
-    &.bold {
-        font-weight: bold;
-    }
+.bold {
+    font-weight: bold;
+}
 
-    &.bolder {
-        font-weight: bolder;
-    }
+.bolder {
+    font-weight: bolder;
+}
 
-    &.italic {
-        font-style: italic;
-    }
+.italic {
+    font-style: italic;
+}
+
+.input {
+    background-color: transparent;
+    color: black;
+    padding: .25em;
+    // margin: .4em;
+    border: none;
+    outline: 1px solid lightgrey;
+    border-radius: 5px;
 }

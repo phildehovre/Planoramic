@@ -12,16 +12,18 @@ import { selectedTemplateContext } from "../contexts/SelectedTemplateContext";
 import { selectedCampaignContext } from "../contexts/SelectedCampaignContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useQueryClient } from "@tanstack/react-query";
 
 function Create(props: { ressourceType?: string }) {
   const { ressourceType } = props;
   const navigate = useNavigate();
   const params = useParams();
+  const queryClient = useQueryClient();
 
   const type = ressourceType || params.ressource;
 
   const [showModal, setShowModal] = React.useState(false);
-  const [name, setName] = React.useState("New ressource");
+  const [name, setName] = React.useState("");
 
   const { setSelectedTemplateId } = React.useContext(selectedTemplateContext);
   const { setSelectedCampaignId } = React.useContext(selectedCampaignContext);
@@ -31,6 +33,7 @@ function Create(props: { ressourceType?: string }) {
       .mutateAsync([
         { name: name, created_at: new Date(), [`${type}_id`]: uuidv4() },
       ])
+
       .then((res) => {
         if (type === "template" && res.data) {
           setSelectedTemplateId(res?.data[0].template_id);
@@ -40,7 +43,12 @@ function Create(props: { ressourceType?: string }) {
           setSelectedCampaignId(res?.data[0].campaign_id);
           navigate(`/dashboard/campaign/${res?.data[0].campaign_id}`);
         }
-      });
+      })
+      .then(() =>
+        queryClient.invalidateQueries({
+          queryKey: [`${type}s`],
+        })
+      );
   };
 
   const addRessource = useMutation({
@@ -54,10 +62,7 @@ function Create(props: { ressourceType?: string }) {
 
   return (
     <div className="create-ctn">
-      <button
-        style={{ border: "1px solid red" }}
-        onClick={() => handleOpenModalWithRessource()}
-      >
+      <button onClick={() => handleOpenModalWithRessource()}>
         <FontAwesomeIcon icon={faPlus} size="lg" />
       </button>
       <Modal
@@ -65,7 +70,7 @@ function Create(props: { ressourceType?: string }) {
         onSave={() => handleCreateRessource(type)}
         onClose={() => setShowModal(false)}
         title={`Create ${type}`}
-        content={<NewRessource name={name} setName={setName} />}
+        content={<NewRessource name={name} setName={setName} type={type} />}
         setShowModal={setShowModal}
         showFooter={true}
       />

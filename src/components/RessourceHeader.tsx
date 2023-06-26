@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { supabase } from "../App";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,18 +9,22 @@ import { selectedCampaignContext } from "../contexts/SelectedCampaignContext";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "@supabase/auth-helpers-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { set, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useTemplateEvents } from "../util/db";
-import { formatTemplateEventsToCampaign } from "../utils/helpers";
+import {
+  checkFalsyValuesInEvents,
+  formatTemplateEventsToCampaign,
+} from "../utils/helpers";
 import TemplateDescriptionEdit from "./Modals/TemplateDescriptionEdit";
 import Modal from "./Modal";
 import Dropdown from "./Dropdown";
 import NewCampaignFromTemplate from "./Modals/NewCampaignFromTemplate";
 import "./RessourceHeader.scss";
 import UpdatableInput from "./UpdatableInput";
+import ErrorNotification from "./ErrorNotification";
 
 const schema = yup.object().shape({
   artistName: yup.string().required("You must enter a name"),
@@ -34,6 +38,7 @@ function RessourceHeader(props: any) {
   const [description, setDescription] = React.useState("");
   const [showNewCampaignModal, setShowNewCampaignModal] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [showNotification, setShowNotification] = React.useState(false);
   const [targetDate, setTargetDate] = React.useState<Date>(
     dayjs().add(1, "month").toDate()
   );
@@ -168,20 +173,36 @@ function RessourceHeader(props: any) {
     });
     setShowEditDescriptionModal(false);
   };
+
+  // =================== Handle Notification display ===================
+
+  const [hasFalsyValue, keysWithFalsyValues] = checkFalsyValuesInEvents(
+    templateEventsData?.data
+  );
+
+  useEffect(() => {
+    setShowNotification(false);
+  }, [templateEventsData?.data]);
+
   const onOptionClick = (option: string) => {
     if (option === "New campaign from Template") {
-      setShowNewCampaignModal(true);
+      if (keysWithFalsyValues.length > 0) {
+        setShowNotification(true);
+      } else {
+        setShowNewCampaignModal(true);
+        setShowNotification(false);
+      }
     } else if (option === "Delete") {
       handleDeleteRessource();
     }
     setShowDropdown(false);
   };
+  // ============================= Render ============================
 
   const renderHeader = () => {
     return (
       <div className="ressource-header">
         <span className="title-ctn" style={{ position: "relative" }}>
-          {/* <h2>{ressource.data.name}</h2> */}
           <UpdatableInput
             value={ressource.data.name}
             ressourceType={ressourceType}
@@ -190,16 +211,35 @@ function RessourceHeader(props: any) {
             size="larger"
             weight="bolder"
           />
-
-          <UpdatableInput
-            value={ressource.data.description}
-            ressourceType={ressourceType}
-            ressourceId={ressource.data[ressourceKey + "_id"]}
-            label={"description"}
-            size="regular"
-            weight="bold"
-          />
+          <div className="dropdown-btn">
+            <FontAwesomeIcon
+              icon={faEllipsisV}
+              size="lg"
+              onClick={() => setShowDropdown(!showDropdown)}
+            />
+            {showDropdown && (
+              <Dropdown
+                options={["New campaign from Template", "Delete"]}
+                onOptionClick={onOptionClick}
+                setIsOpen={setShowDropdown}
+              />
+            )}
+          </div>
         </span>
+        <ErrorNotification
+          ressource={templateEventsData}
+          ressourceType={ressourceType}
+          show={showNotification}
+          setShow={setShowNotification}
+        />
+        <UpdatableInput
+          value={ressource.data.description}
+          ressourceType={ressourceType}
+          ressourceId={ressource.data[ressourceKey + "_id"]}
+          label={"description"}
+          size="regular"
+          weight="bold"
+        />
         {ressourceType === "campaign" && (
           <div className="campaign_info-ctn">
             <span>
@@ -212,7 +252,6 @@ function RessourceHeader(props: any) {
                 size="regular"
                 weight="regular"
               />
-              {/* <p>{ressource.data.artist_name}</p> */}
             </span>
             <span>
               <h4>Song:</h4>
@@ -222,7 +261,6 @@ function RessourceHeader(props: any) {
                 ressourceId={ressource.data[ressourceKey + "_id"]}
                 label={"song_name"}
               />
-              {/* <p>{ressource.data.song_name}</p> */}
             </span>
             <span>
               <h4>Target date:</h4>

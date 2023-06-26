@@ -1,15 +1,18 @@
+
+@import '../variables';
+
+
 .dashboard-layout {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 100vw;
     justify-content: center;
-    // align-items: center;
 }
 
 .dashboard-navbar {
     width: 100vw;
-    background-color: #EDEFF7;
+    background-color: $background-secondary;
 }
 
 .sidebar-layout {
