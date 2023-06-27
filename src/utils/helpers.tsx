@@ -61,8 +61,10 @@ export function convertTemplatePositionForSorting(event: {
     months: 30,
   };
 
-  const { position, position_units } = event;
-  const [unit, beforeOrAfter] = event.position_units.split("_");
+  const { position = 1, position_units = "days_before" } = event;
+  const [unit, beforeOrAfter] = event.position_units
+    ? event.position_units.split("_")
+    : ["days", "before"];
   const sortingPosition =
     position * hash[unit] * (beforeOrAfter === "after" ? -1 : 1);
   return sortingPosition;
