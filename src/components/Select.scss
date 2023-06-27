@@ -9,7 +9,7 @@ button {
 }
 
 .SelectTrigger {
-    border: 1px solid lightgrey;
+    // border: 1px solid lightgrey;
     display: inline-flex;
     width: 100%;
     align-items: center;
@@ -31,7 +31,7 @@ button {
 }
 
 .SelectTrigger:focus {
-    box-shadow: 0 0 0 2px black;
+    box-shadow: 0 0 0 2px rgb(185, 185, 185);
 }
 
 

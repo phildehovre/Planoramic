@@ -1,47 +1,55 @@
-import React from 'react'
-import RessourceLayout from '../layouts/RessourceLayout'
-import { Outlet, useParams } from 'react-router'
-import RessourceHeader from '../components/RessourceHeader'
-import { useSession } from '@supabase/auth-helpers-react'
-import { useCampaign, useCampaigns, useTemplate, useTemplates } from '../util/db'
-import Navbar from '../components/Navbar'
-
+import React, { useEffect } from "react";
+import RessourceLayout from "../layouts/RessourceLayout";
+import { Outlet, useParams } from "react-router";
+import RessourceHeader from "../components/RessourceHeader";
+import { useSession } from "@supabase/auth-helpers-react";
+import {
+  useCampaign,
+  useCampaigns,
+  useTemplate,
+  useTemplates,
+} from "../util/db";
+import Navbar from "../components/Navbar";
+import NotFound from "../components/NotFound";
 
 function RessourcePage(props: any) {
+  const session = useSession();
+  const { ressource: ressourceType, id } = useParams();
 
+  const [ressource, setRessource] = React.useState<any>(undefined);
 
+  const {
+    data: templateData,
+    isLoading: isTemplateLoading,
+    error: templateError,
+  } = useTemplate(id, ressourceType === "template" && id ? true : false);
 
-    const session = useSession()
-    const { ressource: ressourceType, id } = useParams()
+  const {
+    data: campaignData,
+    isLoading: isCampaignLoading,
+    error: campaignError,
+  } = useCampaign(id, ressourceType === "campaign" && id ? true : false);
 
+  useEffect(() => {
+    setRessource(ressourceType === "template" ? templateData : campaignData);
+  }, [ressourceType, templateData, campaignData]);
 
-    const {
-        data: templateData,
-        isLoading: isTemplateLoading,
-        error: templateError
-    } = useTemplate(id, ressourceType === 'template' && id ? true : false)
+  const headerProps = {
+    ressource: ressourceType === "template" ? templateData : campaignData,
+    ressourceType: ressourceType,
+  };
 
-    const {
-        data: campaignData,
-        isLoading: isCampaignLoading,
-        error: campaignError
-    } = useCampaign(id, ressourceType === 'campaign' && id ? true : false)
-
-    const headerProps = {
-        ressource: ressourceType === 'template' ? templateData : campaignData,
-        ressourceType: ressourceType,
-    }
-
-
-    return (
+  return (
+    <>
+      {ressource && (
         <RessourceLayout
-            header={<RessourceHeader {...headerProps} />}
-            outlet={
-            <Outlet 
-            />
-        }
+          header={<RessourceHeader {...headerProps} />}
+          outlet={<Outlet />}
         />
-    )
+      )}
+      {!ressource && <NotFound />}
+    </>
+  );
 }
 
-export default RessourcePage
+export default RessourcePage;
