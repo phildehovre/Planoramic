@@ -3,14 +3,8 @@ import RessourceLayout from "../layouts/RessourceLayout";
 import { Outlet, useParams } from "react-router";
 import RessourceHeader from "../components/RessourceHeader";
 import { useSession } from "@supabase/auth-helpers-react";
-import {
-  useCampaign,
-  useCampaigns,
-  useTemplate,
-  useTemplates,
-} from "../util/db";
-import Navbar from "../components/Navbar";
-import NotFound from "../components/NotFound";
+import { useCampaign, useTemplate } from "../util/db";
+import Spinner from "../components/Spinner";
 
 function RessourcePage(props: any) {
   const session = useSession();
@@ -47,7 +41,7 @@ function RessourcePage(props: any) {
           outlet={<Outlet />}
         />
       )}
-      {!ressource && <NotFound />}
+      {!ressource && <Spinner />}
     </>
   );
 }
