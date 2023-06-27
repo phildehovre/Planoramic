@@ -51,6 +51,23 @@ export function convertPositionToDate(
   return newDate;
 }
 
+export function convertTemplatePositionForSorting(event: {
+  position_units: string;
+  position: number;
+}): number {
+  const hash: Record<string, number> = {
+    days: 1,
+    weeks: 7,
+    months: 30,
+  };
+
+  const { position, position_units } = event;
+  const [unit, beforeOrAfter] = event.position_units.split("_");
+  const sortingPosition =
+    position * hash[unit] * (beforeOrAfter === "after" ? -1 : 1);
+  return sortingPosition;
+}
+
 export function formatTemplateEventsToCampaign(
   templateEvents: TaskObj[],
   campaignId: string
@@ -148,7 +165,7 @@ export function checkFalsyValuesInEvents(
     "category",
     "position",
   ]
-): [boolean, string[]] {
+): [boolean | undefined, string[]] {
   const keysWithFalsyValues: string[] = [];
 
   const hasFalsyValue = events?.some((row) => {

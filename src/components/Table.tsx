@@ -151,15 +151,14 @@ function Table(props: {
     });
   };
 
-  const renderRows = () => {
-    let data = ressource?.data?.data;
-    // .sort((a: any, b: any) => dayjs(a.position).isAfter(dayjs(b.position)? -1 : 1))
-    return data?.map((row: any) => {
-      if (row.phase_number === null) {
-        return <Row row={row} key={row.id} {...rowProps} />;
-      }
-    });
-  };
+  // const renderRows = () => {
+  //   let data = ressource?.data?.data;
+  //   return data?.map((row: any) => {
+  //     if (row.phase_number === null) {
+  //       return <Row row={row} key={row.id} {...rowProps} />;
+  //     }
+  //   });
+  // };
 
   const renderRowswithoutPhase = () => {
     let data = ressource?.data?.data.filter((row: any) => {
@@ -184,7 +183,7 @@ function Table(props: {
         selectedRows={selectedRows}
         ressource={ressource}
         ressourceType={ressourceType}
-        events={ressource?.data?.data}
+        events={ressource}
         phases={phases}
       />
       {/* <ErrorNotification ressourceType={ressourceType} ressource={ressource} /> */}

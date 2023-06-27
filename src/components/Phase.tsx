@@ -136,8 +136,7 @@ function Phase(props: {
   };
 
   const renderRows = () => {
-    let data = events?.sort((a: any, b: any) => b.position - a.position);
-    return data?.map((row: any) => {
+    return events?.map((row: any) => {
       return <Row row={row} key={row.id} {...rowProps} />;
     });
   };
