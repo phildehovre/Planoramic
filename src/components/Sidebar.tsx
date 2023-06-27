@@ -5,6 +5,8 @@ import Create from "./Create";
 import { useParams } from "react-router-dom";
 import { selectedCampaignContext } from "../contexts/SelectedCampaignContext";
 import { selectedTemplateContext } from "../contexts/SelectedTemplateContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
 ("../contexts/SelectedTemplateContext");
 
 function Sidebar(props: {
@@ -58,7 +60,13 @@ function Sidebar(props: {
               });
             }}
           >
-            {ressource.type.toUpperCase()}
+            {ressource.type.toUpperCase()}{" "}
+            <FontAwesomeIcon
+              icon={faCaretUp}
+              className={`caret-icon ${
+                displayRessources.includes(ressource.type) ? "open" : "closed"
+              }`}
+            />
           </h4>
           {displayRessources.includes(ressource.type) &&
             ressource.data.map((item: any) => {
