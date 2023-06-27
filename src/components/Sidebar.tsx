@@ -45,6 +45,7 @@ function Sidebar(props: {
 
   const renderData = () => {
     return ressources?.map((ressource: any) => {
+      console.log(displayRessources, ressource.type);
       const type = ressource.type.slice(0, -1);
       return (
         <React.Fragment key={ressource.type}>
@@ -86,7 +87,7 @@ function Sidebar(props: {
                 </div>
               );
             })}
-          {displayRessources === ressource.type && (
+          {displayRessources.includes(ressource.type) && (
             <Create ressourceType={type} />
           )}
         </React.Fragment>
