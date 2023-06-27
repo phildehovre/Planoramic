@@ -31,7 +31,7 @@ export function convertPositionToDate(
   unit: string = "days_before",
   targetDate: any
 ) {
-  let [unitType, beforeOrAfter] = unit.split("_");
+  let [unitType, beforeOrAfter] = unit ? unit.split("_") : ["days", "before"];
   let hash: any = {
     days: "day",
     weeks: "week",

@@ -31,7 +31,11 @@ function Create(props: { ressourceType?: string }) {
   const handleCreateRessource = (type: string | undefined) => {
     addRessource
       .mutateAsync([
-        { name: name, created_at: new Date(), [`${type}_id`]: uuidv4() },
+        {
+          name: name,
+          created_at: new Date(),
+          [`${type}_id`]: uuidv4(),
+        },
       ])
 
       .then((res) => {
