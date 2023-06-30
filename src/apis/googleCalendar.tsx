@@ -120,7 +120,7 @@ export async function postEventsToGoogle(
   for (let i = 0; i < events.length; i++) {
     try {
       const response = await backOff(() =>
-        formatAndPostEvent(events[i], targetDate, session)
+        formatAndPostEvent(events[i], events[i].position, session)
       );
       return response;
     } catch (e) {
@@ -147,12 +147,11 @@ async function formatAndPostEvent(
 
   //   const start = dayjs(targetDate).subtract(position, "days");
   //   const end = dayjs(targetDate).subtract(position, "days").add(1, "hour");
-  const start = dayjs(position).toISOString();
-  const end = dayjs(position).add(1, "hour").toISOString();
+  const start = dayjs(targetDate).toISOString();
+  const end = dayjs(targetDate).add(1, "hour").toISOString();
 
-  console.log(typeof start);
+  console.log(targetDate, typeof targetDate);
 
-  console.log(targetDate, position);
   const event = {
     summary: description,
     description: `${category} / ${type}`,

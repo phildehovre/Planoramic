@@ -212,12 +212,11 @@ function RessourceHeader(props: any) {
             size="larger"
             weight="bolder"
           />
-          <div className="dropdown-btn">
-            <FontAwesomeIcon
-              icon={faEllipsisV}
-              size="lg"
-              onClick={() => setShowDropdown(!showDropdown)}
-            />
+          <div
+            className="dropdown-btn"
+            onClick={() => setShowDropdown(!showDropdown)}
+          >
+            <FontAwesomeIcon icon={faEllipsisV} size="lg" />
             {showDropdown && (
               <Dropdown
                 options={["New campaign from Template", "Delete"]}
