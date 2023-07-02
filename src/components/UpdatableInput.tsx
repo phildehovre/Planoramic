@@ -98,7 +98,7 @@ function UpdatableInput(props: {
   }, [isEditing, inputValue]);
 
   const renderInput = () => {
-    if (isEditing && inputType === "number") {
+    if (isEditing && label === "phase_number") {
       return (
         <input
           className={`input ${size} ${weight}`}
@@ -110,7 +110,7 @@ function UpdatableInput(props: {
         />
       );
     }
-    if (isEditing && inputType !== "number") {
+    if (isEditing && label === "phase_number") {
       return (
         <input
           className={`input ${size} ${weight}`}
@@ -127,8 +127,9 @@ function UpdatableInput(props: {
     return (
       <div
         onClick={() => setIsEditing(true)}
-        className={`input-value ${size} ${weight}`}
+        className={`input-value ${size} ${weight} ${label}`}
       >
+        {label === "phase_number" && `Phase `}
         {value}
       </div>
     );
