@@ -11,6 +11,8 @@ function UpdatableInput(props: {
   weight?: string;
   ressourceId: string;
   type?: string;
+  inputType?: string;
+  onClick?: () => void;
 }) {
   const {
     label,
@@ -20,17 +22,30 @@ function UpdatableInput(props: {
     weight = "regular",
     type = "text",
     ressourceId,
+    inputType,
   } = props;
 
   const [isEditing, setIsEditing] = React.useState(false);
   const [inputValue, setInputValue] = React.useState(value);
+  const [initialValue, setInitialtValue] = React.useState(value);
+
+  useEffect(() => {
+    setInitialtValue(value);
+  }, []);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const queryClient = useQueryClient();
 
   const updateUpdatableInputFn = async ({ id, key, val }: any) => {
-    console.log("updateUpdatableInputFn", id, key, val, inputValue);
+    if (inputType === "phase") {
+      return await supabase
+        .from(`${ressourceType}_events`)
+        .update({ [key]: inputValue })
+        .eq(ressourceType + "_id", id)
+        .eq(key, initialValue)
+        .select();
+    }
     return await supabase
       .from(`${ressourceType}s`)
       .update({ [key]: val })
@@ -68,7 +83,13 @@ function UpdatableInput(props: {
           key: label,
           val: inputValue,
         })
-        .then(() =>
+        .then((res) => {
+          console.log(res);
+          queryClient.invalidateQueries({
+            queryKey: [[`${ressourceType}_events`]],
+          });
+        })
+        .then((res) =>
           queryClient.invalidateQueries({
             queryKey: [ressourceType, { [`${ressourceType}_id`]: ressourceId }],
           })

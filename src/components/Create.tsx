@@ -30,14 +30,9 @@ function Create(props: { ressourceType?: string }) {
   );
   const { setSelectedCampaignId } = React.useContext(selectedCampaignContext);
 
-  useEffect(() => {
-    console.log(params.id);
-  }, [params.id]);
-
   const handleCreateRessource = (type: string | undefined) => {
     const ressourceId = uuidv4();
     addRessource
-
       .mutateAsync([
         {
           name: name,
@@ -48,12 +43,12 @@ function Create(props: { ressourceType?: string }) {
 
       .then((res) => {
         if (type === "template" && res.data) {
-          setSelectedTemplateId(res?.data[0]?.template_id);
-          navigate(`/dashboard/template/${res?.data[0].template_id}`);
+          setSelectedTemplateId(ressourceId);
+          navigate(`/dashboard/template/${ressourceId}`);
         }
         if (type === "campaign" && res.data) {
-          setSelectedCampaignId(res?.data[0]?.campaign_id);
-          navigate(`/dashboard/campaign/${res?.data[0].campaign_id}`);
+          setSelectedCampaignId(ressourceId);
+          navigate(`/dashboard/campaign/${ressourceId}`);
         }
       })
       .then((res) => {
@@ -63,7 +58,6 @@ function Create(props: { ressourceType?: string }) {
             .mutateAsync({
               description: "Initial Event",
               created_at: new Date(),
-
               template_id: ressourceId,
               phase_number: 1,
               phase_name: "Initial Phase",

@@ -15,6 +15,7 @@ import Dropdown from "./Dropdown";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
 import TableHeaders from "./TableHeaders";
+import UpdatableInput from "./UpdatableInput";
 
 function Phase(props: {
   name: string;
@@ -46,6 +47,10 @@ function Phase(props: {
   } = props;
 
   const { keys, setSelectedRows, selectedRows } = rowProps;
+  const ressourceId =
+    ressourceType === "template"
+      ? events[0].template_id
+      : events[0].campaign_id;
 
   const queryClient = useQueryClient();
 
@@ -155,9 +160,16 @@ function Phase(props: {
             </Checkbox.Indicator>
           </Checkbox.Root>
         </div>
-        <h3 onClick={handlePhaseDisplay}>
-          Phase {phaseNumber}: {phaseName}
-        </h3>
+        <UpdatableInput
+          onClick={handlePhaseDisplay}
+          label={"phase_name"}
+          value={phaseName}
+          ressourceType={ressourceType}
+          ressourceId={ressourceId}
+          inputType="phase"
+          weight="bold"
+          size="large"
+        ></UpdatableInput>
         <span
           style={{
             position: "relative",
