@@ -49,8 +49,8 @@ function Phase(props: {
   const { keys, setSelectedRows, selectedRows } = rowProps;
   const ressourceId =
     ressourceType === "template"
-      ? events[0].template_id
-      : events[0].campaign_id;
+      ? events[0]?.template_id
+      : events[0]?.campaign_id;
 
   const queryClient = useQueryClient();
 
@@ -160,6 +160,16 @@ function Phase(props: {
             </Checkbox.Indicator>
           </Checkbox.Root>
         </div>
+        <UpdatableInput
+          onClick={handlePhaseDisplay}
+          label={"phase_number"}
+          value={phaseNumber}
+          ressourceType={ressourceType}
+          ressourceId={ressourceId}
+          inputType="number"
+          weight="bold"
+          size="large"
+        ></UpdatableInput>
         <UpdatableInput
           onClick={handlePhaseDisplay}
           label={"phase_name"}

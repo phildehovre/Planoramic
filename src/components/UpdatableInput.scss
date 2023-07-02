@@ -1,6 +1,12 @@
-.input-value {
+@import '../_variables.scss';
 
+.updateable_input-ctn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // width: 100%;
 }
+
 .small {
     font-size: 0.8rem;
 }
@@ -34,4 +40,8 @@
     border: none;
     outline: 1px solid lightgrey;
     border-radius: 5px;
+}
+
+.number {
+    background-color: $background-primary
 }

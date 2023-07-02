@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function UpdatableInput(props: {
   label: string;
-  value: string;
+  value: string | number | undefined;
   ressourceType: string | undefined;
   size?: string;
   weight?: string;
@@ -13,6 +13,7 @@ function UpdatableInput(props: {
   type?: string;
   inputType?: string;
   onClick?: () => void;
+  children?: React.ReactNode;
 }) {
   const {
     label,
@@ -38,7 +39,7 @@ function UpdatableInput(props: {
   const queryClient = useQueryClient();
 
   const updateUpdatableInputFn = async ({ id, key, val }: any) => {
-    if (inputType === "phase") {
+    if (label.includes("phase")) {
       return await supabase
         .from(`${ressourceType}_events`)
         .update({ [key]: inputValue })
@@ -63,7 +64,6 @@ function UpdatableInput(props: {
       setIsEditing(false);
     }
   };
-
   useEffect(() => {
     if (isEditing) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -98,7 +98,19 @@ function UpdatableInput(props: {
   }, [isEditing, inputValue]);
 
   const renderInput = () => {
-    if (isEditing) {
+    if (isEditing && inputType === "number") {
+      return (
+        <input
+          className={`input ${size} ${weight}`}
+          type={inputType}
+          onChange={(e) => setInputValue(e.target.value)}
+          value={inputValue}
+          ref={inputRef}
+          autoFocus
+        />
+      );
+    }
+    if (isEditing && inputType !== "number") {
       return (
         <input
           className={`input ${size} ${weight}`}
@@ -106,8 +118,8 @@ function UpdatableInput(props: {
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
           ref={inputRef}
-          placeholder={value}
-          size={value.length}
+          placeholder={value?.toString()}
+          size={value?.toString().length}
           autoFocus
         />
       );

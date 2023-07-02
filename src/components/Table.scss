@@ -22,6 +22,7 @@
         text-align: left;
         display: flex;
         align-items: center;
+        gap: 1em;
         margin: .75em;
 
         >h3 {
@@ -224,7 +225,6 @@
         align-items: center;
     }
 
-    &.position_units {}
 
     &.position {
         border-right: none;
