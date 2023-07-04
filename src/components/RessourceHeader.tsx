@@ -187,60 +187,72 @@ function RessourceHeader(props: any) {
   // ======== Trigger check on click ========
   const onOptionClick = (option: string) => {
     if (option === "New campaign from Template") {
-      if (keysWithFalsyValues.length > 0) {
-        setShowNotification(true);
-      } else {
-        setShowNewCampaignModal(true);
-        setShowNotification(false);
-      }
+      handleNewCampaignClick();
     } else if (option === "Delete") {
       handleDeleteRessource();
     }
     setShowDropdown(false);
   };
+
+  const handleNewCampaignClick = () => {
+    if (keysWithFalsyValues.length > 0) {
+      setShowNotification(true);
+    } else {
+      setShowNewCampaignModal(true);
+      setShowNotification(false);
+    }
+  };
   // ============================= Render ============================
 
   const renderHeader = () => {
     return (
-      <div className="ressource-header">
-        <span className="title-ctn" style={{ position: "relative" }}>
-          <UpdatableInput
-            value={ressource.data.name}
-            ressourceType={ressourceType}
-            ressourceId={ressource.data[ressourceKey + "_id"]}
-            label={"name"}
-            size="larger"
-            weight="bolder"
-          />
-          <div
-            className="dropdown-btn"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <FontAwesomeIcon icon={faEllipsisV} size="lg" />
-            {showDropdown && (
-              <Dropdown
-                options={["New campaign from Template", "Delete"]}
-                onOptionClick={onOptionClick}
-                setIsOpen={setShowDropdown}
+      <div className="ressource_header-ctn">
+        <div className="ressource_header-header">
+          <div className="ressource_header-column left">
+            <span className="title-ctn" style={{ position: "relative" }}>
+              <UpdatableInput
+                value={ressource.data.name}
+                ressourceType={ressourceType}
+                ressourceId={ressource.data[ressourceKey + "_id"]}
+                label={"name"}
+                size="larger"
+                weight="bolder"
               />
+              <div
+                className="dropdown-btn"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                <FontAwesomeIcon icon={faEllipsisV} size="lg" />
+                {showDropdown && (
+                  <Dropdown
+                    options={["New campaign from Template", "Delete"]}
+                    onOptionClick={onOptionClick}
+                    setIsOpen={setShowDropdown}
+                  />
+                )}
+              </div>
+            </span>
+            <UpdatableInput
+              value={ressource.data.description}
+              ressourceType={ressourceType}
+              ressourceId={ressource.data[ressourceKey + "_id"]}
+              label={"description"}
+              size="regular"
+              weight="bold"
+              placeholder="Enter a description..."
+            />
+          </div>
+          <div className="ressource_header-column right">
+            {ressourceType === "template" && (
+              <button
+                className="new_campaign-btn"
+                onClick={handleNewCampaignClick}
+              >
+                New campaign from template
+              </button>
             )}
           </div>
-        </span>
-        <ErrorNotification
-          ressource={templateEventsData}
-          ressourceType={ressourceType}
-          show={showNotification}
-          setShow={setShowNotification}
-        />
-        <UpdatableInput
-          value={ressource.data.description}
-          ressourceType={ressourceType}
-          ressourceId={ressource.data[ressourceKey + "_id"]}
-          label={"description"}
-          size="regular"
-          weight="bold"
-          placeholder="Enter a description..."
-        />
+        </div>
         {ressourceType === "campaign" && (
           <div className="campaign_info-ctn">
             <span>
@@ -251,7 +263,7 @@ function RessourceHeader(props: any) {
                 ressourceId={ressource.data[ressourceKey + "_id"]}
                 label={"artist_name"}
                 size="regular"
-                weight="regular"
+                weight="bold"
               />
             </span>
             <span>
@@ -261,6 +273,7 @@ function RessourceHeader(props: any) {
                 ressourceType={ressourceType}
                 ressourceId={ressource.data[ressourceKey + "_id"]}
                 label={"song_name"}
+                weight="bold"
               />
             </span>
             <span>
@@ -273,10 +286,17 @@ function RessourceHeader(props: any) {
                 ressourceId={ressource.data[ressourceKey + "_id"]}
                 label={"target_date"}
                 type="date"
+                weight="bold"
               />
             </span>
           </div>
         )}
+        <ErrorNotification
+          ressource={templateEventsData}
+          ressourceType={ressourceType}
+          show={showNotification}
+          setShow={setShowNotification}
+        />
       </div>
     );
   };

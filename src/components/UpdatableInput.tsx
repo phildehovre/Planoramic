@@ -129,12 +129,11 @@ function UpdatableInput(props: {
     if (isEditing && !label.includes("phase")) {
       return (
         <input
-          className={`input ${size} ${weight}`}
+          className={`input ${size} ${weight} }`}
           type={type}
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
           ref={inputRef}
-          // placeholder={value?.toString()}
           size={value?.toString().length}
           autoFocus
         />
@@ -143,17 +142,22 @@ function UpdatableInput(props: {
     return (
       <div
         onClick={() => setIsEditing(true)}
-        className={`input-value ${size} ${weight} ${label}`}
+        className={`input-value ${size} ${weight} ${label}}`}
       >
         {label === "phase_number" && `Phase `}
-        {value}
-        {!value && placeholder && (
-          <span className="placeholder italic">{placeholder}</span>
+        {!value && placeholder ? (
+          <span
+            className="placeholder italic"
+            // style={{ fontStyle: "italic", border: "1px solid red" }}
+          >
+            {placeholder}
+          </span>
+        ) : (
+          <span className="value">{value}</span>
         )}
       </div>
     );
   };
-  console.log(isEditing);
   return <div>{renderInput()}</div>;
 }
 

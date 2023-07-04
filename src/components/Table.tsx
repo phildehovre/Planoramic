@@ -178,14 +178,14 @@ function Table(props: {
 
   return (
     <div className="table-ctn">
-      <TableHeader
+      {/* <TableHeader
         setSelectedRows={setSelectedRows}
         selectedRows={selectedRows}
         ressource={ressource}
         ressourceType={ressourceType}
         events={ressource}
         phases={phases}
-      />
+      /> */}
       {/* <ErrorNotification ressourceType={ressourceType} ressource={ressource} /> */}
       {ressource?.data?.data.length > 0 && renderPhases()}
       {ressource?.data?.data.length === 0 ? (
