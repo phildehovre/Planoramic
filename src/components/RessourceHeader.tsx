@@ -239,6 +239,7 @@ function RessourceHeader(props: any) {
           label={"description"}
           size="regular"
           weight="bold"
+          placeholder="Enter a description..."
         />
         {ressourceType === "campaign" && (
           <div className="campaign_info-ctn">

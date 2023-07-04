@@ -53,3 +53,11 @@
     border-radius: 5px;
     background-color: $background-secondary
 }
+
+.placeholder {
+    color: rgb(97, 97, 97);
+
+    &.italic {
+        font-style: italic;
+    }
+}

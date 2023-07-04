@@ -14,6 +14,7 @@ function UpdatableInput(props: {
   inputType?: string;
   onClick?: () => void;
   children?: React.ReactNode;
+  placeholder?: string;
 }) {
   const {
     label,
@@ -24,6 +25,7 @@ function UpdatableInput(props: {
     type = "text",
     ressourceId,
     inputType,
+    placeholder,
   } = props;
 
   const [isEditing, setIsEditing] = React.useState(false);
@@ -98,7 +100,7 @@ function UpdatableInput(props: {
   }, [isEditing, inputValue]);
 
   const renderInput = () => {
-    if (isEditing && label === "phase_number") {
+    if (isEditing && label === "phase_name") {
       return (
         <input
           className={`input ${size} ${weight}`}
@@ -124,6 +126,20 @@ function UpdatableInput(props: {
         />
       );
     }
+    if (isEditing && !label.includes("phase")) {
+      return (
+        <input
+          className={`input ${size} ${weight}`}
+          type={type}
+          onChange={(e) => setInputValue(e.target.value)}
+          value={inputValue}
+          ref={inputRef}
+          // placeholder={value?.toString()}
+          size={value?.toString().length}
+          autoFocus
+        />
+      );
+    }
     return (
       <div
         onClick={() => setIsEditing(true)}
@@ -131,10 +147,13 @@ function UpdatableInput(props: {
       >
         {label === "phase_number" && `Phase `}
         {value}
+        {!value && placeholder && (
+          <span className="placeholder italic">{placeholder}</span>
+        )}
       </div>
     );
   };
-
+  console.log(isEditing);
   return <div>{renderInput()}</div>;
 }
 
