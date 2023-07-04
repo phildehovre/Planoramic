@@ -75,11 +75,12 @@ function Ressource() {
       const formattedEvents = sortedEvents.map((event: any) => {
         return {
           ...event,
-          position: convertPositionToDate(
-            event.position,
-            event.position_units,
-            campaignData?.target_date
-          ),
+          targetDate: campaignData?.targetDate,
+          // position: convertPositionToDate(
+          //   event.position,
+          //   event.position_units,
+          //   campaignData?.targetDate
+          // ),
         };
       });
       setFormattedCampaignEvents((prev: any) => {

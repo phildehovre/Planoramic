@@ -13,18 +13,19 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { set, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTemplateEvents } from "../util/db";
+import { updateRessourceFn, useTemplate, useTemplateEvents } from "../util/db";
 import {
   checkFalsyValuesInEvents,
   formatTemplateEventsToCampaign,
 } from "../utils/helpers";
-import TemplateDescriptionEdit from "./Modals/TemplateDescriptionEdit";
 import Modal from "./Modal";
 import Dropdown from "./Dropdown";
 import NewCampaignFromTemplate from "./Modals/NewCampaignFromTemplate";
 import "./RessourceHeader.scss";
 import UpdatableInput from "./UpdatableInput";
 import ErrorNotification from "./ErrorNotification";
+import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 
 const schema = yup.object().shape({
   artistName: yup.string().required("You must enter a name"),
@@ -35,20 +36,19 @@ const schema = yup.object().shape({
 function RessourceHeader(props: any) {
   const [showEditDescriptionModal, setShowEditDescriptionModal] =
     React.useState(false);
-  const [description, setDescription] = React.useState("");
   const [showNewCampaignModal, setShowNewCampaignModal] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
   const [targetDate, setTargetDate] = React.useState<Date>(
     dayjs().add(1, "month").toDate()
   );
+  const [starIcon, setStarIcon] = React.useState(regularStar);
   const { ressource, ressourceType } = props;
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
   const session = useSession();
   const {
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
@@ -58,6 +58,11 @@ function RessourceHeader(props: any) {
   );
   const { selectedCampaignId, setSelectedCampaignId } = React.useContext(
     selectedCampaignContext
+  );
+
+  const { data: campaignTemplateData } = useTemplate(
+    ressource?.data?.template_id,
+    ressource?.data?.template_id ? true : false
   );
   const {
     data: templateEventsData,
@@ -71,7 +76,13 @@ function RessourceHeader(props: any) {
       : ressource?.data?.campaign_id;
   const ressourceKey = ressourceType === "template" ? "template" : "campaign";
 
-  // ================= Update description =================
+  useEffect(() => {
+    ressource?.data?.is_favorite
+      ? setStarIcon(solidStar)
+      : setStarIcon(regularStar);
+  }, [ressource]);
+
+  // ======================= Update description ===========================
 
   const updateCellFn = async ({ id, key, val }: any) => {
     return await supabase
@@ -95,7 +106,7 @@ function RessourceHeader(props: any) {
       );
   };
 
-  // ================= New campaign from template =================
+  // ===================== New campaign from template =====================
 
   const addCampaign = useMutation({
     mutationFn: async (campaign: any) =>
@@ -107,7 +118,7 @@ function RessourceHeader(props: any) {
     return campaign;
   };
 
-  // ==================Add all template events to campaign events ==============
+  // ================Add all template events to campaign events ============
   const copyTemplateEventsToCampaignEvents = useMutation({
     mutationFn: async (templateEvents: any) => {
       await supabase.from("campaign_events").insert(templateEvents);
@@ -124,7 +135,7 @@ function RessourceHeader(props: any) {
       author_id: session?.user.id,
       artist_name: data.artistName,
       song_name: data.songName,
-      target_date: data.targetDate,
+      targetDate: data.targetDate,
     };
     const campaign = addDateToCampaign(campaignSansDate, targetDate);
 
@@ -155,7 +166,29 @@ function RessourceHeader(props: any) {
       .catch((err) => alert(err));
   };
 
-  // ================= Delete ressource =================
+  // ======================== Update ressource =========================
+
+  const updateRessourceMutation = useMutation(updateRessourceFn, {
+    onMutate: async ({ type, ressource, data }: any) => {
+      queryClient.setQueryData(
+        [ressourceType, { [`${ressourceType}_id`]: ressourceId }],
+        updateRessourceFn({ type, ressource, data })
+      );
+    },
+  });
+
+  const handleUpdateRessource = async ({ type, ressource, data }: any) => {
+    await updateRessourceMutation
+      .mutateAsync({ type, ressource, data })
+      .then(() => {
+        queryClient.invalidateQueries([
+          ressourceType,
+          { [`${ressourceType}_id`]: ressourceId },
+        ]);
+      });
+  };
+
+  // ====================== Delete ressource ===========================
 
   const deleteRessourceFn = async () => {
     const res = await supabase
@@ -180,6 +213,7 @@ function RessourceHeader(props: any) {
     templateEventsData?.data
   );
   // ======== Remove notification when template events are updated ========
+
   useEffect(() => {
     setShowNotification(false);
   }, [templateEventsData?.data]);
@@ -217,6 +251,22 @@ function RessourceHeader(props: any) {
                 label={"name"}
                 size="larger"
                 weight="bolder"
+              />
+              <FontAwesomeIcon
+                icon={starIcon}
+                size="lg"
+                style={{ cursor: "pointer" }}
+                color="orange"
+                onClick={() => {
+                  handleUpdateRessource({
+                    type: ressourceType,
+                    ressource,
+                    data: {
+                      key: "is_favorite",
+                      val: !ressource.data.is_favorite,
+                    },
+                  });
+                }}
               />
               <div
                 className="dropdown-btn"
@@ -279,15 +329,21 @@ function RessourceHeader(props: any) {
             <span>
               <h4>Target date:</h4>
               <UpdatableInput
-                value={dayjs(ressource.data.target_date).format(
+                value={dayjs(ressource.data.targetDate).format(
                   "dddd, DD-MM-YYYY"
                 )}
                 ressourceType={ressourceType}
                 ressourceId={ressource.data[ressourceKey + "_id"]}
-                label={"target_date"}
+                label={"targetDate"}
                 type="date"
                 weight="bold"
               />
+            </span>
+            <span>
+              <h4>Template:</h4>
+              <p style={{ fontWeight: "bold" }}>
+                {campaignTemplateData?.data?.name}
+              </p>
             </span>
           </div>
         )}
