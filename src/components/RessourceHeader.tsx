@@ -257,57 +257,6 @@ function RessourceHeader(props: any) {
                 onOptionClick={onOptionClick}
                 setIsOpen={setShowDropdown}
               />
-<<<<<<< HEAD
-              <FontAwesomeIcon
-                icon={starIcon}
-                size="lg"
-                style={{ cursor: "pointer" }}
-                color="orange"
-                onClick={() => {
-                  handleUpdateRessource({
-                    type: ressourceType,
-                    ressource,
-                    data: {
-                      key: "is_favorite",
-                      val: !ressource.data.is_favorite,
-                    },
-                  });
-                }}
-              />
-              <div
-                className="dropdown-btn"
-                onClick={() => setShowDropdown(!showDropdown)}
-              >
-                <FontAwesomeIcon icon={faEllipsisV} size="lg" />
-                {showDropdown && (
-                  <Dropdown
-                    options={["New campaign from Template", "Delete"]}
-                    onOptionClick={onOptionClick}
-                    setIsOpen={setShowDropdown}
-                  />
-                )}
-              </div>
-            </span>
-            <UpdatableInput
-              value={ressource.data.description}
-              ressourceType={ressourceType}
-              ressourceId={ressource.data[ressourceKey + "_id"]}
-              label={"description"}
-              size="regular"
-              weight="bold"
-              placeholder="Enter a description..."
-            />
-          </div>
-          <div className="ressource_header-column right">
-            {ressourceType === "template" && (
-              <button
-                className="new_campaign-btn"
-                onClick={handleNewCampaignClick}
-              >
-                New campaign from template
-              </button>
-=======
->>>>>>> parent of 86042af (Ressource headers finally looking decent)
             )}
           </div>
         </span>
