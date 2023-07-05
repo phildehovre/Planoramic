@@ -239,7 +239,7 @@ function RessourceHeader(props: any) {
       <div className="ressource-header">
         <span className="title-ctn" style={{ position: "relative" }}>
           <UpdatableInput
-            value={ressource.data.name}
+            value={ressource?.data?.name}
             ressourceType={ressourceType}
             ressourceId={ressource.data[ressourceKey + "_id"]}
             label={"name"}
@@ -289,7 +289,7 @@ function RessourceHeader(props: any) {
             </div>
             {/* </span> */}
             <UpdatableInput
-              value={ressource.data.description}
+              value={ressource?.data?.description}
               ressourceType={ressourceType}
               ressourceId={ressource.data[ressourceKey + "_id"]}
               label={"description"}
