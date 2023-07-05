@@ -43,7 +43,7 @@ function RessourceHeader(props: any) {
     dayjs().add(1, "month").toDate()
   );
   const [starIcon, setStarIcon] = React.useState(regularStar);
-  const { ressource, ressourceType, campaignTemplateData } = props;
+  const { ressource, ressourceType } = props;
   const queryClient = useQueryClient();
 
   const navigate = useNavigate();
@@ -60,6 +60,10 @@ function RessourceHeader(props: any) {
     selectedCampaignContext
   );
 
+  const { data: campaignTemplateData } = useTemplate(
+    ressource?.data?.template_id,
+    ressource?.data?.template_id ? true : false
+  );
   const {
     data: templateEventsData,
     isLoading,
@@ -235,10 +239,6 @@ function RessourceHeader(props: any) {
   // ============================= Render ============================
 
   const renderHeader = () => {
-    // if (!ressource?.data) {
-    //   return <Spinner />;
-    // }
-    console.log(ressource?.data[ressourceKey + "_id"]);
     return (
       <div className="ressource_header-ctn">
         <div className="ressource_header-header">
@@ -263,7 +263,7 @@ function RessourceHeader(props: any) {
                     ressource,
                     data: {
                       key: "is_favorite",
-                      val: !ressource?.data?.is_favorite,
+                      val: !ressource.data.is_favorite,
                     },
                   });
                 }}
