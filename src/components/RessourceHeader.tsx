@@ -288,6 +288,48 @@ function RessourceHeader(props: any) {
               )}
             </div>
             {/* </span> */}
+      <div className="ressource_header-ctn">
+        <div className="ressource_header-header">
+          <div className="ressource_header-column left">
+            <span className="title-ctn" style={{ position: "relative" }}>
+              <UpdatableInput
+                value={ressource.data.name}
+                ressourceType={ressourceType}
+                ressourceId={ressource.data[ressourceKey + "_id"]}
+                label={"name"}
+                size="larger"
+                weight="bolder"
+              />
+              <FontAwesomeIcon
+                icon={starIcon}
+                size="lg"
+                style={{ cursor: "pointer" }}
+                color="orange"
+                onClick={() => {
+                  handleUpdateRessource({
+                    type: ressourceType,
+                    ressource,
+                    data: {
+                      key: "is_favorite",
+                      val: !ressource.data.is_favorite,
+                    },
+                  });
+                }}
+              />
+              <div
+                className="dropdown-btn"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                <FontAwesomeIcon icon={faEllipsisV} size="lg" />
+                {showDropdown && (
+                  <Dropdown
+                    options={["New campaign from Template", "Delete"]}
+                    onOptionClick={onOptionClick}
+                    setIsOpen={setShowDropdown}
+                  />
+                )}
+              </div>
+            </span>
             <UpdatableInput
               value={ressource?.data?.description}
               ressourceType={ressourceType}
@@ -302,7 +344,7 @@ function RessourceHeader(props: any) {
             {ressourceType === "template" && (
               <button
                 className="new_campaign-btn"
-                // onClick={handleNewCampaignClick}
+                onClick={handleNewCampaignClick}
               >
                 New campaign from template
               </button>
