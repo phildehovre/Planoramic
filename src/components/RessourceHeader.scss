@@ -1,8 +1,37 @@
-.ressource-header {
-    border-bottom: 1px solid rgb(59, 59, 59);
-    width: 100%;
-    height: 15vh;
-    padding: 0 .5em;
+@import '../variables.scss';
+
+.ressource_header {
+    &-ctn {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 90%      ;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 2.5em;
+        margin: 1em;
+    }
+
+    &-header {
+        width: 100%;
+        padding: 0 .5em 1em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+    }
+
+    &-column {
+        display: flex;
+        flex-direction: column;
+        gap: .4em;
+        width: 100%;
+
+        &.right {
+            align-items: flex-end
+        }
+        
+    }
+    
 
 
     >h2 {
@@ -11,20 +40,6 @@
     }
 
 
-    .title-ctn {
-        display: flex;
-        align-items: left;
-        gap: 1em;
-        // flex-direction: column;
-        // justify-content: center;
-
-        >:last-child {
-            display: flex;
-            align-items: center;
-            cursor: pointer
-        }
-    }
-
     .dropdown-btn {
         border-radius: 50px;
         width: 2em;
@@ -32,29 +47,67 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid red;
     }
 
-    .campaign_info-ctn {
+}
+
+
+.title-ctn {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    gap: 1em;
+    justify-content: left;
+
+    >:last-child {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 1em;
-        margin: 0 0;
-        padding: 0;
-        width: 100%;
-        background-color: #edeff7;
-        padding: .4em;
-        ;
+        cursor: pointer
+    }
+}
 
-        >span {
-            padding: none;
-            width: 50%;
-            height: 2em;
-            display: flex;
-            align-items: center;
-            gap: 1em;
+
+.campaign_info-ctn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    margin: 0 0;
+    padding: 0;
+    width: 100%;
+    background-color: #edeff7;
+    padding: .4em;
+
+    
+    >span {
+        >h4 {
+            font-weight: 500;
         }
+        padding: none;
+        width: 50%;
+        height: 2em;
+        display: flex;
+        align-items: center;
+        gap: 1em;
+    }
 
+}
+
+
+.new_campaign-btn {
+    width: 50%;
+    text-align: center;
+    padding: 1em 2em;
+    background-color: $background-secondary-cta;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: ease-in-out .3s;
+    color: white;
+
+    &:hover{
+        background-color: $background-secondary-hover;
+        transition: ease-in-out 150ms;
+        color: black
     }
 }

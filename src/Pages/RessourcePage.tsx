@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import RessourceLayout from "../layouts/RessourceLayout";
 import { Outlet, useParams } from "react-router";
-import RessourceHeader from "../components/RessourceHeader";
+// import RessourceHeader from "../components/RessourceHeader";
+import RessourceHeader from "../components/RessourceHeader-REFACTOR";
 import { useSession } from "@supabase/auth-helpers-react";
 import { useCampaign, useTemplate } from "../util/db";
 import Spinner from "../components/Spinner";
@@ -35,13 +36,13 @@ function RessourcePage(props: any) {
 
   return (
     <>
+      {!ressource && <Spinner />}
       {ressource && (
         <RessourceLayout
           header={<RessourceHeader {...headerProps} />}
           outlet={<Outlet />}
         />
       )}
-      {!ressource && <Spinner />}
     </>
   );
 }
