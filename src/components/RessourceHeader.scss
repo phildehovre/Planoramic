@@ -35,44 +35,7 @@
         border: 1px solid red;
     }
 
-}
-
-
-.title-ctn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1em;
-    justify-content: left;
-
-    >:last-child {
-        display: flex;
-        align-items: center;
-        cursor: pointer
-    }
-}
-
-
-.campaign_info-ctn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1em;
-    margin: 0 0;
-    padding: 0;
-    width: 100%;
-    background-color: #edeff7;
-    padding: .4em;
-
-    
-    >span {
-        >h4 {
-            font-weight: 500;
-        }
-        padding: none;
-        width: 50%;
-        height: 2em;
+    .campaign_info-ctn {
         display: flex;
         align-items: center;
         justify-content: space-between;

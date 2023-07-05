@@ -24,11 +24,6 @@ function RessourcePage(props: any) {
     error: campaignError,
   } = useCampaign(id, ressourceType === "campaign" && id ? true : false);
 
-  const { data: campaignTemplateData } = useTemplate(
-    campaignData?.data?.template_id,
-    campaignData?.data?.template_id ? true : false
-  );
-
   useEffect(() => {
     setRessource(ressourceType === "template" ? templateData : campaignData);
   }, [ressourceType, templateData, campaignData]);
@@ -40,7 +35,7 @@ function RessourcePage(props: any) {
 
   return (
     <>
-      {ressource && ressource.data && (
+      {ressource && (
         <RessourceLayout
           header={<RessourceHeader {...headerProps} />}
           outlet={<Outlet />}
