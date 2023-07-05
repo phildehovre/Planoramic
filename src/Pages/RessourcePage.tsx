@@ -13,16 +13,26 @@ function RessourcePage(props: any) {
   const [ressource, setRessource] = React.useState<any>(undefined);
 
   const {
-    data: templateData,
-    isLoading: isTemplateLoading,
-    error: templateError,
-  } = useTemplate(id, ressourceType === "template" && id ? true : false);
-
-  const {
     data: campaignData,
     isLoading: isCampaignLoading,
     error: campaignError,
   } = useCampaign(id, ressourceType === "campaign" && id ? true : false);
+
+  const templateToFetchId =
+    ressourceType === "template" ? id : campaignData?.data?.template_id;
+
+  const {
+    data: templateData,
+    isLoading: isTemplateLoading,
+    error: templateError,
+  } = useTemplate(id || templateToFetchId, templateToFetchId ? true : false);
+
+  console.log(templateData);
+
+  const { data: campaignTemplateData } = useTemplate(
+    campaignData?.data?.template_id,
+    campaignData?.data?.template_id ? true : false
+  );
 
   useEffect(() => {
     setRessource(ressourceType === "template" ? templateData : campaignData);
@@ -31,11 +41,12 @@ function RessourcePage(props: any) {
   const headerProps = {
     ressource: ressourceType === "template" ? templateData : campaignData,
     ressourceType: ressourceType,
+    campaignTemplateData: campaignTemplateData,
   };
-
+  console.log(ressource);
   return (
     <>
-      {ressource && (
+      {ressource && ressource?.data?.template_id && (
         <RessourceLayout
           header={<RessourceHeader {...headerProps} />}
           outlet={<Outlet />}
