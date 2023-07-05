@@ -245,9 +245,9 @@ function RessourceHeader(props: any) {
           <div className="ressource_header-column left">
             <span className="title-ctn" style={{ position: "relative" }}>
               <UpdatableInput
-                value={ressource?.data?.name}
+                value={ressource.data.name}
                 ressourceType={ressourceType}
-                ressourceId={ressource?.data[ressourceKey + "_id"]}
+                ressourceId={ressource.data[ressourceKey + "_id"]}
                 label={"name"}
                 size="larger"
                 weight="bolder"
