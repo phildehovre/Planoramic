@@ -153,7 +153,6 @@ function UpdatableInput(props: {
       </div>
     );
   };
-  console.log(isEditing);
   return <div>{renderInput()}</div>;
 }
 

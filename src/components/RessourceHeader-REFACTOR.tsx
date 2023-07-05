@@ -13,7 +13,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { set, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { updateRessourceFn, useTemplate, useTemplateEvents } from "../util/db";
+import { useTemplate, useTemplateEvents } from "../util/db";
 import {
   checkFalsyValuesInEvents,
   formatTemplateEventsToCampaign,
@@ -24,8 +24,7 @@ import NewCampaignFromTemplate from "./Modals/NewCampaignFromTemplate";
 import "./RessourceHeader.scss";
 import UpdatableInput from "./UpdatableInput";
 import ErrorNotification from "./ErrorNotification";
-import { faStar as solidStar } from "@fortawesome/free-solid-svg-icons";
-import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
+import Favorite from "./Favorite";
 
 const schema = yup.object().shape({
   artistName: yup.string().required("You must enter a name"),
@@ -42,7 +41,6 @@ function RessourceHeader(props: any) {
   const [targetDate, setTargetDate] = React.useState<Date>(
     dayjs().add(1, "month").toDate()
   );
-  const [starIcon, setStarIcon] = React.useState(regularStar);
   const { ressource, ressourceType } = props;
   const queryClient = useQueryClient();
 
@@ -74,37 +72,8 @@ function RessourceHeader(props: any) {
     ressourceType === "template"
       ? ressource?.data?.template_id
       : ressource?.data?.campaign_id;
+
   const ressourceKey = ressourceType === "template" ? "template" : "campaign";
-
-  useEffect(() => {
-    ressource?.data?.is_favorite
-      ? setStarIcon(solidStar)
-      : setStarIcon(regularStar);
-  }, [ressource]);
-
-  // ======================= Update description ===========================
-
-  const updateCellFn = async ({ id, key, val }: any) => {
-    return await supabase
-      .from(`${ressourceType}s`)
-      .update({ [key]: val })
-      .eq(ressourceKey + "_id", id)
-      .select();
-  };
-
-  const updateCell = useMutation({
-    mutationFn: ({ id, key, val }: any) => updateCellFn({ id, key, val }),
-  });
-
-  const submitDescription = async (description: string) => {
-    updateCell
-      .mutateAsync({ id: ressourceId, key: "description", val: description })
-      .then(() =>
-        queryClient.invalidateQueries({
-          queryKey: [ressourceKey, { [`${ressourceKey}_id`]: ressourceId }],
-        })
-      );
-  };
 
   // ===================== New campaign from template =====================
 
@@ -166,28 +135,6 @@ function RessourceHeader(props: any) {
       .catch((err) => alert(err));
   };
 
-  // ======================== Update ressource =========================
-
-  const updateRessourceMutation = useMutation(updateRessourceFn, {
-    onMutate: async ({ type, ressource, data }: any) => {
-      queryClient.setQueryData(
-        [ressourceType, { [`${ressourceType}_id`]: ressourceId }],
-        updateRessourceFn({ type, ressource, data })
-      );
-    },
-  });
-
-  const handleUpdateRessource = async ({ type, ressource, data }: any) => {
-    await updateRessourceMutation
-      .mutateAsync({ type, ressource, data })
-      .then(() => {
-        queryClient.invalidateQueries([
-          ressourceType,
-          { [`${ressourceType}_id`]: ressourceId },
-        ]);
-      });
-  };
-
   // ====================== Delete ressource ===========================
 
   const deleteRessourceFn = async () => {
@@ -245,28 +192,17 @@ function RessourceHeader(props: any) {
           <div className="ressource_header-column left">
             <span className="title-ctn" style={{ position: "relative" }}>
               <UpdatableInput
-                value={ressource.data.name}
+                value={ressource?.data?.name}
                 ressourceType={ressourceType}
-                ressourceId={ressource.data[ressourceKey + "_id"]}
+                ressourceId={ressourceId}
                 label={"name"}
                 size="larger"
                 weight="bolder"
               />
-              <FontAwesomeIcon
-                icon={starIcon}
-                size="lg"
-                style={{ cursor: "pointer" }}
-                color="orange"
-                onClick={() => {
-                  handleUpdateRessource({
-                    type: ressourceType,
-                    ressource,
-                    data: {
-                      key: "is_favorite",
-                      val: !ressource.data.is_favorite,
-                    },
-                  });
-                }}
+              <Favorite
+                ressourceType={ressourceType}
+                ressourceId={ressourceId}
+                ressource={ressource}
               />
               <div
                 className="dropdown-btn"
@@ -285,7 +221,7 @@ function RessourceHeader(props: any) {
             <UpdatableInput
               value={ressource?.data?.description}
               ressourceType={ressourceType}
-              ressourceId={ressource.data[ressourceKey + "_id"]}
+              ressourceId={ressourceId}
               label={"description"}
               size="regular"
               weight="bold"
@@ -303,7 +239,6 @@ function RessourceHeader(props: any) {
             )}
           </div>
         </div>
-        {/* </span> */}
         <ErrorNotification
           ressource={templateEventsData}
           ressourceType={ressourceType}
@@ -315,9 +250,9 @@ function RessourceHeader(props: any) {
             <span>
               <h4>Artist:</h4>
               <UpdatableInput
-                value={ressource.data.artist_name}
+                value={ressource?.data?.artist_name}
                 ressourceType={ressourceType}
-                ressourceId={ressource.data[ressourceKey + "_id"]}
+                ressourceId={ressourceId}
                 label={"artist_name"}
                 size="regular"
                 weight="bold"
@@ -326,9 +261,9 @@ function RessourceHeader(props: any) {
             <span>
               <h4>Song:</h4>
               <UpdatableInput
-                value={ressource.data.song_name}
+                value={ressource?.data?.song_name}
                 ressourceType={ressourceType}
-                ressourceId={ressource.data[ressourceKey + "_id"]}
+                ressourceId={ressourceId}
                 label={"song_name"}
                 weight="bold"
               />
@@ -336,11 +271,11 @@ function RessourceHeader(props: any) {
             <span>
               <h4>Target date:</h4>
               <UpdatableInput
-                value={dayjs(ressource.data.targetDate).format(
+                value={dayjs(ressource?.data?.targetDate).format(
                   "dddd, DD-MM-YYYY"
                 )}
                 ressourceType={ressourceType}
-                ressourceId={ressource.data[ressourceKey + "_id"]}
+                ressourceId={ressourceId}
                 label={"targetDate"}
                 type="date"
                 weight="bold"
