@@ -170,6 +170,18 @@ function Table(props: {
 
   return (
     <div className="table-ctn">
+<<<<<<< HEAD
+=======
+      <TableHeader
+        setSelectedRows={setSelectedRows}
+        selectedRows={selectedRows}
+        ressource={ressource}
+        ressourceType={ressourceType}
+        events={ressource}
+        phases={phases}
+      />
+      {/* <ErrorNotification ressourceType={ressourceType} ressource={ressource} /> */}
+>>>>>>> parent of 86042af (Ressource headers finally looking decent)
       {ressource?.data?.data.length > 0 && renderPhases()}
       {ressource?.data?.data.length === 0 ? (
         <>

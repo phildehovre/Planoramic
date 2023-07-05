@@ -72,7 +72,7 @@ function Cell(props: {
   };
 
   const renderCell = () => {
-    if (typeof value === "object" && label === "position") {
+    if (value instanceof Array && label === "position") {
       if (isEditing) {
         return <input type="date" onChange={handleDateChange} />;
       }
