@@ -10,7 +10,6 @@ export async function deleteCalendarEvent(id: string, session: any) {
       {
         method: "DELETE",
         headers: {
-          // @ts-ignore
           Authorization: "Bearer " + session.provider_token,
         },
       }
@@ -72,7 +71,6 @@ export async function formatAndUpdateEvent(
       {
         method: "PUT",
         headers: {
-          // @ts-ignore
           Authorization: "Bearer " + session.provider_token,
         },
         body: JSON.stringify(event),
@@ -95,7 +93,6 @@ const fetchHolidays = async (region: string, session: any) => {
       {
         method: "GET",
         headers: {
-          // @ts-ignore
           Authorization: "Bearer " + session.provider_token,
         },
       }
@@ -172,7 +169,6 @@ async function formatAndPostEvent(
       {
         method: "POST",
         headers: {
-          // @ts-ignore
           Authorization: "Bearer " + session.provider_token,
         },
         body: JSON.stringify(event),

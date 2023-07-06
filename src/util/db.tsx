@@ -220,7 +220,6 @@ async function formatAndPostEvent(
       {
         method: "POST",
         headers: {
-          // @ts-ignore
           Authorization: "Bearer " + session.provider_token,
         },
         body: JSON.stringify(event),

@@ -108,10 +108,9 @@ function Row(props: {
           <FontAwesomeIcon icon={faEllipsisVertical} />
         </span>
       )}
-      {isDropdownOpen && (
+      {/* {isDropdownOpen && (
         <div
           className="dropdown-ctn"
-          // @ts-ignore
           ref={ref}
         >
           <button>Duplicate</button>
@@ -123,7 +122,7 @@ function Row(props: {
             Delete
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
