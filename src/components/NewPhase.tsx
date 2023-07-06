@@ -5,6 +5,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import UpdatableInput from "./UpdatableInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../App";
+import Spinner from "./Spinner";
 
 function NewPhase(props: {
   phases: any;
@@ -14,35 +15,50 @@ function NewPhase(props: {
   const { phases, ressourceId, ressourceType } = props;
 
   const queryClient = useQueryClient();
+  //   const [user] = useAuthState(getAuth());
 
   const addInitialEvent = useMutation({
     mutationFn: async (event: any) =>
       await supabase.from(`${ressourceType}_events`).insert(event).select(),
   });
 
-  console.log(phases);
+  //   console.log(phases);
+
+  const incrementPhaseNumber = (phasesObject: any) => {
+    const phaseNumbers = Object.keys(phasesObject);
+    let newPhaseNumber = 1;
+    console.log(phaseNumbers, newPhaseNumber);
+    while (phaseNumbers.includes(newPhaseNumber.toString())) {
+      newPhaseNumber = newPhaseNumber + 1;
+    }
+    return newPhaseNumber;
+  };
+
+  const handleCreatePhaseAndInitialEvent = () => {
+    addInitialEvent
+      .mutateAsync({
+        // author_id: user?.uid,
+        phase_name: "New phase",
+        phase_number: incrementPhaseNumber(phases),
+        [`${ressourceType}_id`]: ressourceId,
+        description: "New event",
+      })
+      .then((res) => {
+        console.log(res);
+        queryClient.invalidateQueries({
+          queryKey: [`${ressourceType}_events`],
+        });
+      });
+  };
 
   return (
     <div className="new_phase-ctn">
-      <div
-        className="new_phase-btn"
-        onClick={() => {
-          addInitialEvent
-            .mutateAsync({
-              phase_name: "New phase",
-              phase_number: Object.keys(phases).length + 1,
-              [`${ressourceType}_id`]: ressourceId,
-              description: "New event",
-            })
-            .then((res) => {
-              console.log(res);
-              queryClient.invalidateQueries({
-                queryKey: [`${ressourceType}_events`],
-              });
-            });
-        }}
-      >
-        <FontawesomeIcon icon={faPlus} />
+      <div className="new_phase-btn" onClick={handleCreatePhaseAndInitialEvent}>
+        {addInitialEvent.isLoading ? (
+          <Spinner />
+        ) : (
+          <FontawesomeIcon icon={faPlus} />
+        )}
       </div>
     </div>
   );
