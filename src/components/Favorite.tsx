@@ -10,7 +10,7 @@ function Favorite(props: {
   ressourceType: string;
   ressourceId: string;
 }) {
-  const [starIcon, setStarIcon] = React.useState<any>(null);
+  const [starIcon, setStarIcon] = React.useState<any>(regularStar);
   const { ressource, ressourceType, ressourceId } = props;
 
   const queryClient = useQueryClient();

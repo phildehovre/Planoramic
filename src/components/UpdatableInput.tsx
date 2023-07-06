@@ -33,8 +33,8 @@ function UpdatableInput(props: {
   const [initialValue, setInitialtValue] = React.useState(value);
 
   useEffect(() => {
-    setInitialtValue(value);
-  }, []);
+    setInitialtValue((prev) => (value !== prev ? value : prev));
+  }, [value]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -85,12 +85,12 @@ function UpdatableInput(props: {
           key: label,
           val: inputValue,
         })
-        .then((res) => {
-          console.log(res);
-          queryClient.invalidateQueries({
-            queryKey: [`${ressourceType}_events`, ressourceId],
-          });
-        })
+        // .then((res) => {
+        //   console.log(res);
+        //   queryClient.invalidateQueries({
+        //     queryKey: [`${ressourceType}_events`, ressourceId],
+        //   });
+        // })
         .then((res) =>
           queryClient.invalidateQueries({
             queryKey: [ressourceType, { [`${ressourceType}_id`]: ressourceId }],
@@ -134,7 +134,7 @@ function UpdatableInput(props: {
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
           ref={inputRef}
-          // placeholder={value?.toString()}
+          placeholder={value?.toString()}
           size={value?.toString().length}
           autoFocus
         />
