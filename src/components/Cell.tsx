@@ -15,7 +15,6 @@ function Cell(props: {
   eventId?: any;
 }) {
   const [isEditing, setIsEditing] = React.useState(false);
-  const [data, setData] = React.useState<any>();
   const { register, handleSubmit, setValue } = useForm();
 
   const { value, label, onSubmit, setEventId, eventId } = props;
