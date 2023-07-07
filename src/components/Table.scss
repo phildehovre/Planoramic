@@ -1,3 +1,4 @@
+@import '../variables.scss';
 .table-ctn {
     width: auto;
     display: flex;
@@ -74,7 +75,7 @@
         width: 80%;
         margin-bottom: 2.5em;
         display: flex;
-        justify-content: space-between;
+        justify-content: right;
         align-items: center;
         border: none;
         background-color: transparent;
@@ -87,7 +88,7 @@
         .row-inputs {
             height: 3em;
             display: flex;
-            width: 100%;
+            width: 90%;
             flex-direction: row;
             align-items: center;
             border-radius: 10px;
@@ -97,19 +98,24 @@
                 color: black;
                 border: none;
                 background-color: transparent;
-                padding: .75em;
+                padding: 1.25em .75em;
+                text-transform: capitalize;
 
                 &:focus {
                     outline: none;
+                    border-radius: 5px;
+                    border: 2px solid $background-secondary-hover;
                 }
             }
 
             &.btn {
-                width: fit-content;
+                width: 3em;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
                 position: absolute;
+                background-color: $background-secondary;
+                color: $background-secondary-cta;
                 right: 0;
                 border: 2px solid lightgrey;
                 outline: none;
@@ -163,6 +169,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 .5em;
+
+    &:focus {
+        border: 2px solid white;
+        background-color: white;
+    }
 
     &:last-child {
         border-right: none;
