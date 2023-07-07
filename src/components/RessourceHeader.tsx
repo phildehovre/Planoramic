@@ -306,6 +306,7 @@ function RessourceHeader(props: any) {
           showModal={showNewCampaignModal}
           setShowModal={setShowNewCampaignModal}
           title={`New Campaign from ${ressource?.data.name}`}
+          showFooter={false}
           content={
             <NewCampaignFromTemplate
               ressource={ressource}

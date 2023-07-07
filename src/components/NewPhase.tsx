@@ -22,8 +22,6 @@ function NewPhase(props: {
       await supabase.from(`${ressourceType}_events`).insert(event).select(),
   });
 
-  //   console.log(phases);
-
   const incrementPhaseNumber = (phasesObject: any) => {
     const phaseNumbers = Object.keys(phasesObject);
     let newPhaseNumber = 1;
@@ -57,7 +55,10 @@ function NewPhase(props: {
         {addInitialEvent.isLoading ? (
           <Spinner />
         ) : (
-          <FontawesomeIcon icon={faPlus} />
+          <>
+            <FontawesomeIcon icon={faPlus} />
+            <p>New phase</p>
+          </>
         )}
       </div>
     </div>
