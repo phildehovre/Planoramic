@@ -213,7 +213,7 @@ export const checkForOverlappingPhases = (templateEvents: any[]) => {
           event.phase_number !== phase &&
           min.position < event.position < max.position
         ) {
-          console.log();
+          console.log(min.position, event.position, max.position);
           return event;
         }
       })
