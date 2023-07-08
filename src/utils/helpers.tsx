@@ -180,3 +180,45 @@ export function checkFalsyValuesInEvents(
 
   return [hasFalsyValue, keysWithFalsyValues];
 }
+
+export const checkForOverlappingPhases = (templateEvents: any[]) => {
+  const sortedEvents = templateEvents.sort((a, b) => {
+    return a.phase_number - b.phase_number;
+  });
+
+  const phaseEvents = sortedEvents.reduce((acc, event, index) => {
+    acc[event.phase_number] = [...(acc[event.phase_number] || []), event];
+    return acc;
+  }, {});
+
+  let phaseMinsAndMaxes = {} as any;
+  let overlappingEvents = [] as any;
+
+  for (let phase in phaseEvents) {
+    const currentPhase = phaseEvents[phase].sort((a: any, b: any) => {
+      return (
+        convertTemplatePositionForSorting(a) -
+        convertTemplatePositionForSorting(b)
+      );
+    });
+    const [min, max] = [currentPhase[0], currentPhase.slice(-1)[0]];
+    phaseMinsAndMaxes[phase] = { min, max };
+  }
+
+  for (let phase in phaseMinsAndMaxes) {
+    const { min, max } = phaseMinsAndMaxes[phase];
+    overlappingEvents.push(
+      ...templateEvents.filter((event) => {
+        if (
+          event.phase_number !== phase &&
+          min.position < event.position < max.position
+        ) {
+          console.log();
+          return event;
+        }
+      })
+    );
+  }
+
+  console.log(overlappingEvents);
+};

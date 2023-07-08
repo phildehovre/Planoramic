@@ -92,7 +92,6 @@ function Table(props: {
   });
 
   const onSubmit = (formData: any) => {
-    console.log("Table onSubmit: ", formData);
     try {
       let keys = Object.keys(formData);
       let key = keys[0];
@@ -173,6 +172,18 @@ function Table(props: {
 
   return (
     <div className="table-ctn">
+      {ressource &&
+        ressource.data &&
+        ressource.data.data &&
+        ressource.data.data.length > 0 && (
+          <TableHeader
+            selectedRows={selectedRows}
+            setSelectedRows={setSelectedRows}
+            phases={phases}
+            ressourceType={ressourceType}
+            ressource={ressource}
+          />
+        )}
       <NewPhase
         ressourceType={ressourceType}
         ressourceId={ressource?.data?.data[0]?.[ressourceType + "_id"]}

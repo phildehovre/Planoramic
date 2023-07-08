@@ -20,6 +20,7 @@ import Modal from "./Modal";
 import NewPhase from "./Modals/NewPhase";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
+import { checkForOverlappingPhases } from "../utils/helpers";
 
 interface Event {
   description: string;
@@ -169,6 +170,15 @@ function TableHeader(props: {
         </div>
         Select all
       </label>
+      {ressource && (
+        <button
+          onClick={() => {
+            checkForOverlappingPhases(ressource?.data?.data);
+          }}
+        >
+          CHeck for overlap
+        </button>
+      )}
       {ressourceType === "template" && (
         <button
           title="Create a new phase"
