@@ -226,7 +226,6 @@ async function formatAndPostEvent(
         body: JSON.stringify(event),
       }
     ).then((res) => {
-      console.log();
       return res.json();
     });
   } catch (error) {

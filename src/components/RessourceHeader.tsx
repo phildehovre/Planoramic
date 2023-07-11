@@ -1,19 +1,23 @@
 import React, { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { supabase } from "../App";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  parseMutationArgs,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import { selectedTemplateContext } from "../contexts/SelectedTemplateContext";
 import { selectedCampaignContext } from "../contexts/SelectedCampaignContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSession } from "@supabase/auth-helpers-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { set, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTemplate, useTemplateEvents } from "../util/db";
+import { useCampaignEvents, useTemplate, useTemplateEvents } from "../util/db";
 import {
   checkFalsyValuesInEvents,
   formatTemplateEventsToCampaign,
@@ -25,6 +29,7 @@ import "./RessourceHeader.scss";
 import UpdatableInput from "./UpdatableInput";
 import ErrorNotification from "./ErrorNotification";
 import Favorite from "./Favorite";
+import { postEventsToGoogle } from "../apis/googleCalendar";
 
 const schema = yup.object().shape({
   artistName: yup.string().required("You must enter a name"),
@@ -44,6 +49,7 @@ function RessourceHeader(props: any) {
   const { ressource, ressourceType } = props;
   const queryClient = useQueryClient();
 
+  const params = useParams();
   const navigate = useNavigate();
   const session = useSession();
   const {
@@ -62,11 +68,15 @@ function RessourceHeader(props: any) {
     ressource?.data?.template_id,
     ressource?.data?.template_id ? true : false
   );
+  const { data: templateEventsData } = useTemplateEvents(selectedTemplateId);
+
   const {
-    data: templateEventsData,
+    data: campaignEventsData,
     isLoading,
     error,
-  } = useTemplateEvents(selectedTemplateId);
+  } = useCampaignEvents(
+    selectedCampaignId === params.id ? selectedCampaignId : params.id
+  );
 
   const ressourceId =
     ressourceType === "template"
@@ -183,6 +193,16 @@ function RessourceHeader(props: any) {
       setShowNotification(false);
     }
   };
+
+  // =================== Handle Google Calendar ===================
+
+  const handlePostEventsToGoogle = async () => {
+    postEventsToGoogle(
+      campaignEventsData?.data as any[],
+      ressource?.data?.targetDate,
+      session
+    );
+  };
   // ============================= Render ============================
 
   const renderHeader = () => {
@@ -204,6 +224,14 @@ function RessourceHeader(props: any) {
                 ressourceId={ressourceId}
                 ressource={ressource}
               />
+              {ressourceType === "campaign" && campaignEventsData?.data && (
+                <FontAwesomeIcon
+                  icon={faCalendarPlus}
+                  size="2x"
+                  color="#2548c5"
+                  onClick={handlePostEventsToGoogle}
+                />
+              )}
               <div
                 className="dropdown-btn"
                 onClick={() => setShowDropdown(!showDropdown)}

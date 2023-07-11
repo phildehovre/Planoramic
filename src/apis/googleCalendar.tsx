@@ -2,6 +2,7 @@ import { supabase } from "../App";
 import dayjs from "dayjs";
 import { useQuery, QueryFunctionContext } from "@tanstack/react-query";
 import { backOff } from "exponential-backoff";
+import { convertPositionToDate } from "../utils/helpers";
 
 export async function deleteCalendarEvent(id: string, session: any) {
   try {
@@ -121,7 +122,7 @@ export async function postEventsToGoogle(
     try {
       console.log(events[i]);
       const response = await backOff(() =>
-        formatAndPostEvent(events[i], events[i].position, session)
+        formatAndPostEvent(events[i], targetDate, session)
       );
       return response;
     } catch (e) {
@@ -131,6 +132,70 @@ export async function postEventsToGoogle(
 }
 
 // ==================ORIGINAL CODE ==============================
+
+async function formatAndPostEvent(
+  eventObj: {
+    category: string;
+    completed: boolean;
+    description: string;
+    position: number;
+    id: string;
+    type: string;
+    event_id: string;
+    position_units: string;
+  },
+  targetDate: Date,
+  session: any
+) {
+  const {
+    category,
+    completed,
+    description,
+    position,
+    id,
+    type,
+    event_id,
+    position_units,
+  } = eventObj;
+
+  const start = convertPositionToDate(position, position_units, targetDate);
+  const end = convertPositionToDate(position, position_units, targetDate);
+
+  const event = {
+    summary: description,
+    description: `${category} / ${type}`,
+    start: {
+      dateTime: start,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    end: {
+      dateTime: end,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    id: event_id,
+  };
+
+  try {
+    await fetch(
+      "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+      {
+        method: "POST",
+        headers: {
+          // @ts-ignore
+          Authorization: "Bearer " + session.provider_token,
+        },
+        body: JSON.stringify(event),
+      }
+    ).then((res) => {
+      return res.json();
+    });
+  } catch (error) {
+    alert("Unable to create event at this time: " + error);
+    console.log(error);
+  }
+}
+
+// ==================== CHAT GPT VERSION =====================
 
 // async function formatAndPostEvent(
 //   eventObj: {
@@ -148,110 +213,50 @@ export async function postEventsToGoogle(
 //   const { category, completed, description, position, id, type, event_id } =
 //     eventObj;
 
-//   //   const start = dayjs(targetDate).subtract(position, "days");
-//   //   const end = dayjs(targetDate).subtract(position, "days").add(1, "hour");
-//   const start = dayjs(targetDate).toISOString();
-//   const end = dayjs(targetDate).add(1, "hour").toISOString();
+//   // const start = new Date(targetDate.getTime() + 60 * 60 * 1000).toISOString();
+//   // const end = new Date(targetDate.getTime() + 60 * 60 * 1000).toISOString();
 
-//   console.log(targetDate, typeof targetDate);
+//   const startPosition = dayjs(targetDate)
+//     .add(position, "days")
+//     .format("YYYY-MM-DDTHH:mm:ss");
+//   const endPosition = dayjs(targetDate)
+//     .add(position, "days")
+//     .add(1, "hour")
+//     .format("YYYY-MM-DDTHH:mm:ss");
+//   const start = new Date(startPosition).toISOString();
+//   const end = new Date(endPosition).toISOString();
+
+//   console.log(targetDate);
 
 //   const event = {
 //     summary: description,
 //     description: `${category} / ${type}`,
 //     start: {
 //       dateTime: start,
-//       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+//       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 //     },
 //     end: {
 //       dateTime: end,
-//       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+//       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 //     },
 //     id: event_id,
 //   };
 
 //   try {
-//     await fetch(
+//     const response = await fetch(
 //       "https://www.googleapis.com/calendar/v3/calendars/primary/events",
 //       {
 //         method: "POST",
 //         headers: {
-//           // @ts-ignore
 //           Authorization: "Bearer " + session.provider_token,
 //         },
 //         body: JSON.stringify(event),
 //       }
-//     ).then((res) => {
-//       //   console.log(res);
-//       return res.json();
-//     });
+//     );
+
+//     const responseData = await response.json();
+//     console.log(responseData);
 //   } catch (error) {
 //     alert("Unable to create event at this time: " + error);
 //   }
 // }
-
-// ==================== CHAT GPT VERSION =====================
-
-async function formatAndPostEvent(
-  eventObj: {
-    category: string;
-    completed: boolean;
-    description: string;
-    position: number;
-    id: string;
-    type: string;
-    event_id: string;
-  },
-  targetDate: Date,
-  session: any
-) {
-  // console.log(targetDate, typeof targetDate);
-  const { category, completed, description, position, id, type, event_id } =
-    eventObj;
-
-  // const start = new Date(targetDate.getTime() + 60 * 60 * 1000).toISOString();
-  // const end = new Date(targetDate.getTime() + 60 * 60 * 1000).toISOString();
-
-  const startPosition = dayjs(targetDate)
-    .add(position, "days")
-    .format("YYYY-MM-DDTHH:mm:ss");
-  const endPosition = dayjs(targetDate)
-    .add(position, "days")
-    .add(1, "hour")
-    .format("YYYY-MM-DDTHH:mm:ss");
-  const start = new Date(startPosition).toISOString();
-  const end = new Date(endPosition).toISOString();
-
-  console.log(start, end);
-
-  const event = {
-    summary: description,
-    description: `${category} / ${type}`,
-    start: {
-      dateTime: start,
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    },
-    end: {
-      dateTime: end,
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    },
-    id: event_id,
-  };
-
-  try {
-    const response = await fetch(
-      "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-      {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + session.provider_token,
-        },
-        body: JSON.stringify(event),
-      }
-    );
-
-    const responseData = await response.json();
-    console.log(responseData);
-  } catch (error) {
-    alert("Unable to create event at this time: " + error);
-  }
-}
