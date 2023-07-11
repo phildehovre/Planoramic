@@ -16,6 +16,7 @@ import { useCampaign } from "../util/db";
 import NewRow from "./NewRow";
 import TableHeaders from "./TableHeaders";
 import NewPhase from "./NewPhase";
+import { v4 as uuid } from "uuid";
 
 const schema = yup.object().shape({
   position: yup.number().min(1).required("A duration is required"),
@@ -139,17 +140,15 @@ function Table(props: {
         return row.phase_number === Number(phaseKeys[i]);
       });
       return (
-        <>
-          <Phase
-            name={phases[phase]}
-            number={phase}
-            events={phaseEvents}
-            rowProps={rowProps}
-            key={phase}
-            newRowProps={newRowProps}
-            ressourceType={ressourceType}
-          />
-        </>
+        <Phase
+          name={phases[phase]}
+          number={phase}
+          events={phaseEvents}
+          rowProps={rowProps}
+          key={phase}
+          newRowProps={newRowProps}
+          ressourceType={ressourceType}
+        />
       );
     });
   };
@@ -163,7 +162,7 @@ function Table(props: {
         <>
           <TableHeaders keys={keys} ressourceType={ressourceType} />
           {data?.map((row: any) => {
-            return <Row row={row} key={row.id} {...rowProps} />;
+            return <Row row={row} key={row.event_id} {...rowProps} />;
           })}
         </>
       );
