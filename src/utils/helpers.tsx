@@ -26,6 +26,10 @@ export function convertPositionToDays(position: number, unit: string) {
   }
 }
 
+// convertPositionToDate returns the raw dayjs object,
+// so we need to convert it to ISO string
+// or format it the consumer component
+
 export function convertPositionToDate(
   position: number,
   unit: string = "days_before",
@@ -39,15 +43,12 @@ export function convertPositionToDate(
   };
   let newDate;
   if (beforeOrAfter === "before") {
-    newDate = dayjs(targetDate)
-      .subtract(position, hash[unitType])
-      .format("ddd DD-MM-YYYY");
+    newDate = dayjs(targetDate).subtract(position, hash[unitType]);
   }
   if (beforeOrAfter === "after") {
-    newDate = dayjs(targetDate)
-      .add(position, hash[unitType])
-      .format("ddd DD-MM-YYYY");
+    newDate = dayjs(targetDate).add(position, hash[unitType]);
   }
+
   return newDate;
 }
 

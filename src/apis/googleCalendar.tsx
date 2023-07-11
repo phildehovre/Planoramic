@@ -113,22 +113,39 @@ export function useHolidays(region: any, session: any) {
   );
 }
 
+// export async function postEventsToGoogle(
+//   events: any[],
+//   targetDate: Date,
+//   session: any
+// ) {
+//   for (let i = 0; i < events.length; i++) {
+//     try {
+//       console.log(events[i]);
+//       const response = await backOff(() =>
+//         formatAndPostEvent(events[i], targetDate, session)
+//       );
+//       return response;
+//     } catch (e) {
+//       console.log("error: ", e);
+//     }
+//   }
+// }
 export async function postEventsToGoogle(
   events: any[],
   targetDate: Date,
   session: any
 ) {
-  for (let i = 0; i < events.length; i++) {
+  events.forEach(async (event) => {
+    console.log(event);
     try {
-      console.log(events[i]);
       const response = await backOff(() =>
-        formatAndPostEvent(events[i], targetDate, session)
+        formatAndPostEvent(event, targetDate, session)
       );
       return response;
     } catch (e) {
       console.log("error: ", e);
     }
-  }
+  });
 }
 
 // ==================ORIGINAL CODE ==============================
@@ -158,8 +175,23 @@ async function formatAndPostEvent(
     position_units,
   } = eventObj;
 
-  const start = convertPositionToDate(position, position_units, targetDate);
-  const end = convertPositionToDate(position, position_units, targetDate);
+  // convertPositionToDate returns the raw dayjs object,
+  // so we need to convert it to ISO string
+  // or format it at consumption by the components
+
+  const start = convertPositionToDate(
+    position,
+    position_units,
+    targetDate
+  )?.toISOString();
+  const end = convertPositionToDate(
+    position,
+    position_units,
+    targetDate
+  )?.toISOString();
+
+  console.log("start: ", start, "end: ", end);
+  console.log("target: ", targetDate, "position: ", position);
 
   const event = {
     summary: description,

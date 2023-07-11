@@ -78,7 +78,9 @@ function Cell(props: {
       return (
         <>
           <input
-            value={convertPositionToDate(value[0], value[1], value[2])}
+            value={convertPositionToDate(value[0], value[1], value[2])?.format(
+              "ddd DD-MM-YYYY"
+            )}
             onChange={console.log}
           />
         </>
