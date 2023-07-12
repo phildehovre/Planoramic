@@ -113,41 +113,22 @@ export function useHolidays(region: any, session: any) {
   );
 }
 
-// export async function postEventsToGoogle(
-//   events: any[],
-//   targetDate: Date,
-//   session: any
-// ) {
-//   for (let i = 0; i < events.length; i++) {
-//     try {
-//       console.log(events[i]);
-//       const response = await backOff(() =>
-//         formatAndPostEvent(events[i], targetDate, session)
-//       );
-//       return response;
-//     } catch (e) {
-//       console.log("error: ", e);
-//     }
-//   }
-// }
 export async function postEventsToGoogle(
   events: any[],
   targetDate: Date,
   session: any
 ) {
-  events.forEach(async (event) => {
-    console.log(event);
+  for (let i = 0; i < events.length; i++) {
     try {
+      console.log(events[i]);
       const response = await backOff(() =>
-        formatAndPostEvent(event, targetDate, session)
+        formatAndPostEvent(events[i], targetDate, session)
       );
-      return response;
     } catch (e) {
       console.log("error: ", e);
     }
-  });
+  }
 }
-
 // ==================ORIGINAL CODE ==============================
 
 async function formatAndPostEvent(
@@ -190,9 +171,6 @@ async function formatAndPostEvent(
     targetDate
   )?.toISOString();
 
-  console.log("start: ", start, "end: ", end);
-  console.log("target: ", targetDate, "position: ", position);
-
   const event = {
     summary: description,
     description: `${category} / ${type}`,
@@ -208,7 +186,7 @@ async function formatAndPostEvent(
   };
 
   try {
-    await fetch(
+    return fetch(
       "https://www.googleapis.com/calendar/v3/calendars/primary/events",
       {
         method: "POST",

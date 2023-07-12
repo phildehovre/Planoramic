@@ -34,7 +34,7 @@ import { postEventsToGoogle } from "../apis/googleCalendar";
 const schema = yup.object().shape({
   artistName: yup.string().required("You must enter a name"),
   songName: yup.string().required("You must enter a name"),
-  targetDate: yup.string().required("Select a type of task"),
+  targetDate: yup.string().required("You must enter a date"),
 });
 
 function RessourceHeader(props: any) {
@@ -43,9 +43,7 @@ function RessourceHeader(props: any) {
   const [showNewCampaignModal, setShowNewCampaignModal] = React.useState(false);
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
-  const [targetDate, setTargetDate] = React.useState<Date>(
-    dayjs().add(1, "month").toDate()
-  );
+  const [targetDate, setTargetDate] = React.useState<Date>();
   const { ressource, ressourceType } = props;
   const queryClient = useQueryClient();
 
@@ -104,9 +102,11 @@ function RessourceHeader(props: any) {
     },
   });
 
+  console.log(ressource?.data?.targetDate);
+
   const onSubmit = (data: any) => {
     setSelectedTemplateId(selectedTemplateId);
-    const campaignSansDate = {
+    const campaign = {
       name: data.artistName + " - " + data.songName,
       description: `Template: ${ressource.data.name}`,
       template_id: selectedTemplateId,
@@ -116,7 +116,6 @@ function RessourceHeader(props: any) {
       song_name: data.songName,
       targetDate: data.targetDate,
     };
-    const campaign = addDateToCampaign(campaignSansDate, targetDate);
 
     addCampaign
       .mutateAsync(campaign)
