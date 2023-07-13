@@ -14,8 +14,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useQueryClient } from "@tanstack/react-query";
 
-function Create(props: { ressourceType?: string }) {
-  const { ressourceType } = props;
+function Create(props: { ressourceType?: string; content?: string }) {
+  const { ressourceType, content } = props;
   const navigate = useNavigate();
   const params = useParams();
   const queryClient = useQueryClient();
@@ -93,7 +93,8 @@ function Create(props: { ressourceType?: string }) {
   return (
     <div className="create-ctn">
       <button onClick={() => handleOpenModalWithRessource()}>
-        <FontAwesomeIcon icon={faPlus} size="lg" />
+        {!content && <FontAwesomeIcon icon={faPlus} size="lg" />}
+        {content && <h2>{content}</h2>}
       </button>
       <Modal
         showModal={showModal}

@@ -1,0 +1,14 @@
+@import '../variables.scss';
+
+.dashboard_card-ctn {
+    // display: flex;
+    background-color: $background-secondary;
+    height: 50vh;
+    padding: 1.5em;
+    border-radius: 16px;
+    width: 33%;
+
+    > p{
+        font-size: 1.25em;
+    }
+}

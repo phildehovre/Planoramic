@@ -102,13 +102,11 @@ function RessourceHeader(props: any) {
     },
   });
 
-  console.log(ressource?.data?.targetDate);
-
   const onSubmit = (data: any) => {
     setSelectedTemplateId(selectedTemplateId);
     const campaign = {
       name: data.artistName + " - " + data.songName,
-      description: `Template: ${ressource.data.name}`,
+      description: ressource.data.name,
       template_id: selectedTemplateId,
       campaign_id: uuidv4(),
       author_id: session?.user.id,
@@ -311,7 +309,7 @@ function RessourceHeader(props: any) {
             <span>
               <h4>Template:</h4>
               <p style={{ fontWeight: "bold" }}>
-                {campaignTemplateData?.data?.name}
+                {campaignTemplateData?.data?.name || "No template"}
               </p>
             </span>
           </div>

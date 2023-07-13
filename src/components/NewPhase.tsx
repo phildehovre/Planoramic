@@ -42,7 +42,6 @@ function NewPhase(props: {
         description: "New event",
       })
       .then((res) => {
-        console.log(res);
         queryClient.invalidateQueries({
           queryKey: [`${ressourceType}_events`],
         });
