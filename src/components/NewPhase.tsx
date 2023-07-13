@@ -6,6 +6,7 @@ import UpdatableInput from "./UpdatableInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../App";
 import Spinner from "./Spinner";
+import { useSession } from "@supabase/auth-helpers-react";
 
 function NewPhase(props: {
   phases: any;
@@ -15,7 +16,7 @@ function NewPhase(props: {
   const { phases, ressourceId, ressourceType } = props;
 
   const queryClient = useQueryClient();
-  //   const [user] = useAuthState(getAuth());
+  const session = useSession();
 
   const addInitialEvent = useMutation({
     mutationFn: async (event: any) =>
@@ -35,8 +36,8 @@ function NewPhase(props: {
   const handleCreatePhaseAndInitialEvent = () => {
     addInitialEvent
       .mutateAsync({
-        // author_id: user?.uid,
-        phase_name: "New phase",
+        author_id: session?.user?.id,
+        phase_name: `New phase (${incrementPhaseNumber(phases)})`,
         phase_number: incrementPhaseNumber(phases),
         [`${ressourceType}_id`]: ressourceId,
         description: "New event",

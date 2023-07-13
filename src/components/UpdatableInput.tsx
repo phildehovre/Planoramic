@@ -42,12 +42,23 @@ function UpdatableInput(props: {
 
   const updateUpdatableInputFn = async ({ id, key, val }: any) => {
     if (label.includes("phase")) {
-      return await supabase
+      const { data: existingPhase } = await supabase
         .from(`${ressourceType}_events`)
-        .update({ [key]: inputValue })
+        .select()
         .eq(ressourceType + "_id", id)
-        .eq(key, initialValue)
-        .select();
+        .eq("phase_name", val);
+
+      if (existingPhase && existingPhase.length === 0) {
+        return await supabase
+          .from(`${ressourceType}_events`)
+          .update({ [key]: inputValue })
+          .eq(ressourceType + "_id", id)
+          .eq(key, initialValue)
+          .select();
+      } else {
+        alert("Phase name already exists");
+        setInputValue(initialValue);
+      }
     }
     return await supabase
       .from(`${ressourceType}s`)
@@ -85,12 +96,12 @@ function UpdatableInput(props: {
           key: label,
           val: inputValue,
         })
-        // .then((res) => {
-        //   console.log(res);
-        //   queryClient.invalidateQueries({
-        //     queryKey: [`${ressourceType}_events`, ressourceId],
-        //   });
-        // })
+        .then((res) => {
+          // console.log(res);
+          queryClient.invalidateQueries({
+            queryKey: [`${ressourceType}_events`, ressourceId],
+          });
+        })
         .then((res) =>
           queryClient.invalidateQueries({
             queryKey: [ressourceType, { [`${ressourceType}_id`]: ressourceId }],
